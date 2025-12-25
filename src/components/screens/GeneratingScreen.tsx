@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { EnhancedProgressBar } from "@/components/ui/EnhancedProgressBar";
 import { ASSETS } from "@/lib/constants";
@@ -130,18 +130,14 @@ export const GeneratingScreen: FC<GeneratingScreenProps> = ({
                     className="text-center p-md bg-surface-glass border-radius-md max-w-[300px]"
                     variants={staggerItemVariants}
                 >
-                    <AnimatePresence mode="wait">
-                        <motion.p
-                            key={messageIndex}
-                            className="text-[13px] text-text-secondary m-0"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            💡 Your FOF will include your mutual connections
-                        </motion.p>
-                    </AnimatePresence>
+                    <motion.p
+                        className="text-[13px] text-text-secondary m-0"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.5 }}
+                    >
+                        💡 Your FOF will include your mutual connections
+                    </motion.p>
                 </motion.div>
 
                 {/* Rising Sparkles */}
