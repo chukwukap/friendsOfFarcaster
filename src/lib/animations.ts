@@ -215,6 +215,8 @@ export const imageFrameVariants: Variants = {
     },
   },
   celebration: {
+    opacity: 1,
+    scale: 1,
     boxShadow: [
       "0 0 60px rgba(255, 215, 0, 0.4)",
       "0 0 100px rgba(255, 215, 0, 0.6)",
@@ -224,6 +226,15 @@ export const imageFrameVariants: Variants = {
       duration: 2,
       repeat: Infinity,
       ease: "easeInOut",
+    },
+  },
+  hover: {
+    scale: 1.02,
+    boxShadow: "0 0 80px rgba(255, 215, 0, 0.6)",
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 30,
     },
   },
 };

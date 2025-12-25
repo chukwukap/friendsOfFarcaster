@@ -85,24 +85,17 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                 </motion.div>
 
                 {/* Generated Image */}
-                <motion.div
-                    className="relative rounded-xl overflow-hidden border-[3px] border-accent-gold shadow-[0_0_60px_rgba(255,215,0,0.3)]"
-                    variants={imageFrameVariants}
-                    initial="initial"
-                    animate="celebration"
-                >
-                    <motion.div variants={imageRevealVariants} initial="initial" animate="animate">
-                        <Image
-                            src={imageUrl}
-                            alt={`${displayName}'s FOF`}
-                            width={280}
-                            height={280}
-                            className="block w-full h-auto max-w-[260px]"
-                            priority
-                            unoptimized
-                        />
-                    </motion.div>
-                </motion.div>
+                <div className="relative rounded-xl overflow-hidden border-[3px] border-accent-gold shadow-[0_0_60px_rgba(255,215,0,0.3)]">
+                    <Image
+                        src={imageUrl}
+                        alt={`${displayName}'s FOF`}
+                        width={280}
+                        height={280}
+                        className="block w-full h-auto max-w-[260px]"
+                        priority
+                        unoptimized
+                    />
+                </div>
 
                 {/* User Info */}
                 <motion.div className="flex items-center gap-2 text-white" variants={staggerItemVariants}>
