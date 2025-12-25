@@ -84,19 +84,16 @@ AVOID (CRITICAL):
 
 /**
  * Build the master prompt for FOF image generation
- *
- * @param user - The main user generating the FOF
- * @param friends - List of mutual friends
- * @returns Optimized prompt string for Fal.ai
+ * Uses exactly the specified template with dynamic person count (max 9)
  */
 export function buildFOFPrompt(
   user: UserWithFriends["user"],
   friends: FriendData[]
 ): string {
-  const totalPeople = friends.length + 1; // +1 for user
+  // Cap at 9 total people (user + up to 8 friends)
+  const totalPeople = Math.min(friends.length + 1, 9);
 
-  return `
-Create a FAMILY-PHOTO STYLE group portrait featuring all ${totalPeople} referenced individuals.  
+  return `Create a FAMILY-PHOTO STYLE group portrait featuring all ${totalPeople} referenced individuals.  
 Preserve each person's exact likeness: facial structure, proportions, skin tone, and identity.
 
 STYLE TRANSFORMATION (HIGH PRIORITY):
@@ -133,8 +130,7 @@ OUTPUT REQUIREMENTS:
 - Highly stylized digital cartoon art
 - Sharp, detailed rendering
 - 1k quality
-- --ar 1:1
-`.trim();
+- --ar 1:1`;
 }
 
 /**
