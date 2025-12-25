@@ -382,18 +382,7 @@ export function HomeClient() {
         <Confetti active={showConfetti} />
 
         {/* Mute Toggle */}
-        <motion.button
-          className="fixed top-lg right-lg z-100 bg-surface-glass backdrop-blur-[10px] border border-surface-glass-border rounded-full w-[44px] h-[44px] flex items-center justify-center text-[20px] cursor-pointer hover:scale-[1.05] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)] active:scale-[0.95] transition-transform duration-200"
-          onClick={toggleMute}
-          aria-label={isMuted ? "Unmute" : "Mute"}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={springTransition}
-        >
-          {isMuted ? "🔇" : "🔊"}
-        </motion.button>
+
 
         {/* Animated Screen Transitions */}
         <AnimatePresence mode="wait">

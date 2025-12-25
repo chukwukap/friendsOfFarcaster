@@ -39,9 +39,10 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
 }) => {
     const handleOpenWaffles = async () => {
         try {
-            await sdk.actions.openUrl({ url: APP_CONFIG.wafflesMiniappUrl });
+            await sdk.actions.openMiniApp({ url: APP_CONFIG.wafflesMiniappUrl });
         } catch (error) {
-            console.error("Failed to open Waffles:", error);
+            console.error("Failed to open Waffles MiniApp:", error);
+            // Fallback for web view testing
             window.open(APP_CONFIG.wafflesMiniappUrl, "_blank");
         }
     };
