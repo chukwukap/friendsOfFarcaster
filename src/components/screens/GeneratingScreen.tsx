@@ -129,7 +129,7 @@ export const GeneratingScreen: FC<GeneratingScreenProps> = ({
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
                     >
-                        @{username} + {friendCount} friends
+                        @{username} + friends
                     </motion.p>
                 </motion.div>
 
