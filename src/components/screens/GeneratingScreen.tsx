@@ -1,9 +1,9 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { ProgressBar } from "@/components/ui/ProgressBar";
+import { EnhancedProgressBar } from "@/components/ui/EnhancedProgressBar";
 import { ASSETS } from "@/lib/constants";
 import {
     staggerContainerVariants,
@@ -18,29 +18,13 @@ interface GeneratingScreenProps {
     progress: number;
 }
 
-const LOADING_MESSAGES = [
-    "Finding your closest friends...",
-    "Analyzing your network connections...",
-    "Gathering profile pictures...",
-    "Adding festive Christmas magic...",
-    "Weaving your network into art...",
-    "Almost there, creating something special...",
-];
+
 
 export const GeneratingScreen: FC<GeneratingScreenProps> = ({
     username,
     friendCount,
     progress,
 }) => {
-    const [messageIndex, setMessageIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setMessageIndex((prev) => (prev + 1) % LOADING_MESSAGES.length);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, []);
-
     return (
         <div className="fixed inset-0 w-screen h-screen z-50 flex flex-col bg-bg-dark-start overflow-hidden">
             {/* Background */}
@@ -135,13 +119,10 @@ export const GeneratingScreen: FC<GeneratingScreenProps> = ({
 
                 {/* Progress */}
                 <motion.div
-                    className="w-full max-w-[300px]"
+                    className="w-full max-w-[320px]"
                     variants={staggerItemVariants}
                 >
-                    <ProgressBar
-                        progress={progress}
-                        message={LOADING_MESSAGES[messageIndex]}
-                    />
+                    <EnhancedProgressBar progress={progress} />
                 </motion.div>
 
                 {/* Tip */}
