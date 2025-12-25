@@ -79,39 +79,6 @@ export const ASSETS = {
   defaultAvatar: "/assets/default-avatar.png",
 } as const;
 
-// Sound paths (placeholder - user will add actual files)
-export const SOUNDS = {
-  // Ambient
-  winterAmbient: "/sounds/ambient-winter.mp3",
-  networkPulse: "/sounds/ambient-network-pulse.mp3",
-  successGlow: "/sounds/ambient-success-glow.mp3",
-
-  // UI Interactions
-  buttonTap: "/sounds/ui-button-tap.mp3",
-  buttonHover: "/sounds/ui-button-hover.mp3",
-  cardAppear: "/sounds/ui-card-appear.mp3",
-  navigationSwipe: "/sounds/ui-navigation-swipe.mp3",
-  toggleOn: "/sounds/ui-toggle-on.mp3",
-  toggleOff: "/sounds/ui-toggle-off.mp3",
-
-  // Progress
-  progressStart: "/sounds/progress-start.mp3",
-  progressTick: "/sounds/progress-tick.mp3",
-  generationPulse: "/sounds/progress-generation-pulse.mp3",
-  almostDone: "/sounds/progress-almost-done.mp3",
-
-  // Celebration
-  successReveal: "/sounds/celebration-success-reveal.mp3",
-  confettiBurst: "/sounds/celebration-confetti-burst.mp3",
-  pointsEarned: "/sounds/celebration-points-earned.mp3",
-  pointsBonus: "/sounds/celebration-points-bonus.mp3",
-  shareComplete: "/sounds/celebration-share-complete.mp3",
-
-  // Error
-  gentleError: "/sounds/error-gentle.mp3",
-  connectionLost: "/sounds/error-connection-lost.mp3",
-} as const;
-
 // App configuration
 export const APP_CONFIG = {
   name: "FOF: Friends of Farcaster",
