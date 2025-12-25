@@ -56,45 +56,19 @@ export const TYPOGRAPHY = {
   micro: { size: "12px", weight: 500 },
 } as const;
 
-// Asset paths (placeholder - user will add actual files)
+// Asset paths
 export const ASSETS = {
   // Logo
-  logo: "/assets/fof-logo.png",
-  logoLight: "/assets/fof-logo-light.png",
-
-  // Mascot
-  mascotDefault: "/assets/mascot-default.png",
-  mascotCelebrating: "/assets/mascot-celebrating.png",
-  mascotThinking: "/assets/mascot-thinking.png",
-  mascotSad: "/assets/mascot-sad.png",
-  mascotWaving: "/assets/mascot-waving.png",
-
-  // 3D Elements
-  giftBox: "/assets/3d-gift-box.png",
-  giftBoxOpening: "/assets/3d-gift-box-opening.png",
-  snowflake: "/assets/3d-snowflake.png",
-  wafflesCoin: "/assets/3d-waffles-coin.png",
-  star: "/assets/3d-star.png",
-  ornament: "/assets/3d-ornament.png",
+  logo: "/assets/logo.png",
+  wafflesLogo: "/assets/waffles-logo.png",
 
   // Backgrounds
   networkPattern: "/assets/bg-network-pattern.png",
   celebrationBg: "/assets/bg-celebration.png",
 
-  // Icons
-  iconShare: "/assets/icon-share.png",
-  iconWallet: "/assets/icon-wallet.png",
-  iconProfile: "/assets/icon-profile.png",
-  iconWand: "/assets/icon-wand.png",
-  iconCheck: "/assets/icon-check.png",
-  iconHeart: "/assets/icon-heart.png",
-
-  // Overlays
-  confettiOverlay: "/assets/overlay-confetti.png",
-  sparklesOverlay: "/assets/overlay-sparkles.png",
-
-  // Splash
-  splash: "/assets/logo.png",
+  // Samples
+  sampleFof: "/assets/sample-fof.png",
+  ogImage: "/assets/og-image.png",
 
   // Default avatar for missing pfps
   defaultAvatar: "/assets/default-avatar.png",
