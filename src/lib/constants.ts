@@ -62,6 +62,11 @@ export const ASSETS = {
   logo: "/assets/logo.png",
   wafflesLogo: "/assets/waffles-logo.png",
 
+  // 3D Elements
+  snowflake: "/assets/3d-snowflake.png",
+  wafflesCoin: "/assets/3d-waffles-coin.png",
+  star: "/assets/3d-star.png",
+
   // Backgrounds
   networkPattern: "/assets/bg-network-pattern.png",
   celebrationBg: "/assets/bg-celebration.png",

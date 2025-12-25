@@ -30,7 +30,7 @@ interface GenerationResult {
   friendCount: number;
 }
 
-const ONBOARDING_KEY = "fof_onboarding_complete";
+const ONBOARDING_KEY = "fof_onboarding_complet";
 
 export function HomeClient() {
   const [appState, setAppState] = useState<AppState>("onboarding");
