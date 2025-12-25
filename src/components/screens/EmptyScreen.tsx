@@ -17,7 +17,7 @@ interface EmptyScreenProps {
 
 export const EmptyScreen: FC<EmptyScreenProps> = ({ onGenerate }) => {
     return (
-        <div className="min-h-screen min-h-[100dvh] flex flex-col relative overflow-hidden bg-bg-dark-start">
+        <div className="fixed inset-0 w-screen h-screen z-50 flex flex-col bg-bg-dark-start overflow-hidden">
             {/* Background */}
             <div className="fixed inset-0 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center opacity-25 pointer-events-none z-0" />
 

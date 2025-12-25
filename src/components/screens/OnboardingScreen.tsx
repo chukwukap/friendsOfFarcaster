@@ -67,7 +67,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
 
 
     return (
-        <div className="h-screen h-[100dvh] flex flex-col relative overflow-hidden bg-linear-to-b from-[#0f0a1a] via-[#1a0f2e] to-[#0d0815]">
+        <div className="fixed inset-0 w-screen h-screen z-50 flex flex-col bg-linear-to-b from-[#0f0a1a] via-[#1a0f2e] to-[#0d0815] overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 pointer-events-none opacity-40 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center no-repeat" />
 
@@ -188,7 +188,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
                             </h1>
 
                             {/* Description */}
-                            <p className="text-[16px] max-h-[680px]:text-[14px] color-white/70 leading-relaxed max-w-[300px] m-0">
+                            <p className="text-[16px] max-h-[680px]:text-[14px] text-white/70 leading-relaxed max-w-[300px] m-0">
                                 {page.description}
                             </p>
                         </motion.div>

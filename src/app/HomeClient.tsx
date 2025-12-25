@@ -1,8 +1,13 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SafeArea } from "@coinbase/onchainkit/minikit";
+import { fal } from "@fal-ai/client";
+
+fal.config({
+  proxyUrl: "/api/fal/proxy",
+});
 import {
   OnboardingScreen,
   LandingScreen,
@@ -16,7 +21,6 @@ import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
 import { APP_CONFIG } from "@/lib/constants";
 import { getWafflesWaitlistUrl } from "@/lib/waffles";
 import { pageVariants, springTransition } from "@/lib/animations";
-import { cn } from "@/lib/utils";
 
 type AppState = "onboarding" | "landing" | "generating" | "success" | "error";
 
@@ -36,6 +40,9 @@ export function HomeClient() {
   const [result, setResult] = useState<GenerationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+
+  // Guard against duplicate generation calls
+  const isGeneratingRef = useRef(false);
 
   // MiniKit hooks via useFarcaster
   const {
@@ -151,38 +158,85 @@ export function HomeClient() {
 
   // Start image generation
   const startGeneration = async (fid: number, txHash?: string) => {
+    if (isGeneratingRef.current) {
+      console.log("Generation already in progress, skipping...");
+      return;
+    }
+    isGeneratingRef.current = true;
+
     setAppState("generating");
     setProgress(0);
     setIsConnecting(false);
     setIsPaying(false);
     sounds.progressStart();
 
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 90) return prev;
-        const newProgress = prev + Math.random() * 15;
-        if (Math.floor(newProgress / 25) > Math.floor(prev / 25)) {
-          sounds.progressTick();
-        }
-        return newProgress;
-      });
-    }, 1000);
-
     try {
-      const response = await fetch("/api/generate", {
+      // 1. Prepare generation (get prompt & friends)
+      const prepareRes = await fetch("/api/generate/prepare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fid, txHash }),
+        body: JSON.stringify({ fid }),
       });
 
-      clearInterval(progressInterval);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Generation failed");
+      if (!prepareRes.ok) {
+        throw new Error("Failed to prepare generation");
       }
 
-      const data = await response.json();
+      const prepareData = await prepareRes.json();
+      const { prompt, imageUrls, userId, friendCount, friendFids } = prepareData;
+
+      // 2. Client-side Generation with Fal.ai
+      // Note: We use the fal proxy automatically because we configured it in next.config or via fal.config
+      // But we need to configure it here if it's not global.
+      // Actually @fal-ai/client defaults to /api/fal/proxy if found.
+      const result: any = await fal.subscribe("fal-ai/nano-banana-pro/edit", {
+        input: {
+          prompt,
+          image_urls: imageUrls,
+          num_images: 1,
+          aspect_ratio: "1:1",
+          output_format: "png",
+        },
+        logs: true,
+        onQueueUpdate: (update: any) => {
+          if (update.status === "IN_PROGRESS") {
+            setProgress((p) => Math.min(p + 1, 90));
+            if (update.logs && update.logs.length > 0) {
+              const lastLog = update.logs[update.logs.length - 1];
+              console.log("[Fal] " + lastLog.message);
+            }
+          }
+        },
+      });
+
+      // Handle response structure (some versions return { data: ... }, others just data)
+      const data = result.data || result;
+      const generatedImageUrl = data.images?.[0]?.url || data.image?.url;
+
+      if (!generatedImageUrl) {
+        throw new Error("No image returned from generation");
+      }
+
+      // 3. Save result
+      const saveRes = await fetch("/api/generate/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          imageUrl: generatedImageUrl,
+          prompt,
+          friendCount,
+          friendFids,
+          paymentTxHash: txHash,
+        }),
+      });
+
+      if (!saveRes.ok) {
+        throw new Error("Failed to save generation result");
+      }
+
+      const saveData = await saveRes.json();
+      const generationId = saveData.generationId;
 
       sounds.almostDone();
       setProgress(100);
@@ -190,9 +244,9 @@ export function HomeClient() {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       setResult({
-        generationId: data.generationId,
-        imageUrl: data.imageUrl,
-        friendCount: data.friendCount,
+        generationId,
+        imageUrl: generatedImageUrl,
+        friendCount: friendCount,
       });
 
       sounds.successReveal();
@@ -208,11 +262,12 @@ export function HomeClient() {
 
       setTimeout(() => setShowConfetti(false), 4000);
     } catch (err) {
-      clearInterval(progressInterval);
       console.error("Generation error:", err);
       setError(err instanceof Error ? err.message : "Generation failed");
       sounds.gentleError();
       setAppState("error");
+    } finally {
+      isGeneratingRef.current = false;
     }
   };
 

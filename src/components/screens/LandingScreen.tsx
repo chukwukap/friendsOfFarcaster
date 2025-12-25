@@ -53,12 +53,13 @@ export const LandingScreen: FC<LandingScreenProps> = ({
                     >
                         <div className="relative rounded-xl overflow-hidden">
                             <Image
-                                src="/assets/sample-fof.png"
+                                src="https://v3b.fal.media/files/b/0a87b7cd/EgwEkOUnFmIlNRI-8hJal.png"
                                 alt="Sample FOF"
                                 width={280}
                                 height={280}
                                 className="block w-full max-w-[260px] h-auto object-cover rounded-lg"
                                 priority
+                                unoptimized
                             />
                             <motion.div
                                 className="absolute top-2 right-2 bg-gradient-to-br from-accent-gold to-orange-500 text-bg-dark-start px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-lg"

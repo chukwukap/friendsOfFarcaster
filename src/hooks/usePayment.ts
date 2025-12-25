@@ -148,7 +148,7 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
   useEffect(() => {
     if (!callsStatus) return;
 
-    console.log("[usePayment] Calls status:", callsStatus.status);
+    // console.log("[usePayment] Calls status:", callsStatus.status); // Reduced log spam
 
     if (callsStatus.status === "pending" && state.step === "pending") {
       setState({ step: "confirming" });
@@ -159,15 +159,24 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
       setState({ step: "error", error: "Transaction failed on-chain" });
     }
 
-    if (callsStatus.status === "success" && !successHandledRef.current) {
+    if (callsStatus.status === "success") {
+      if (successHandledRef.current) {
+        // Already handled, do nothing
+        return;
+      }
+
       const txHash = callsStatus.receipts?.[0]?.transactionHash;
       console.log("[usePayment] Confirmed! TX:", txHash);
+
+      // Update state
       setState({ step: "success", txHash });
 
-      // Mark as handled to prevent duplicate calls
+      // Mark as handled BEFORE calling callback to prevent re-entry
       successHandledRef.current = true;
 
       if (txHash) {
+        // Execute callback
+        console.log("[usePayment] Triggering onSuccess callback");
         onSuccessRef.current?.(txHash);
       }
     }

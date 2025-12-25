@@ -98,6 +98,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                             height={280}
                             className="block w-full h-auto max-w-[260px]"
                             priority
+                            unoptimized
                         />
                     </motion.div>
                 </motion.div>

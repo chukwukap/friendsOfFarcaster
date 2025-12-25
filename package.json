@@ -11,6 +11,7 @@
   "dependencies": {
     "@coinbase/onchainkit": "^1.1.2",
     "@fal-ai/client": "^1.8.1",
+    "@fal-ai/server-proxy": "^1.1.2",
     "@farcaster/miniapp-sdk": "^0.2.1",
     "@neynar/nodejs-sdk": "^3.114.0",
     "@prisma/adapter-pg": "^7.2.0",
