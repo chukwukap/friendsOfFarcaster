@@ -33,7 +33,7 @@ contract FOFCollection is ERC1155, Ownable {
     function mint(
         address to,
         string calldata tokenURI
-    ) external onlyOwner returns (uint256) {
+    ) external returns (uint256) {
         uint256 tokenId = ++_currentTokenId;
         _tokenURIs[tokenId] = tokenURI;
         _mint(to, tokenId, 1, "");

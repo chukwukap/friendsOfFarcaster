@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prepareNFTForMinting } from "@/lib/ipfs";
 import { prisma } from "@/lib/db";
 
+console.log("[API] /api/collect route module loaded");
+
 /**
  * POST /api/collect
  * Prepares NFT for minting (IPFS upload) and stores tokenUri on generation.

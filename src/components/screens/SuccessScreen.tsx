@@ -11,8 +11,7 @@ import { ASSETS, APP_CONFIG } from "@/lib/constants";
 import {
     staggerContainerVariants,
     staggerItemVariants,
-    imageRevealVariants,
-    imageFrameVariants,
+
 } from "@/lib/animations";
 import sdk from "@farcaster/miniapp-sdk";
 
