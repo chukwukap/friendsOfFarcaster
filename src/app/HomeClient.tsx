@@ -16,7 +16,7 @@ import {
   ErrorScreen
 } from "@/components/screens";
 import { Confetti, Snowfall } from "@/components/ui";
-import { useSound, useFarcaster, useWaitlistStatus } from "@/hooks";
+import { useFarcaster, useWaitlistStatus } from "@/hooks";
 import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
 import { APP_CONFIG } from "@/lib/constants";
 import { pageVariants } from "@/lib/animations";
@@ -50,8 +50,6 @@ export function HomeClient() {
     addToFavorites,
   } = useFarcaster();
 
-  const { sounds, toggleMute, isMuted } = useSound();
-
   // Waitlist status for 50% discount
   const {
     onWaitlist: isOnWaitlist,
@@ -82,14 +80,12 @@ export function HomeClient() {
     }
   }, []);
 
-  // Handle onboarding complete
   const handleOnboardingComplete = useCallback(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem(ONBOARDING_KEY, "true");
     }
-    sounds.buttonTap();
     setAppState("landing");
-  }, [sounds]);
+  }, []);
 
   // Start image generation
   const startGeneration = async (fid: number, txHash?: string) => {
@@ -100,9 +96,6 @@ export function HomeClient() {
 
     setAppState("generating");
     setProgress(0);
-    setIsConnecting(false);
-    setIsPaying(false);
-    sounds.progressStart();
 
     try {
       // 1. Prepare generation (get prompt & friends)
@@ -167,8 +160,6 @@ export function HomeClient() {
 
       const saveData = await saveRes.json();
       const generationId = saveData.generationId;
-
-      sounds.almostDone();
       setProgress(100);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -179,10 +170,7 @@ export function HomeClient() {
         friendCount: friendCount,
       });
 
-      sounds.successReveal();
       setShowConfetti(true);
-      sounds.confettiBurst();
-      sounds.pointsEarned();
 
       setAppState("success");
 
@@ -194,19 +182,15 @@ export function HomeClient() {
     } catch (err) {
       console.error("Generation error:", err);
       setError(err instanceof Error ? err.message : "Generation failed");
-      sounds.gentleError();
       setAppState("error");
     } finally {
       isGeneratingRef.current = false;
     }
   };
 
-  // Handle share
   const handleShare = useCallback(async () => {
     if (!result || !user) return;
-    sounds.buttonTap();
     share(result.generationId, result.imageUrl, user.username, result.friendCount);
-    sounds.shareComplete();
 
     try {
       await fetch("/api/share", {
@@ -221,34 +205,28 @@ export function HomeClient() {
     } catch (err) {
       console.error("Failed to record share:", err);
     }
-  }, [result, sounds, share, user]);
+  }, [result, share, user]);
 
-  // Handle generate another
   const handleGenerateAnother = useCallback(() => {
-    sounds.buttonTap();
     setAppState("landing");
     setProgress(0);
     setResult(null);
     setError(null);
-  }, [sounds]);
+  }, []);
 
-  // Handle retry from error
   const handleRetry = useCallback(() => {
-    sounds.buttonTap();
     if (user) {
       startGeneration(user.fid);
     } else {
       setAppState("landing");
       setError(null);
     }
-  }, [user, sounds]);
+  }, [user]);
 
-  // Handle go home from error
   const handleGoHome = useCallback(() => {
-    sounds.buttonTap();
     setAppState("landing");
     setError(null);
-  }, [sounds]);
+  }, []);
 
   return (
     <SafeArea>
