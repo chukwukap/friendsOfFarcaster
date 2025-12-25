@@ -10,9 +10,7 @@ import {
     staggerItemVariants,
     rotateVariants,
     pulseVariants,
-    springTransition,
 } from "@/lib/animations";
-import { cn } from "@/lib/utils";
 
 interface GeneratingScreenProps {
     username: string;
@@ -69,36 +67,31 @@ export const GeneratingScreen: FC<GeneratingScreenProps> = ({
                     />
                 </motion.div>
 
-                {/* Mascot in Orb */}
+                {/* Animated Orb */}
                 <motion.div
                     className="relative w-[200px] h-[200px] flex items-center justify-center"
                     variants={staggerItemVariants}
                 >
                     <motion.div
-                        className="w-[160px] h-[160px] rounded-full bg-surface-glass backdrop-blur-[20px] border border-surface-glass-border flex items-center justify-center shadow-[0_0_60px_var(--glow-purple)] animate-[pulse-glow_2s_ease-in-out_infinite]"
+                        className="w-[160px] h-[160px] rounded-full bg-surface-glass backdrop-blur-[20px] border border-surface-glass-border flex items-center justify-center shadow-[0_0_60px_var(--glow-purple)]"
                         variants={pulseVariants}
                         initial="initial"
                         animate="animate"
                     >
-                        <motion.div
+                        <motion.span
+                            className="text-[64px]"
                             animate={{
-                                rotate: [-2, 2, -2],
-                                y: [0, -5, 0],
+                                rotate: [0, 10, -10, 0],
+                                scale: [1, 1.1, 1],
                             }}
                             transition={{
-                                duration: 1.5,
+                                duration: 2,
                                 repeat: Infinity,
                                 ease: "easeInOut",
                             }}
                         >
-                            <Image
-                                src={ASSETS.mascotThinking}
-                                alt="Creating..."
-                                width={120}
-                                height={120}
-                                className="animate-[bob_2s_ease-in-out_infinite]"
-                            />
-                        </motion.div>
+                            ✨
+                        </motion.span>
                     </motion.div>
 
                     {/* Orbiting Snowflakes */}
@@ -108,13 +101,7 @@ export const GeneratingScreen: FC<GeneratingScreenProps> = ({
                         initial="initial"
                         animate="animate"
                     >
-                        <Image
-                            src={ASSETS.snowflake}
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                        />
+                        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[24px]">❄️</span>
                     </motion.div>
                 </motion.div>
 

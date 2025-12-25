@@ -2,10 +2,8 @@
 
 import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { useAddFrame } from "@coinbase/onchainkit/minikit";
 import { Button } from "@/components/ui/Button";
-import { ASSETS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 
@@ -14,7 +12,7 @@ interface OnboardingScreenProps {
 }
 
 interface OnboardingPage {
-    mascot: string;
+    icon: string;
     badge?: { text: string; icon: string };
     title: string;
     description: string;
@@ -23,20 +21,20 @@ interface OnboardingPage {
 
 const PAGES: OnboardingPage[] = [
     {
-        mascot: "/assets/mascot-waving.png",
+        icon: "👋",
         badge: { text: "Christmas Edition 2025", icon: "🎄" },
         title: "Welcome to FOF",
         description: "Friends of Farcaster transforms your network into stunning AI-generated art",
         decoration: "snowflakes",
     },
     {
-        mascot: "/assets/mascot-default.png",
+        icon: "🎨",
         title: "Your Network, As Art",
         description: "We analyze your closest Farcaster connections and create a unique portrait just for you",
         decoration: "stars",
     },
     {
-        mascot: "/assets/mascot-celebrating.png",
+        icon: "🎉",
         badge: { text: "+100 PTS", icon: "✨" },
         title: "Earn & Share",
         description: "Get Waffles points for each creation. Share your FOF and spread the holiday joy!",
@@ -78,7 +76,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
             {/* Main Content */}
             <div className="relative z-10 flex-1 flex flex-col items-center justify-between p-5 pt-[calc(env(safe-area-inset-top,0px)+60px)] pb-[calc(env(safe-area-inset-bottom,0px)+20px)] max-w-[400px] mx-auto w-full">
 
-                {/* Mascot Hero */}
+                {/* Hero Icon */}
                 <div className="flex-1 flex items-center justify-center relative min-h-0">
                     <AnimatePresence mode="wait">
                         <motion.div
@@ -89,23 +87,16 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
                             exit={{ opacity: 0, scale: 0.8, y: -20 }}
                             transition={{ type: "spring", stiffness: 300, damping: 25 }}
                         >
-                            {/* Mascot Glow */}
-                            <div className="absolute w-[220px] h-[220px] max-h-[680px]:w-[180px] max-h-[680px]:h-[180px] max-h-[580px]:w-[140px] max-h-[580px]:h-[140px] bg-radial-[circle,rgba(139,92,246,0.5)_0%,rgba(139,92,246,0.2)_40%,transparent_70%] rounded-full blur-[20px] animate-[pulse-glow_2.5s_ease-in-out_infinite]" />
+                            {/* Icon Glow */}
+                            <div className="absolute w-[220px] h-[220px] bg-radial-[circle,rgba(139,92,246,0.5)_0%,rgba(139,92,246,0.2)_40%,transparent_70%] rounded-full blur-[20px] animate-[pulse-glow_2.5s_ease-in-out_infinite]" />
 
-                            {/* Mascot Image */}
+                            {/* Icon Container */}
                             <motion.div
                                 animate={{ y: [0, -8, 0] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                className="relative z-10 drop-shadow-[0_20px_40px_rgba(139,92,246,0.4)]"
+                                className="relative z-10 w-[180px] h-[180px] rounded-full bg-surface-glass backdrop-blur-[20px] border border-surface-glass-border flex items-center justify-center shadow-[0_20px_40px_rgba(139,92,246,0.4)]"
                             >
-                                <Image
-                                    src={page.mascot}
-                                    alt="FOF Mascot"
-                                    width={200}
-                                    height={200}
-                                    className="max-h-[680px]:w-[160px] max-h-[680px]:h-[160px] max-h-[580px]:w-[120px] max-h-[580px]:h-[120px]"
-                                    priority
-                                />
+                                <span className="text-[80px]">{page.icon}</span>
                             </motion.div>
                         </motion.div>
                     </AnimatePresence>
@@ -113,30 +104,30 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
                     {/* Floating decorations */}
                     {page.decoration === "snowflakes" && (
                         <>
-                            <motion.div
-                                className="absolute top-[-10px] right-[-30px] opacity-70"
+                            <motion.span
+                                className="absolute top-[-10px] right-[-30px] text-[28px] opacity-70"
                                 animate={{ y: [0, -10, 0], rotate: [0, 180, 360] }}
                                 transition={{ duration: 6, repeat: Infinity }}
                             >
-                                <Image src={ASSETS.snowflake} alt="" width={28} height={28} />
-                            </motion.div>
-                            <motion.div
-                                className="absolute bottom-[10px] left-[-25px] opacity-50"
+                                ❄️
+                            </motion.span>
+                            <motion.span
+                                className="absolute bottom-[10px] left-[-25px] text-[22px] opacity-50"
                                 animate={{ y: [0, 8, 0], rotate: [360, 180, 0] }}
                                 transition={{ duration: 8, repeat: Infinity, delay: 0.5 }}
                             >
-                                <Image src={ASSETS.snowflake} alt="" width={22} height={22} />
-                            </motion.div>
+                                ❄️
+                            </motion.span>
                         </>
                     )}
                     {page.decoration === "coins" && (
-                        <motion.div
-                            className="absolute top-[-10px] right-[-30px] opacity-70"
+                        <motion.span
+                            className="absolute top-[-10px] right-[-30px] text-[40px] opacity-70"
                             animate={{ y: [0, -6, 0], rotate: [-5, 5, -5] }}
                             transition={{ duration: 2, repeat: Infinity }}
                         >
-                            <Image src={ASSETS.wafflesCoin} alt="" width={40} height={40} />
-                        </motion.div>
+                            🧇
+                        </motion.span>
                     )}
                     {page.decoration === "stars" && (
                         <>

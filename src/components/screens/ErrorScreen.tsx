@@ -2,13 +2,10 @@
 
 import { FC } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { ASSETS } from "@/lib/constants";
 import {
     staggerContainerVariants,
     staggerItemVariants,
-    mascotVariants,
     bobSadVariants,
     flickerVariants,
     springTransition,
@@ -40,7 +37,7 @@ export const ErrorScreen: FC<ErrorScreenProps> = ({
                 initial="initial"
                 animate="animate"
             >
-                {/* Sad Mascot with shake animation */}
+                {/* Error Icon */}
                 <motion.div
                     className="relative"
                     variants={staggerItemVariants}
@@ -49,19 +46,12 @@ export const ErrorScreen: FC<ErrorScreenProps> = ({
                         variants={bobSadVariants}
                         animate="animate"
                         initial="initial"
-                        className="opacity-90"
+                        className="w-[160px] h-[160px] rounded-full bg-surface-glass backdrop-blur-[20px] border border-surface-glass-border flex items-center justify-center shadow-[0_0_40px_rgba(255,68,68,0.3)]"
                     >
-                        <Image
-                            src={ASSETS.mascotSad}
-                            alt="Something went wrong"
-                            width={160}
-                            height={160}
-                            className="object-contain"
-                            priority
-                        />
+                        <span className="text-[72px]">😔</span>
                     </motion.div>
                     <motion.div
-                        className="absolute bottom-5 left-1/2 -translate-x-1/2 w-[60px] h-[3px] bg-linear-to-r from-secondary-purple from-[45%] via-[transparent_45%_55%] to-secondary-purple to-[55%] opacity-60"
+                        className="absolute bottom-5 left-1/2 -translate-x-1/2 w-[60px] h-[3px] bg-linear-to-r from-secondary-purple from-45% via-transparent to-secondary-purple to-55% opacity-60"
                         variants={flickerVariants}
                         animate="animate"
                         initial="initial"

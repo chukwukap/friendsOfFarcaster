@@ -1,12 +1,9 @@
 "use client";
 
 import { FC } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { ASSETS } from "@/lib/constants";
 import {
-    mascotVariants,
     pulseRippleVariants,
     floatSnowVariants
 } from "@/lib/animations";
@@ -23,22 +20,18 @@ export const EmptyScreen: FC<EmptyScreenProps> = ({ onGenerate }) => {
 
             {/* Content */}
             <div className="relative z-10 flex-1 flex flex-col items-center justify-center p-lg gap-xl">
-                {/* Mascot with empty frame */}
+                {/* Empty State Icon */}
                 <div className="flex items-center gap-lg">
                     <motion.div
-                        variants={mascotVariants}
-                        animate="idle"
+                        className="w-[140px] h-[140px] rounded-full bg-surface-glass backdrop-blur-[20px] border border-surface-glass-border flex items-center justify-center shadow-[0_0_40px_var(--glow-purple)]"
+                        variants={pulseRippleVariants}
+                        animate="animate"
+                        initial="initial"
                     >
-                        <Image
-                            src={ASSETS.mascotDefault}
-                            alt="FOF Mascot"
-                            width={140}
-                            height={140}
-                            priority
-                        />
+                        <span className="text-[64px]">🎄</span>
                     </motion.div>
                     <motion.div
-                        className="w-[120px] h-[120px] border-2 border-dashed border-accent-gold/40 rounded-lg flex items-center justify-center bg-white/[0.02]"
+                        className="w-[120px] h-[120px] border-2 border-dashed border-accent-gold/40 rounded-lg flex items-center justify-center bg-white/2"
                         variants={pulseRippleVariants}
                         animate="animate"
                         initial="initial"
@@ -77,13 +70,7 @@ export const EmptyScreen: FC<EmptyScreenProps> = ({ onGenerate }) => {
                     animate="animate"
                     initial="initial"
                 >
-                    <Image
-                        src={ASSETS.snowflake}
-                        alt=""
-                        width={36}
-                        height={36}
-                        aria-hidden
-                    />
+                    <span className="text-[36px]">❄️</span>
                 </motion.div>
             </div>
         </div>
