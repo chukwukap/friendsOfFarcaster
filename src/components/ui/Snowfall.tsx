@@ -1,19 +1,30 @@
 "use client";
 
-import { FC, useMemo } from "react";
+import { FC, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 interface SnowfallProps {
     count?: number;
     speed?: "slow" | "normal" | "fast";
 }
 
+interface Snowflake {
+    id: number;
+    left: string;
+    size: number;
+    opacity: number;
+    duration: number;
+    delay: number;
+    swayAmount: number;
+}
+
 export const Snowfall: FC<SnowfallProps> = ({ count = 30, speed = "normal" }) => {
+    const [snowflakes, setSnowflakes] = useState<Snowflake[]>([]);
     const speedMultiplier = speed === "slow" ? 1.5 : speed === "fast" ? 0.5 : 1;
 
-    const snowflakes = useMemo(() => {
-        return Array.from({ length: count }, (_, i) => ({
+    // Generate snowflakes only on client side to avoid hydration mismatch
+    useEffect(() => {
+        const flakes = Array.from({ length: count }, (_, i) => ({
             id: i,
             left: `${Math.random() * 100}%`,
             size: 4 + Math.random() * 8,
@@ -22,7 +33,13 @@ export const Snowfall: FC<SnowfallProps> = ({ count = 30, speed = "normal" }) =>
             delay: Math.random() * 5,
             swayAmount: 30 + Math.random() * 40,
         }));
+        setSnowflakes(flakes);
     }, [count, speedMultiplier]);
+
+    // Don't render anything during SSR
+    if (snowflakes.length === 0) {
+        return null;
+    }
 
     return (
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
