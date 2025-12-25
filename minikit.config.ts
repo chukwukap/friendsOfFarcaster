@@ -47,7 +47,7 @@ export const minikitConfig: MiniAppManifest = {
     homeUrl: `${env.rootUrl}${env.homeUrlPath}`,
 
     // Optional: Splash screen image (1:1 aspect ratio)
-    splashImageUrl: `${env.rootUrl}/assets/logo.png`,
+    splashImageUrl: `${env.rootUrl}/assets/fof-logo.png`,
 
     // Optional: Splash screen background color (hex)
     splashBackgroundColor: "#0A0A0F",
@@ -64,8 +64,8 @@ export const minikitConfig: MiniAppManifest = {
     // Optional: Screenshot URLs for app store listing
     screenshotUrls: [
       `${env.rootUrl}/assets/screenshots/landing.png`,
-      `${env.rootUrl}/assets/screenshots/generating.png`,
-      `${env.rootUrl}/assets/screenshots/success.png`,
+      `${env.rootUrl}/assets/screenshots/landing.png`,
+      `${env.rootUrl}/assets/screenshots/landing.png`,
     ],
 
     // Optional: Hero image for featured listings (1200x630)

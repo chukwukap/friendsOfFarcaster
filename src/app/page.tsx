@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { HomeClient } from "./HomeClient";
 import { env } from "@/lib/env";
+import { minikitConfig } from "../../minikit.config";
 
 
 /**
@@ -16,7 +17,7 @@ const frameEmbed = {
       type: "launch_frame",
       name: "FOF: Friends of Farcaster",
       url: env.rootUrl,
-      splashImageUrl: `${env.rootUrl}/assets/logo.png`,
+      splashImageUrl: minikitConfig.miniapp?.splashImageUrl || `${env.rootUrl}/assets/logo.png`,
       splashBackgroundColor: "#0A0A0F",
     },
   },
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   title: "FOF: Friends of Farcaster | Christmas Edition 2025",
   description:
     "Transform your Farcaster network into stunning AI art. Create your personalized Friends of Farcaster portrait this Christmas!",
-  metadataBase: new URL(env.rootUrl || "https://fof.app"),
+  metadataBase: new URL(env.rootUrl || "https://fof.playwaffles.fun"),
   openGraph: {
     title: "FOF: Friends of Farcaster",
     description: "Your Farcaster network, transformed into art.",
