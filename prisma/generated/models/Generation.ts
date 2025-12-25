@@ -53,9 +53,6 @@ export type GenerationMinAggregateOutputType = {
   model: string | null
   paymentTxHash: string | null
   paymentAmount: number | null
-  nftTxHash: string | null
-  nftTokenId: string | null
-  nftTokenUri: string | null
   sharedOnFarcaster: boolean | null
   farcasterCastHash: string | null
   shareCount: number | null
@@ -71,9 +68,6 @@ export type GenerationMaxAggregateOutputType = {
   model: string | null
   paymentTxHash: string | null
   paymentAmount: number | null
-  nftTxHash: string | null
-  nftTokenId: string | null
-  nftTokenUri: string | null
   sharedOnFarcaster: boolean | null
   farcasterCastHash: string | null
   shareCount: number | null
@@ -90,9 +84,6 @@ export type GenerationCountAggregateOutputType = {
   model: number
   paymentTxHash: number
   paymentAmount: number
-  nftTxHash: number
-  nftTokenId: number
-  nftTokenUri: number
   sharedOnFarcaster: number
   farcasterCastHash: number
   shareCount: number
@@ -128,9 +119,6 @@ export type GenerationMinAggregateInputType = {
   model?: true
   paymentTxHash?: true
   paymentAmount?: true
-  nftTxHash?: true
-  nftTokenId?: true
-  nftTokenUri?: true
   sharedOnFarcaster?: true
   farcasterCastHash?: true
   shareCount?: true
@@ -146,9 +134,6 @@ export type GenerationMaxAggregateInputType = {
   model?: true
   paymentTxHash?: true
   paymentAmount?: true
-  nftTxHash?: true
-  nftTokenId?: true
-  nftTokenUri?: true
   sharedOnFarcaster?: true
   farcasterCastHash?: true
   shareCount?: true
@@ -165,9 +150,6 @@ export type GenerationCountAggregateInputType = {
   model?: true
   paymentTxHash?: true
   paymentAmount?: true
-  nftTxHash?: true
-  nftTokenId?: true
-  nftTokenUri?: true
   sharedOnFarcaster?: true
   farcasterCastHash?: true
   shareCount?: true
@@ -271,9 +253,6 @@ export type GenerationGroupByOutputType = {
   model: string | null
   paymentTxHash: string | null
   paymentAmount: number | null
-  nftTxHash: string | null
-  nftTokenId: string | null
-  nftTokenUri: string | null
   sharedOnFarcaster: boolean
   farcasterCastHash: string | null
   shareCount: number
@@ -313,9 +292,6 @@ export type GenerationWhereInput = {
   model?: Prisma.StringNullableFilter<"Generation"> | string | null
   paymentTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
   paymentAmount?: Prisma.FloatNullableFilter<"Generation"> | number | null
-  nftTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
-  nftTokenId?: Prisma.StringNullableFilter<"Generation"> | string | null
-  nftTokenUri?: Prisma.StringNullableFilter<"Generation"> | string | null
   sharedOnFarcaster?: Prisma.BoolFilter<"Generation"> | boolean
   farcasterCastHash?: Prisma.StringNullableFilter<"Generation"> | string | null
   shareCount?: Prisma.IntFilter<"Generation"> | number
@@ -333,9 +309,6 @@ export type GenerationOrderByWithRelationInput = {
   model?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentAmount?: Prisma.SortOrderInput | Prisma.SortOrder
-  nftTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
-  nftTokenId?: Prisma.SortOrderInput | Prisma.SortOrder
-  nftTokenUri?: Prisma.SortOrderInput | Prisma.SortOrder
   sharedOnFarcaster?: Prisma.SortOrder
   farcasterCastHash?: Prisma.SortOrderInput | Prisma.SortOrder
   shareCount?: Prisma.SortOrder
@@ -346,7 +319,6 @@ export type GenerationOrderByWithRelationInput = {
 export type GenerationWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   paymentTxHash?: string
-  nftTxHash?: string
   AND?: Prisma.GenerationWhereInput | Prisma.GenerationWhereInput[]
   OR?: Prisma.GenerationWhereInput[]
   NOT?: Prisma.GenerationWhereInput | Prisma.GenerationWhereInput[]
@@ -357,14 +329,12 @@ export type GenerationWhereUniqueInput = Prisma.AtLeast<{
   prompt?: Prisma.StringNullableFilter<"Generation"> | string | null
   model?: Prisma.StringNullableFilter<"Generation"> | string | null
   paymentAmount?: Prisma.FloatNullableFilter<"Generation"> | number | null
-  nftTokenId?: Prisma.StringNullableFilter<"Generation"> | string | null
-  nftTokenUri?: Prisma.StringNullableFilter<"Generation"> | string | null
   sharedOnFarcaster?: Prisma.BoolFilter<"Generation"> | boolean
   farcasterCastHash?: Prisma.StringNullableFilter<"Generation"> | string | null
   shareCount?: Prisma.IntFilter<"Generation"> | number
   createdAt?: Prisma.DateTimeFilter<"Generation"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "paymentTxHash" | "nftTxHash">
+}, "id" | "paymentTxHash">
 
 export type GenerationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -376,9 +346,6 @@ export type GenerationOrderByWithAggregationInput = {
   model?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentAmount?: Prisma.SortOrderInput | Prisma.SortOrder
-  nftTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
-  nftTokenId?: Prisma.SortOrderInput | Prisma.SortOrder
-  nftTokenUri?: Prisma.SortOrderInput | Prisma.SortOrder
   sharedOnFarcaster?: Prisma.SortOrder
   farcasterCastHash?: Prisma.SortOrderInput | Prisma.SortOrder
   shareCount?: Prisma.SortOrder
@@ -403,9 +370,6 @@ export type GenerationScalarWhereWithAggregatesInput = {
   model?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
   paymentTxHash?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
   paymentAmount?: Prisma.FloatNullableWithAggregatesFilter<"Generation"> | number | null
-  nftTxHash?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
-  nftTokenId?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
-  nftTokenUri?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
   sharedOnFarcaster?: Prisma.BoolWithAggregatesFilter<"Generation"> | boolean
   farcasterCastHash?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
   shareCount?: Prisma.IntWithAggregatesFilter<"Generation"> | number
@@ -420,9 +384,6 @@ export type GenerationCreateInput = {
   model?: string | null
   paymentTxHash?: string | null
   paymentAmount?: number | null
-  nftTxHash?: string | null
-  nftTokenId?: string | null
-  nftTokenUri?: string | null
   sharedOnFarcaster?: boolean
   farcasterCastHash?: string | null
   shareCount?: number
@@ -440,9 +401,6 @@ export type GenerationUncheckedCreateInput = {
   model?: string | null
   paymentTxHash?: string | null
   paymentAmount?: number | null
-  nftTxHash?: string | null
-  nftTokenId?: string | null
-  nftTokenUri?: string | null
   sharedOnFarcaster?: boolean
   farcasterCastHash?: string | null
   shareCount?: number
@@ -457,9 +415,6 @@ export type GenerationUpdateInput = {
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
   farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shareCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -477,9 +432,6 @@ export type GenerationUncheckedUpdateInput = {
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
   farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shareCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -496,9 +448,6 @@ export type GenerationCreateManyInput = {
   model?: string | null
   paymentTxHash?: string | null
   paymentAmount?: number | null
-  nftTxHash?: string | null
-  nftTokenId?: string | null
-  nftTokenUri?: string | null
   sharedOnFarcaster?: boolean
   farcasterCastHash?: string | null
   shareCount?: number
@@ -513,9 +462,6 @@ export type GenerationUpdateManyMutationInput = {
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
   farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shareCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -532,9 +478,6 @@ export type GenerationUncheckedUpdateManyInput = {
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
   farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shareCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -569,9 +512,6 @@ export type GenerationCountOrderByAggregateInput = {
   model?: Prisma.SortOrder
   paymentTxHash?: Prisma.SortOrder
   paymentAmount?: Prisma.SortOrder
-  nftTxHash?: Prisma.SortOrder
-  nftTokenId?: Prisma.SortOrder
-  nftTokenUri?: Prisma.SortOrder
   sharedOnFarcaster?: Prisma.SortOrder
   farcasterCastHash?: Prisma.SortOrder
   shareCount?: Prisma.SortOrder
@@ -596,9 +536,6 @@ export type GenerationMaxOrderByAggregateInput = {
   model?: Prisma.SortOrder
   paymentTxHash?: Prisma.SortOrder
   paymentAmount?: Prisma.SortOrder
-  nftTxHash?: Prisma.SortOrder
-  nftTokenId?: Prisma.SortOrder
-  nftTokenUri?: Prisma.SortOrder
   sharedOnFarcaster?: Prisma.SortOrder
   farcasterCastHash?: Prisma.SortOrder
   shareCount?: Prisma.SortOrder
@@ -614,9 +551,6 @@ export type GenerationMinOrderByAggregateInput = {
   model?: Prisma.SortOrder
   paymentTxHash?: Prisma.SortOrder
   paymentAmount?: Prisma.SortOrder
-  nftTxHash?: Prisma.SortOrder
-  nftTokenId?: Prisma.SortOrder
-  nftTokenUri?: Prisma.SortOrder
   sharedOnFarcaster?: Prisma.SortOrder
   farcasterCastHash?: Prisma.SortOrder
   shareCount?: Prisma.SortOrder
@@ -703,9 +637,6 @@ export type GenerationCreateWithoutUserInput = {
   model?: string | null
   paymentTxHash?: string | null
   paymentAmount?: number | null
-  nftTxHash?: string | null
-  nftTokenId?: string | null
-  nftTokenUri?: string | null
   sharedOnFarcaster?: boolean
   farcasterCastHash?: string | null
   shareCount?: number
@@ -721,9 +652,6 @@ export type GenerationUncheckedCreateWithoutUserInput = {
   model?: string | null
   paymentTxHash?: string | null
   paymentAmount?: number | null
-  nftTxHash?: string | null
-  nftTokenId?: string | null
-  nftTokenUri?: string | null
   sharedOnFarcaster?: boolean
   farcasterCastHash?: string | null
   shareCount?: number
@@ -769,9 +697,6 @@ export type GenerationScalarWhereInput = {
   model?: Prisma.StringNullableFilter<"Generation"> | string | null
   paymentTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
   paymentAmount?: Prisma.FloatNullableFilter<"Generation"> | number | null
-  nftTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
-  nftTokenId?: Prisma.StringNullableFilter<"Generation"> | string | null
-  nftTokenUri?: Prisma.StringNullableFilter<"Generation"> | string | null
   sharedOnFarcaster?: Prisma.BoolFilter<"Generation"> | boolean
   farcasterCastHash?: Prisma.StringNullableFilter<"Generation"> | string | null
   shareCount?: Prisma.IntFilter<"Generation"> | number
@@ -787,9 +712,6 @@ export type GenerationCreateManyUserInput = {
   model?: string | null
   paymentTxHash?: string | null
   paymentAmount?: number | null
-  nftTxHash?: string | null
-  nftTokenId?: string | null
-  nftTokenUri?: string | null
   sharedOnFarcaster?: boolean
   farcasterCastHash?: string | null
   shareCount?: number
@@ -804,9 +726,6 @@ export type GenerationUpdateWithoutUserInput = {
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
   farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shareCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -822,9 +741,6 @@ export type GenerationUncheckedUpdateWithoutUserInput = {
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
   farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shareCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -840,9 +756,6 @@ export type GenerationUncheckedUpdateManyWithoutUserInput = {
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
   farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shareCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -861,9 +774,6 @@ export type GenerationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   model?: boolean
   paymentTxHash?: boolean
   paymentAmount?: boolean
-  nftTxHash?: boolean
-  nftTokenId?: boolean
-  nftTokenUri?: boolean
   sharedOnFarcaster?: boolean
   farcasterCastHash?: boolean
   shareCount?: boolean
@@ -881,9 +791,6 @@ export type GenerationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   model?: boolean
   paymentTxHash?: boolean
   paymentAmount?: boolean
-  nftTxHash?: boolean
-  nftTokenId?: boolean
-  nftTokenUri?: boolean
   sharedOnFarcaster?: boolean
   farcasterCastHash?: boolean
   shareCount?: boolean
@@ -901,9 +808,6 @@ export type GenerationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   model?: boolean
   paymentTxHash?: boolean
   paymentAmount?: boolean
-  nftTxHash?: boolean
-  nftTokenId?: boolean
-  nftTokenUri?: boolean
   sharedOnFarcaster?: boolean
   farcasterCastHash?: boolean
   shareCount?: boolean
@@ -921,16 +825,13 @@ export type GenerationSelectScalar = {
   model?: boolean
   paymentTxHash?: boolean
   paymentAmount?: boolean
-  nftTxHash?: boolean
-  nftTokenId?: boolean
-  nftTokenUri?: boolean
   sharedOnFarcaster?: boolean
   farcasterCastHash?: boolean
   shareCount?: boolean
   createdAt?: boolean
 }
 
-export type GenerationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "imageUrl" | "friendCount" | "friendFids" | "prompt" | "model" | "paymentTxHash" | "paymentAmount" | "nftTxHash" | "nftTokenId" | "nftTokenUri" | "sharedOnFarcaster" | "farcasterCastHash" | "shareCount" | "createdAt", ExtArgs["result"]["generation"]>
+export type GenerationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "imageUrl" | "friendCount" | "friendFids" | "prompt" | "model" | "paymentTxHash" | "paymentAmount" | "sharedOnFarcaster" | "farcasterCastHash" | "shareCount" | "createdAt", ExtArgs["result"]["generation"]>
 export type GenerationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -956,9 +857,6 @@ export type $GenerationPayload<ExtArgs extends runtime.Types.Extensions.Internal
     model: string | null
     paymentTxHash: string | null
     paymentAmount: number | null
-    nftTxHash: string | null
-    nftTokenId: string | null
-    nftTokenUri: string | null
     sharedOnFarcaster: boolean
     farcasterCastHash: string | null
     shareCount: number
@@ -1396,9 +1294,6 @@ export interface GenerationFieldRefs {
   readonly model: Prisma.FieldRef<"Generation", 'String'>
   readonly paymentTxHash: Prisma.FieldRef<"Generation", 'String'>
   readonly paymentAmount: Prisma.FieldRef<"Generation", 'Float'>
-  readonly nftTxHash: Prisma.FieldRef<"Generation", 'String'>
-  readonly nftTokenId: Prisma.FieldRef<"Generation", 'String'>
-  readonly nftTokenUri: Prisma.FieldRef<"Generation", 'String'>
   readonly sharedOnFarcaster: Prisma.FieldRef<"Generation", 'Boolean'>
   readonly farcasterCastHash: Prisma.FieldRef<"Generation", 'String'>
   readonly shareCount: Prisma.FieldRef<"Generation", 'Int'>

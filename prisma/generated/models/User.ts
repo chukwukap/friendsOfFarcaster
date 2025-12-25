@@ -44,7 +44,6 @@ export type UserMinAggregateOutputType = {
   username: string | null
   displayName: string | null
   pfpUrl: string | null
-  wallet: string | null
   points: number | null
   isOnWaitlist: boolean | null
   createdAt: Date | null
@@ -57,7 +56,6 @@ export type UserMaxAggregateOutputType = {
   username: string | null
   displayName: string | null
   pfpUrl: string | null
-  wallet: string | null
   points: number | null
   isOnWaitlist: boolean | null
   createdAt: Date | null
@@ -70,7 +68,6 @@ export type UserCountAggregateOutputType = {
   username: number
   displayName: number
   pfpUrl: number
-  wallet: number
   points: number
   isOnWaitlist: number
   createdAt: number
@@ -97,7 +94,6 @@ export type UserMinAggregateInputType = {
   username?: true
   displayName?: true
   pfpUrl?: true
-  wallet?: true
   points?: true
   isOnWaitlist?: true
   createdAt?: true
@@ -110,7 +106,6 @@ export type UserMaxAggregateInputType = {
   username?: true
   displayName?: true
   pfpUrl?: true
-  wallet?: true
   points?: true
   isOnWaitlist?: true
   createdAt?: true
@@ -123,7 +118,6 @@ export type UserCountAggregateInputType = {
   username?: true
   displayName?: true
   pfpUrl?: true
-  wallet?: true
   points?: true
   isOnWaitlist?: true
   createdAt?: true
@@ -223,7 +217,6 @@ export type UserGroupByOutputType = {
   username: string | null
   displayName: string | null
   pfpUrl: string | null
-  wallet: string | null
   points: number
   isOnWaitlist: boolean
   createdAt: Date
@@ -259,7 +252,6 @@ export type UserWhereInput = {
   username?: Prisma.StringNullableFilter<"User"> | string | null
   displayName?: Prisma.StringNullableFilter<"User"> | string | null
   pfpUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  wallet?: Prisma.StringNullableFilter<"User"> | string | null
   points?: Prisma.IntFilter<"User"> | number
   isOnWaitlist?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -273,7 +265,6 @@ export type UserOrderByWithRelationInput = {
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   displayName?: Prisma.SortOrderInput | Prisma.SortOrder
   pfpUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  wallet?: Prisma.SortOrderInput | Prisma.SortOrder
   points?: Prisma.SortOrder
   isOnWaitlist?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -290,7 +281,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   username?: Prisma.StringNullableFilter<"User"> | string | null
   displayName?: Prisma.StringNullableFilter<"User"> | string | null
   pfpUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  wallet?: Prisma.StringNullableFilter<"User"> | string | null
   points?: Prisma.IntFilter<"User"> | number
   isOnWaitlist?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -304,7 +294,6 @@ export type UserOrderByWithAggregationInput = {
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   displayName?: Prisma.SortOrderInput | Prisma.SortOrder
   pfpUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  wallet?: Prisma.SortOrderInput | Prisma.SortOrder
   points?: Prisma.SortOrder
   isOnWaitlist?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -325,7 +314,6 @@ export type UserScalarWhereWithAggregatesInput = {
   username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   displayName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   pfpUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  wallet?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   points?: Prisma.IntWithAggregatesFilter<"User"> | number
   isOnWaitlist?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -337,7 +325,6 @@ export type UserCreateInput = {
   username?: string | null
   displayName?: string | null
   pfpUrl?: string | null
-  wallet?: string | null
   points?: number
   isOnWaitlist?: boolean
   createdAt?: Date | string
@@ -351,7 +338,6 @@ export type UserUncheckedCreateInput = {
   username?: string | null
   displayName?: string | null
   pfpUrl?: string | null
-  wallet?: string | null
   points?: number
   isOnWaitlist?: boolean
   createdAt?: Date | string
@@ -364,7 +350,6 @@ export type UserUpdateInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.IntFieldUpdateOperationsInput | number
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -378,7 +363,6 @@ export type UserUncheckedUpdateInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.IntFieldUpdateOperationsInput | number
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -392,7 +376,6 @@ export type UserCreateManyInput = {
   username?: string | null
   displayName?: string | null
   pfpUrl?: string | null
-  wallet?: string | null
   points?: number
   isOnWaitlist?: boolean
   createdAt?: Date | string
@@ -404,7 +387,6 @@ export type UserUpdateManyMutationInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.IntFieldUpdateOperationsInput | number
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -417,7 +399,6 @@ export type UserUncheckedUpdateManyInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.IntFieldUpdateOperationsInput | number
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -430,7 +411,6 @@ export type UserCountOrderByAggregateInput = {
   username?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   pfpUrl?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   points?: Prisma.SortOrder
   isOnWaitlist?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -449,7 +429,6 @@ export type UserMaxOrderByAggregateInput = {
   username?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   pfpUrl?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   points?: Prisma.SortOrder
   isOnWaitlist?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -462,7 +441,6 @@ export type UserMinOrderByAggregateInput = {
   username?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   pfpUrl?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   points?: Prisma.SortOrder
   isOnWaitlist?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -519,7 +497,6 @@ export type UserCreateWithoutGenerationsInput = {
   username?: string | null
   displayName?: string | null
   pfpUrl?: string | null
-  wallet?: string | null
   points?: number
   isOnWaitlist?: boolean
   createdAt?: Date | string
@@ -532,7 +509,6 @@ export type UserUncheckedCreateWithoutGenerationsInput = {
   username?: string | null
   displayName?: string | null
   pfpUrl?: string | null
-  wallet?: string | null
   points?: number
   isOnWaitlist?: boolean
   createdAt?: Date | string
@@ -560,7 +536,6 @@ export type UserUpdateWithoutGenerationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.IntFieldUpdateOperationsInput | number
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -573,7 +548,6 @@ export type UserUncheckedUpdateWithoutGenerationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.IntFieldUpdateOperationsInput | number
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -617,7 +591,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   username?: boolean
   displayName?: boolean
   pfpUrl?: boolean
-  wallet?: boolean
   points?: boolean
   isOnWaitlist?: boolean
   createdAt?: boolean
@@ -632,7 +605,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   username?: boolean
   displayName?: boolean
   pfpUrl?: boolean
-  wallet?: boolean
   points?: boolean
   isOnWaitlist?: boolean
   createdAt?: boolean
@@ -645,7 +617,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   username?: boolean
   displayName?: boolean
   pfpUrl?: boolean
-  wallet?: boolean
   points?: boolean
   isOnWaitlist?: boolean
   createdAt?: boolean
@@ -658,14 +629,13 @@ export type UserSelectScalar = {
   username?: boolean
   displayName?: boolean
   pfpUrl?: boolean
-  wallet?: boolean
   points?: boolean
   isOnWaitlist?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fid" | "username" | "displayName" | "pfpUrl" | "wallet" | "points" | "isOnWaitlist" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fid" | "username" | "displayName" | "pfpUrl" | "points" | "isOnWaitlist" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   generations?: boolean | Prisma.User$generationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -684,7 +654,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     username: string | null
     displayName: string | null
     pfpUrl: string | null
-    wallet: string | null
     points: number
     isOnWaitlist: boolean
     createdAt: Date
@@ -1118,7 +1087,6 @@ export interface UserFieldRefs {
   readonly username: Prisma.FieldRef<"User", 'String'>
   readonly displayName: Prisma.FieldRef<"User", 'String'>
   readonly pfpUrl: Prisma.FieldRef<"User", 'String'>
-  readonly wallet: Prisma.FieldRef<"User", 'String'>
   readonly points: Prisma.FieldRef<"User", 'Int'>
   readonly isOnWaitlist: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

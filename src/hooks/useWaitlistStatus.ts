@@ -6,7 +6,11 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { verifyWaitlist, WaitlistStatus } from "@/lib/waffles";
+
+interface WaitlistStatus {
+  onWaitlist: boolean;
+  points: number;
+}
 
 interface UseWaitlistStatusOptions {
   fid: number | undefined;
@@ -47,7 +51,9 @@ export function useWaitlistStatus(
       setIsLoading(true);
       setError(null);
 
-      const result = await verifyWaitlist(fid);
+      // Use local API route to avoid CORS
+      const response = await fetch(`/api/waitlist/verify?fid=${fid}`);
+      const result = await response.json();
       setStatus(result);
     } catch (err) {
       console.error("Error checking waitlist status:", err);
