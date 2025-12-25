@@ -2,7 +2,6 @@
 
 import { FC, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 interface EnhancedProgressBarProps {
     progress: number;
@@ -66,7 +65,7 @@ export const EnhancedProgressBar: FC<EnhancedProgressBarProps> = ({ progress }) 
             {/* Progress bar track */}
             <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden relative">
                 {/* Background glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-secondary-purple/20 via-accent-gold/20 to-secondary-purple/20" />
+                <div className="absolute inset-0 bg-linear-to-r from-secondary-purple/20 via-accent-gold/20 to-secondary-purple/20" />
 
                 {/* Progress fill */}
                 <motion.div
@@ -80,13 +79,13 @@ export const EnhancedProgressBar: FC<EnhancedProgressBarProps> = ({ progress }) 
                 >
                     {/* Shimmer sweep */}
                     <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                        className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent"
                         animate={{ x: ["-100%", "200%"] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                     />
 
                     {/* Glow on leading edge */}
-                    <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white/60 to-transparent" />
+                    <div className="absolute right-0 top-0 bottom-0 w-4 bg-linear-to-l from-white/60 to-transparent" />
                 </motion.div>
             </div>
 

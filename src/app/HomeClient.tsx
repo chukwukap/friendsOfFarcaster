@@ -19,8 +19,7 @@ import { Confetti, Snowfall } from "@/components/ui";
 import { useSound, useFarcaster, useWaitlistStatus } from "@/hooks";
 import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
 import { APP_CONFIG } from "@/lib/constants";
-import { getWafflesWaitlistUrl } from "@/lib/waffles";
-import { pageVariants, springTransition } from "@/lib/animations";
+import { pageVariants } from "@/lib/animations";
 
 type AppState = "onboarding" | "landing" | "generating" | "success" | "error";
 
@@ -34,8 +33,6 @@ const ONBOARDING_KEY = "fof_onboarding_completed";
 
 export function HomeClient() {
   const [appState, setAppState] = useState<AppState>("onboarding");
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [isPaying, setIsPaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<GenerationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +64,6 @@ export function HomeClient() {
 
   // Payment hook
   const payment = usePayment((txHash) => {
-    console.log("Payment successful, txHash:", txHash);
     // Start generation after successful payment
     if (user) {
       startGeneration(user.fid, txHash);
@@ -95,59 +91,9 @@ export function HomeClient() {
     setAppState("landing");
   }, [sounds]);
 
-  // Handle joining Waffles waitlist
-  const handleJoinWaitlist = useCallback(() => {
-    sounds.buttonTap();
-    openUrl(getWafflesWaitlistUrl());
-  }, [sounds, openUrl]);
-
-  // Handle FREE access path
-  const handleFreeAccess = useCallback(async () => {
-    setIsConnecting(true);
-    setError(null);
-    sounds.buttonTap();
-
-    try {
-      openUrl(getWafflesWaitlistUrl());
-      if (user) {
-        await startGeneration(user.fid);
-      } else {
-        const demoFid = 3;
-        await startGeneration(demoFid);
-      }
-    } catch (err) {
-      console.error("Free access error:", err);
-      setError("Failed to connect. Please try again.");
-      sounds.gentleError();
-      setIsConnecting(false);
-    }
-  }, [user, sounds, openUrl]);
-
-  // Handle PAID access path
-  const handlePaidAccess = useCallback(async () => {
-    setIsPaying(true);
-    setError(null);
-    sounds.buttonTap();
-
-    try {
-      if (user) {
-        await startGeneration(user.fid);
-      } else {
-        const demoFid = 3;
-        await startGeneration(demoFid);
-      }
-    } catch (err) {
-      console.error("Paid access error:", err);
-      setError("Payment failed. Please try again.");
-      sounds.gentleError();
-      setIsPaying(false);
-    }
-  }, [user, sounds]);
-
   // Start image generation
   const startGeneration = async (fid: number, txHash?: string) => {
     if (isGeneratingRef.current) {
-      console.log("Generation already in progress, skipping...");
       return;
     }
     isGeneratingRef.current = true;
@@ -189,10 +135,6 @@ export function HomeClient() {
         onQueueUpdate: (update: any) => {
           if (update.status === "IN_PROGRESS") {
             setProgress((p) => Math.min(p + 1, 90));
-            if (update.logs && update.logs.length > 0) {
-              const lastLog = update.logs[update.logs.length - 1];
-              console.log("[Fal] " + lastLog.message);
-            }
           }
         },
       });
@@ -280,33 +222,6 @@ export function HomeClient() {
       console.error("Failed to record share:", err);
     }
   }, [result, sounds, share, user]);
-
-  // Handle download
-  const handleDownload = useCallback(async () => {
-    if (!result || !user) return;
-    sounds.buttonTap();
-
-    const link = document.createElement("a");
-    link.href = result.imageUrl;
-    link.download = `fof-${user.username || "portrait"}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    try {
-      await fetch("/api/share", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fid: user.fid,
-          generationId: result.generationId,
-          platform: "DOWNLOAD",
-        }),
-      });
-    } catch (err) {
-      console.error("Failed to record download:", err);
-    }
-  }, [result, user, sounds]);
 
   // Handle generate another
   const handleGenerateAnother = useCallback(() => {

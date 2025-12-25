@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
         friendCount: friendCount || 0,
         friendFids: friendFids || [],
         prompt,
-        model: "fal-ai/flux-pro/v1.1",
+        model: "fal-ai/nano-banana-pro/edit",
         paymentTxHash: paymentTxHash || null,
         paymentAmount: paymentTxHash ? 1.0 : null,
       },

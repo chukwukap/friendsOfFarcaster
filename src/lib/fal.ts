@@ -77,14 +77,9 @@ export async function generateFOFWithReferences(
 ): Promise<GenerationResult> {
   const startTime = Date.now();
 
-  // Prepare reference images (limit to max allowed)
   const imageUrls = profilePictureUrls
     .filter((url) => url && url.startsWith("http"))
     .slice(0, FAL_CONFIG.maxReferenceImages);
-
-  console.log(
-    `[Fal.ai] Starting generation with ${imageUrls.length} reference images`
-  );
 
   // Build enhanced prompt with image references
   const enhancedPrompt = buildEnhancedPrompt(prompt, imageUrls);
@@ -104,20 +99,13 @@ export async function generateFOFWithReferences(
         aspect_ratio: "1:1", // Square output for FOF portraits
         output_format: "png",
       },
-      logs: true,
-      onQueueUpdate: (update) => {
-        if (update.status === "IN_PROGRESS") {
-          console.log("[Fal.ai] Generation in progress...");
-        }
-      },
+      logs: false,
+      onQueueUpdate: () => {},
     });
 
-    // nano-banana-pro returns images array. Cast to any to assume shape.
     const data = result.data as any;
     const image = data.images?.[0] || data.image;
     const inferenceTime = Date.now() - startTime;
-
-    console.log(`[Fal.ai] Generation complete in ${inferenceTime}ms`);
 
     return {
       imageUrl: typeof image === "string" ? image : image.url,
@@ -168,8 +156,6 @@ async function generateFallback(
   prompt: string,
   options: GenerationOptions = {}
 ): Promise<GenerationResult> {
-  console.log("[Fal.ai] Using fallback model...");
-
   const steps = options.highQuality
     ? FAL_CONFIG.highQualitySteps
     : FAL_CONFIG.defaultSteps;

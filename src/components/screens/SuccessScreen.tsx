@@ -43,7 +43,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
     };
 
     return (
-        <div className="min-h-[100dvh] flex flex-col relative overflow-x-hidden bg-bg-dark-start">
+        <div className="min-h-dvh flex flex-col relative overflow-x-hidden bg-bg-dark-start">
             {/* Celebration Background */}
             <motion.div
                 className="fixed inset-0 w-full h-full bg-linear-to-b from-bg-dark-start to-bg-dark-end z-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('/assets/bg-celebration.png')] before:bg-cover before:bg-center before:bg-no-repeat before:opacity-50"
@@ -100,7 +100,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
 
                 {/* Waffles Bonus Card */}
                 <motion.div
-                    className="w-full bg-gradient-to-r from-accent-gold/20 to-orange-500/20 border border-accent-gold/30 rounded-xl p-4"
+                    className="w-full bg-linear-to-r from-accent-gold/20 to-orange-500/20 border border-accent-gold/30 rounded-xl p-4"
                     variants={staggerItemVariants}
                 >
                     <div className="flex flex-col items-center gap-2">

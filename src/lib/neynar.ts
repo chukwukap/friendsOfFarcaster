@@ -96,18 +96,10 @@ export async function getFriendsForFOF(fid: number): Promise<UserWithFriends> {
       limit: 100,
     });
 
-    console.log(
-      `[Neynar] FID ${fid} reciprocal response:`,
-      JSON.stringify(reciprocalResponse, null, 2).slice(0, 500)
-    );
-
     // 3. Extract friend data from response
     // ReciprocalFollower has structure: { object, user: User, timestamp }
     const mutuals: FriendData[] = [];
     if (reciprocalResponse.users) {
-      console.log(
-        `[Neynar] Found ${reciprocalResponse.users.length} reciprocal followers`
-      );
       for (const entry of reciprocalResponse.users) {
         const userData = entry.user;
         if (userData?.fid) {
@@ -122,8 +114,6 @@ export async function getFriendsForFOF(fid: number): Promise<UserWithFriends> {
           });
         }
       }
-    } else {
-      console.log(`[Neynar] No reciprocal followers found in response`);
     }
 
     // 4. Filter to only those with valid HTTP profile pictures
