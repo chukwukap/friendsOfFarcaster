@@ -43,7 +43,10 @@ export interface PaymentState {
 // Uses EIP-5792 useSendCalls for USDC transfer
 // ==========================================
 
-export function usePayment(onSuccess?: (txHash: string) => void) {
+export function usePayment(
+  price: number,
+  onSuccess?: (txHash: string) => void
+) {
   const { address, isConnected } = useAccount();
   const { connectAsync, connectors } = useConnect();
   const currentChainId = useChainId();
@@ -59,8 +62,8 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
 
   // Price in token units (1 USDC = 1,000,000 units)
   const priceInUnits = useMemo(
-    () => parseUnits(GENERATION_PRICE.toString(), TOKEN_CONFIG.decimals),
-    []
+    () => parseUnits(price.toString(), TOKEN_CONFIG.decimals),
+    [price]
   );
 
   // Check if on correct chain
@@ -301,7 +304,7 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
     // Data
     balance,
     hasSufficientBalance,
-    price: GENERATION_PRICE,
+    price,
 
     // Actions
     pay,
@@ -312,10 +315,10 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
 // ==========================================
 // HELPER: Get button text based on step
 // ==========================================
-export function getPaymentButtonText(step: PaymentStep): string {
+export function getPaymentButtonText(step: PaymentStep, price: number): string {
   switch (step) {
     case "idle":
-      return `Generate for $${GENERATION_PRICE.toFixed(2)}`;
+      return `Generate for $${price.toFixed(2)}`;
     case "connecting":
       return "Connecting wallet...";
     case "switching-chain":
@@ -329,6 +332,6 @@ export function getPaymentButtonText(step: PaymentStep): string {
     case "error":
       return "Try again";
     default:
-      return `Generate for $${GENERATION_PRICE.toFixed(2)}`;
+      return `Generate for $${price.toFixed(2)}`;
   }
 }

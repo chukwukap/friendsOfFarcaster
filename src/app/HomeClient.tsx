@@ -60,8 +60,8 @@ export function HomeClient() {
     discountedPrice,
   } = useWaitlistStatus({ fid: user?.fid });
 
-  // Payment hook
-  const payment = usePayment((txHash) => {
+  // Payment hook - pass discountedPrice to apply waitlist discount
+  const payment = usePayment(discountedPrice, (txHash) => {
     // Start generation after successful payment
     if (user) {
       startGeneration(user.fid, txHash);
@@ -267,7 +267,7 @@ export function HomeClient() {
               <LandingScreen
                 onGenerate={payment.pay}
                 isLoading={payment.isLoading}
-                buttonText={getPaymentButtonText(payment.step)}
+                buttonText={getPaymentButtonText(payment.step, discountedPrice)}
                 error={payment.error}
               />
             </motion.div>
