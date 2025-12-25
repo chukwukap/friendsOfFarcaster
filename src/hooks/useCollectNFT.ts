@@ -12,11 +12,13 @@ import {
   useWriteContract,
   useWaitForTransactionReceipt,
   useAccount,
+  useConnect,
 } from "wagmi";
 import { getNFTContractAddress, getNFTChain, MINT_ABI } from "@/constants/nft";
 
 export type CollectStatus =
   | "idle"
+  | "connecting"
   | "preparing"
   | "ready"
   | "minting"
@@ -42,7 +44,8 @@ interface UseCollectNFTReturn {
 }
 
 export function useCollectNFT(): UseCollectNFTReturn {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
+  const { connectAsync, connectors } = useConnect();
   const [status, setStatus] = useState<CollectStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   const [tokenUri, setTokenUri] = useState<string | null>(null);
@@ -102,10 +105,35 @@ export function useCollectNFT(): UseCollectNFTReturn {
     async (params: CollectParams) => {
       const { imageUrl, username, fid, friendCount, generationId } = params;
 
-      if (!address) {
-        setError("No wallet connected");
-        setStatus("error");
-        return;
+      // If wallet not connected, try to connect with Farcaster connector
+      if (!address || !isConnected) {
+        try {
+          console.log("[useCollectNFT] Wallet not connected, connecting...");
+          setStatus("connecting");
+          setError(null);
+
+          // Find Farcaster connector or use first available
+          const farcasterConnector =
+            connectors.find(
+              (c) =>
+                c.id === "farcasterFrame" ||
+                c.name.toLowerCase().includes("farcaster")
+            ) || connectors[0];
+
+          if (!farcasterConnector) {
+            setError("No wallet connector available");
+            setStatus("error");
+            return;
+          }
+
+          await connectAsync({ connector: farcasterConnector });
+          console.log("[useCollectNFT] Connected successfully");
+        } catch (err) {
+          console.error("[useCollectNFT] Connection failed:", err);
+          setError("Failed to connect wallet");
+          setStatus("error");
+          return;
+        }
       }
 
       try {
@@ -142,13 +170,19 @@ export function useCollectNFT(): UseCollectNFTReturn {
           throw new Error("NFT contract not configured");
         }
 
+        // Verify we have an address after potential connection
+        const userAddress = address;
+        if (!userAddress) {
+          throw new Error("Wallet address not available after connection");
+        }
+
         setStatus("minting");
 
         await writeContractAsync({
           address: contractAddress,
           abi: MINT_ABI,
           functionName: "mint",
-          args: [address, uri],
+          args: [userAddress, uri],
           chain: getNFTChain(),
         });
 
@@ -167,7 +201,7 @@ export function useCollectNFT(): UseCollectNFTReturn {
         console.error("Collect error:", err);
       }
     },
-    [address, writeContractAsync]
+    [address, isConnected, connectAsync, connectors, writeContractAsync]
   );
 
   const reset = useCallback(() => {

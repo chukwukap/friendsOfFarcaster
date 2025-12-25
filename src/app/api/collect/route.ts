@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
+      console.error(`User not found for FID: ${fid}`);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
@@ -54,6 +55,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!generation) {
+      console.error(`Generation not found for ID: ${generationId}`);
       return NextResponse.json(
         { error: "Generation not found" },
         { status: 404 }
@@ -66,6 +68,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingCollection) {
+      console.error(`Generation ${generationId} already collected`);
       return NextResponse.json(
         { error: "Already collected as NFT" },
         { status: 409 }

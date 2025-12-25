@@ -1,29 +1,50 @@
-// Environment configuration for MiniApp
-// All values can be overridden via environment variables
+import { z } from "zod";
+
+const envSchema = z.object({
+  // Server-side variables
+  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+  FAL_KEY: z.string().min(1, "FAL_KEY is required for image generation"),
+  APP_FID: z.string().optional().default("0"),
+  WAFFLES_API_KEY: z.string().optional(),
+  WAFFLES_APP_ID: z.string().optional(),
+
+  // Public variables (available on client if prefixed with NEXT_PUBLIC_)
+  NEXT_PUBLIC_APP_URL: z.string().url().default("https://fof.app"),
+  NEXT_PUBLIC_ONCHAINKIT_API_KEY: z.string().optional(),
+  NEXT_PUBLIC_ACCOUNT_ASSOCIATION_HEADER: z.string().optional(),
+  NEXT_PUBLIC_ACCOUNT_ASSOCIATION_PAYLOAD: z.string().optional(),
+  NEXT_PUBLIC_ACCOUNT_ASSOCIATION_SIGNATURE: z.string().optional(),
+});
+
+// Parse and validate environment variables
+// This will throw if required variables are missing, enforcing them at build/runtime
+const parsedEnv = envSchema.safeParse(process.env);
+
+if (!parsedEnv.success) {
+  console.error(
+    "❌ Invalid environment variables:",
+    parsedEnv.error.flatten().fieldErrors
+  );
+  throw new Error("Invalid environment variables");
+}
 
 export const env = {
-  // Database URL for Prisma
-  databaseUrl: process.env.DATABASE_URL,
-
-  // Root URL of the app
-  rootUrl: process.env.NEXT_PUBLIC_APP_URL || "https://fof.app",
-
-  // Home URL path (where the app loads)
+  databaseUrl: parsedEnv.data.DATABASE_URL,
+  rootUrl: parsedEnv.data.NEXT_PUBLIC_APP_URL,
   homeUrlPath: "/",
+  onchainKitApiKey: parsedEnv.data.NEXT_PUBLIC_ONCHAINKIT_API_KEY || "",
 
-  // OnchainKit API Key (from Coinbase Developer Portal)
-  onchainKitApiKey: process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || "",
-
-  // Account Association (generated using Farcaster Developer Tools)
-  // These are used to verify domain ownership to your Farcaster account
-  // Generate at: https://farcaster.xyz/~/developers/mini-apps/manifest
+  // Account Association
   accountAssociation: {
-    header: process.env.NEXT_PUBLIC_ACCOUNT_ASSOCIATION_HEADER || "",
-    payload: process.env.NEXT_PUBLIC_ACCOUNT_ASSOCIATION_PAYLOAD || "",
-    signature: process.env.NEXT_PUBLIC_ACCOUNT_ASSOCIATION_SIGNATURE || "",
+    header: parsedEnv.data.NEXT_PUBLIC_ACCOUNT_ASSOCIATION_HEADER || "",
+    payload: parsedEnv.data.NEXT_PUBLIC_ACCOUNT_ASSOCIATION_PAYLOAD || "",
+    signature: parsedEnv.data.NEXT_PUBLIC_ACCOUNT_ASSOCIATION_SIGNATURE || "",
   },
 
-  // Waffles API (optional)
-  wafflesApiKey: process.env.WAFFLES_API_KEY || "",
-  wafflesAppId: process.env.WAFFLES_APP_ID || "",
+  wafflesApiKey: parsedEnv.data.WAFFLES_API_KEY || "",
+  wafflesAppId: parsedEnv.data.WAFFLES_APP_ID || "",
+
+  // New variables
+  falKey: parsedEnv.data.FAL_KEY,
+  appFid: parseInt(parsedEnv.data.APP_FID, 10),
 };

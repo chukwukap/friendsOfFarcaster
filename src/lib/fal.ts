@@ -1,4 +1,5 @@
 import { fal } from "@fal-ai/client";
+import { env } from "@/lib/env";
 
 // =============================================================================
 // FAL.AI CLIENT - Optimized for FOF Image Generation
@@ -6,7 +7,7 @@ import { fal } from "@fal-ai/client";
 
 // Configure Fal.ai client
 fal.config({
-  credentials: process.env.FAL_KEY,
+  credentials: env.falKey,
 });
 
 export { fal };
@@ -36,7 +37,7 @@ export interface GenerationOptions {
 
 const FAL_CONFIG = {
   // Model selection
-  primaryModel: "fal-ai/flux-pro/v1.1",
+  primaryModel: "fal-ai/nano-banana-pro/edit",
   fallbackModel: "fal-ai/flux/dev",
 
   // Image settings
@@ -89,15 +90,19 @@ export async function generateFOFWithReferences(
   const enhancedPrompt = buildEnhancedPrompt(prompt, imageUrls);
 
   try {
-    // Use FLUX Pro for multi-reference generation
+    // Use nano-banana-pro/edit for image editing with references
     const result = await fal.subscribe(FAL_CONFIG.primaryModel, {
       input: {
         prompt: enhancedPrompt,
-        image_size: FAL_CONFIG.imageSize,
+        // Ensure image_urls is string[] or key is omitted. spread operator logic was safer for optional keys?
+        // But types might require key exist?. No, previous error said 'string[] | undefined' not assignable to 'string[]'.
+        // This implies input type expects 'string[]'.
+        // I will trust the spread pattern, or just pass default empty array if that's allowed by model.
+        // Actually, looking at docs, image_urls should be a list.
+        image_urls: imageUrls,
         num_images: 1,
-        safety_tolerance: FAL_CONFIG.safetyTolerance,
-        // Pass reference images if available
-        ...(imageUrls.length > 0 && { image_urls: imageUrls }),
+        aspect_ratio: "1:1", // Square output for FOF portraits
+        output_format: "png",
       },
       logs: true,
       onQueueUpdate: (update) => {
@@ -107,14 +112,16 @@ export async function generateFOFWithReferences(
       },
     });
 
-    const image = result.data.images[0];
+    // nano-banana-pro returns images array. Cast to any to assume shape.
+    const data = result.data as any;
+    const image = data.images?.[0] || data.image;
     const inferenceTime = Date.now() - startTime;
 
     console.log(`[Fal.ai] Generation complete in ${inferenceTime}ms`);
 
     return {
-      imageUrl: image.url,
-      seed: result.data.seed || 0,
+      imageUrl: typeof image === "string" ? image : image.url,
+      seed: data.seed || 0,
       inferenceTime,
     };
   } catch (error) {
@@ -194,16 +201,4 @@ export async function generateFOFImage(
   prompt: string
 ): Promise<GenerationResult> {
   return generateFallback(prompt, { highQuality: true });
-}
-
-/**
- * Validate that Fal.ai is properly configured
- */
-export function validateFalConfig(): boolean {
-  const key = process.env.FAL_KEY;
-  if (!key) {
-    console.error("[Fal.ai] FAL_KEY environment variable not set");
-    return false;
-  }
-  return true;
 }

@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
   const fidParam = searchParams.get("fid");
 
   if (!fidParam) {
+    console.error("Missing fid parameter");
     return NextResponse.json(
       { error: "Missing fid parameter" },
       { status: 400 }
@@ -18,6 +19,7 @@ export async function GET(request: NextRequest) {
 
   const fid = parseInt(fidParam, 10);
   if (isNaN(fid)) {
+    console.error("Invalid fid parameter");
     return NextResponse.json(
       { error: "Invalid fid parameter" },
       { status: 400 }

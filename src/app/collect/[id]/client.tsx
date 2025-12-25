@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
-import { useCollectNFT } from "@/hooks";
+import { useCollectNFT, useFarcaster } from "@/hooks";
 import { APP_CONFIG } from "@/lib/constants";
 import { WafflesFooter } from "@/components/ui/WafflesFooter";
 
@@ -22,6 +22,7 @@ interface CollectClientProps {
 
 export default function CollectClient({ generation }: CollectClientProps) {
     const [hasPaid, setHasPaid] = useState(false);
+    const { user } = useFarcaster();
 
     // Payment hook
     const payment = usePayment((txHash) => {
@@ -46,14 +47,14 @@ export default function CollectClient({ generation }: CollectClientProps) {
             collect({
                 imageUrl: generation.imageUrl,
                 username: generation.user.username || "collector",
-                fid: 0, // Collector's FID - would need to get from context
+                fid: user?.fid!,
                 friendCount: generation.friendCount,
                 generationId: generation.id,
             });
         }
-    }, [hasPaid, isCollected, isCollecting, collect, generation]);
+    }, [hasPaid, isCollected, isCollecting, collect, generation, user]);
 
-    const username = generation.user.username || "friend";
+    const username = generation.user.username
 
     return (
         <div className="min-h-[100dvh] flex flex-col relative overflow-hidden bg-bg-dark-start">

@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
         prompt,
         friendCount: friends.length,
         friendFids: friends.map((f) => f.fid),
-        model: "fal-ai/flux-pro/v1.1",
+        model: "fal-ai/nano-banana-pro/edit",
         duration,
         points: 100,
         status: "COMPLETED",

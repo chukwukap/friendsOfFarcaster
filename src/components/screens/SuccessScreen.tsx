@@ -13,7 +13,6 @@ import {
     staggerItemVariants,
     imageRevealVariants,
     imageFrameVariants,
-    springTransition,
 } from "@/lib/animations";
 import sdk from "@farcaster/miniapp-sdk";
 

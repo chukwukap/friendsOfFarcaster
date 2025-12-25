@@ -1,12 +1,27 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
+import { useMiniKit } from "@coinbase/onchainkit/minikit";
 import { base } from "viem/chains";
 import { minikitConfig } from "../../minikit.config";
 
 interface ProvidersProps {
     children: ReactNode;
+}
+
+/**
+ * Initializes Farcaster SDK by calling setFrameReady() once at app mount.
+ * This signals to the Farcaster client that the app is ready.
+ */
+function FarcasterInitializer({ children }: { children: ReactNode }) {
+    const { setMiniAppReady } = useMiniKit();
+
+    useEffect(() => {
+        setMiniAppReady();
+    }, [setMiniAppReady]);
+
+    return <>{children}</>;
 }
 
 /**
@@ -27,13 +42,16 @@ export function Providers({ children }: ProvidersProps) {
             config={{
                 appearance: {
                     name: "FOF: Friends of Farcaster",
-                    logo: "/assets/fof-logo.png",
+                    logo: "/assets/logo.png",
                     mode: "dark",
                     theme: "default",
                 },
                 wallet: {
                     display: "modal",
                     preference: "all",
+                    supportedWallets: {
+                        frame: true,
+                    }
                 },
             }}
             miniKit={{
@@ -42,7 +60,8 @@ export function Providers({ children }: ProvidersProps) {
                 notificationProxyUrl: minikitConfig.miniapp?.webhookUrl || "/api/webhook/farcaster",
             }}
         >
-            {children}
+            <FarcasterInitializer>{children}</FarcasterInitializer>
         </OnchainKitProvider>
     );
 }
+

@@ -3,9 +3,11 @@
 import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useAddFrame } from "@coinbase/onchainkit/minikit";
 import { Button } from "@/components/ui/Button";
 import { ASSETS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
 
 interface OnboardingScreenProps {
     onComplete: () => void;
@@ -44,17 +46,25 @@ const PAGES: OnboardingPage[] = [
 
 export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
     const [currentPage, setCurrentPage] = useState(0);
+    const addFrame = useAddFrame();
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (currentPage < PAGES.length - 1) {
             setCurrentPage((prev) => prev + 1);
         } else {
+            // Prompt user to add the mini app with notifications enabled
+            try {
+                await addFrame();
+            } catch (error) {
+                console.error("Failed to add frame:", error);
+            }
             onComplete();
         }
     };
 
     const page = PAGES[currentPage];
     const isLastPage = currentPage === PAGES.length - 1;
+
 
     return (
         <div className="h-screen h-[100dvh] flex flex-col relative overflow-hidden bg-linear-to-b from-[#0f0a1a] via-[#1a0f2e] to-[#0d0815]">

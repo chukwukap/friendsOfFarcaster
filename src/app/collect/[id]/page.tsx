@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";
+import { minikitConfig } from "../../../../minikit.config";
 import { notFound } from "next/navigation";
 import CollectClient from "./client";
 
@@ -51,8 +52,8 @@ export async function generateMetadata({
                         type: "launch_frame",
                         name: "Collect FOF",
                         url: `${env.rootUrl}/collect/${generationId}`,
-                        splashImageUrl: `${env.rootUrl}/assets/splash.png`,
-                        splashBackgroundColor: "#0A0A0F",
+                        splashImageUrl: minikitConfig.miniapp?.splashImageUrl || `${env.rootUrl}/assets/logo.png`,
+                        splashBackgroundColor: minikitConfig.miniapp?.splashBackgroundColor || "#0A0A0F",
                     },
                 },
             }),

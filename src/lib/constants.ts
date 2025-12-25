@@ -94,7 +94,7 @@ export const ASSETS = {
   sparklesOverlay: "/assets/overlay-sparkles.png",
 
   // Splash
-  splash: "/assets/splash.png",
+  splash: "/assets/logo.png",
 
   // Default avatar for missing pfps
   defaultAvatar: "/assets/default-avatar.png",

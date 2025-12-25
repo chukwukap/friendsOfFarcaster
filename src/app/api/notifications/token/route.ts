@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { env } from "@/lib/env";
 
 /**
  * POST /api/notifications/token
@@ -20,8 +21,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // App FID from env or default
-    const appFid = parseInt(process.env.APP_FID || "0", 10);
+    // App FID from env
+    const appFid = env.appFid;
 
     // Upsert notification token
     const notificationToken = await prisma.notificationToken.upsert({
@@ -73,7 +74,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Missing fid" }, { status: 400 });
     }
 
-    const appFid = parseInt(process.env.APP_FID || "0", 10);
+    const appFid = env.appFid;
 
     await prisma.notificationToken.delete({
       where: {

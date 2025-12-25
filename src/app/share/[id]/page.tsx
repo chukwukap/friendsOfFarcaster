@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { env } from "@/lib/env";
+import { minikitConfig } from "../../../../minikit.config";
 
 interface SharePageProps {
     params: Promise<{
@@ -21,7 +23,7 @@ export async function generateMetadata({ params: paramsPromise, searchParams }: 
     const params = await searchParams;
     const { imageUrl, username, friendCount } = params;
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fof.app";
+    const appUrl = env.rootUrl;
 
     // Dynamic OG image URL with parameters
     const ogImageUrl = `${appUrl}/api/og?${new URLSearchParams({
@@ -40,8 +42,8 @@ export async function generateMetadata({ params: paramsPromise, searchParams }: 
                 type: "launch_frame",
                 name: "Collect FOF",
                 url: `${appUrl}/collect/${id}`,
-                splashImageUrl: `${appUrl}/assets/splash.png`,
-                splashBackgroundColor: "#0A0A0F",
+                splashImageUrl: minikitConfig.miniapp?.splashImageUrl || `${appUrl}/assets/logo.png`,
+                splashBackgroundColor: minikitConfig.miniapp?.splashBackgroundColor || "#0A0A0F",
             },
         },
     };
@@ -85,7 +87,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
         notFound();
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fof.app";
+    const appUrl = env.rootUrl;
 
     return (
         <div

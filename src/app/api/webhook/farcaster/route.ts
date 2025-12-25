@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/db";
+import { env } from "@/lib/env";
 
 /**
  * Farcaster Webhook Handler
@@ -31,35 +33,93 @@ export async function POST(req: NextRequest) {
 
     console.log("Farcaster webhook received:", body.event);
 
+    const appFid = env.appFid;
+
+    if (!body.fid) {
+      console.warn("Webhook event missing FID");
+      return NextResponse.json({ error: "Missing FID" }, { status: 400 });
+    }
+
     switch (body.event) {
       case "frame_added":
         // User added the Mini App to their client
         console.log(`User FID ${body.fid} added FOF Mini App`);
         // Store notification details for sending notifications later
         if (body.notificationDetails) {
-          // TODO: Store in database
-          console.log("Notification URL:", body.notificationDetails.url);
+          await prisma.notificationToken.upsert({
+            where: {
+              fid_appFid: {
+                fid: body.fid,
+                appFid,
+              },
+            },
+            update: {
+              token: body.notificationDetails.token,
+              url: body.notificationDetails.url,
+            },
+            create: {
+              fid: body.fid,
+              appFid,
+              token: body.notificationDetails.token,
+              url: body.notificationDetails.url,
+            },
+          });
+          console.log(`Stored notification token for FID ${body.fid}`);
         }
         break;
 
       case "frame_removed":
         // User removed the Mini App
         console.log(`User FID ${body.fid} removed FOF Mini App`);
-        // TODO: Remove notification details from database
+        // Remove notification details from database
+        await prisma.notificationToken.deleteMany({
+          where: {
+            fid: body.fid,
+            appFid,
+          },
+        });
+        console.log(`Removed notification token for FID ${body.fid}`);
         break;
 
       case "notifications_enabled":
         // User enabled notifications
         console.log(`User FID ${body.fid} enabled notifications`);
         if (body.notificationDetails) {
-          // TODO: Store/update notification details
+          await prisma.notificationToken.upsert({
+            where: {
+              fid_appFid: {
+                fid: body.fid,
+                appFid,
+              },
+            },
+            update: {
+              token: body.notificationDetails.token,
+              url: body.notificationDetails.url,
+            },
+            create: {
+              fid: body.fid,
+              appFid,
+              token: body.notificationDetails.token,
+              url: body.notificationDetails.url,
+            },
+          });
+          console.log(`Updated notification token for FID ${body.fid}`);
         }
         break;
 
       case "notifications_disabled":
         // User disabled notifications
         console.log(`User FID ${body.fid} disabled notifications`);
-        // TODO: Mark notifications as disabled
+        // Delete token as we can no longer send notifications
+        await prisma.notificationToken.deleteMany({
+          where: {
+            fid: body.fid,
+            appFid,
+          },
+        });
+        console.log(
+          `Disabled (deleted) notification token for FID ${body.fid}`
+        );
         break;
 
       default:
@@ -74,12 +134,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-// Health check for webhook endpoint
-export async function GET() {
-  return NextResponse.json({
-    status: "ok",
-    endpoint: "farcaster-webhook",
-  });
 }

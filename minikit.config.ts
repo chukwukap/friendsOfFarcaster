@@ -47,7 +47,7 @@ export const minikitConfig: MiniAppManifest = {
     homeUrl: `${env.rootUrl}${env.homeUrlPath}`,
 
     // Optional: Splash screen image (1:1 aspect ratio)
-    splashImageUrl: `${env.rootUrl}/assets/splash.png`,
+    splashImageUrl: `${env.rootUrl}/assets/logo.png`,
 
     // Optional: Splash screen background color (hex)
     splashBackgroundColor: "#0A0A0F",
@@ -81,29 +81,13 @@ export const minikitConfig: MiniAppManifest = {
     ogImageUrl: `${env.rootUrl}/assets/og-image.png`,
 
     // Optional: Whether to hide from search indexing
-    noindex: false,
+    // noindex: false,
   },
 
   // Base Builder Configuration (for Base MiniApp compatibility)
   // @ts-expect-error - baseBuilder is not in the MiniAppManifest type yet
   baseBuilder: {
     // Allowed addresses for builder actions (if applicable)
-    allowedAddresses: [],
+    allowedAddresses: ["0xd584f8079192e078f0f3237622345e19360384a2"],
   },
-};
-
-/**
- * Legacy Frame configuration (for backwards compatibility)
- * Used when the manifest is served via /.well-known/farcaster.json
- */
-export const frameConfig = {
-  version: "1",
-  name: "FOF: Friends of Farcaster",
-  iconUrl: `${env.rootUrl}/assets/fof-logo.png`,
-  homeUrl: `${env.rootUrl}${env.homeUrlPath}`,
-  imageUrl: `${env.rootUrl}/assets/og-image.png`,
-  buttonTitle: "🎄 Create My FOF",
-  splashImageUrl: `${env.rootUrl}/assets/splash.png`,
-  splashBackgroundColor: "#0A0A0F",
-  webhookUrl: `${env.rootUrl}/api/webhook/farcaster`,
 };

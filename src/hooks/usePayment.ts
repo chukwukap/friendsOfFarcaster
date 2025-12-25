@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import {
   useAccount,
+  useConnect,
   useSendCalls,
   useCallsStatus,
   useChainId,
@@ -24,6 +25,7 @@ import {
 
 export type PaymentStep =
   | "idle"
+  | "connecting"
   | "switching-chain"
   | "pending" // User signing
   | "confirming" // Waiting for on-chain confirmation
@@ -42,7 +44,8 @@ export interface PaymentState {
 // ==========================================
 
 export function usePayment(onSuccess?: (txHash: string) => void) {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
+  const { connectAsync, connectors } = useConnect();
   const currentChainId = useChainId();
   const { switchChainAsync } = useSwitchChain();
   const [state, setState] = useState<PaymentState>({ step: "idle" });
@@ -164,9 +167,32 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
   // PAY FUNCTION
   // ==========================================
   const pay = useCallback(async () => {
-    if (!address) {
-      setState({ step: "error", error: "Wallet not connected" });
-      return;
+    // If wallet not connected, try to connect with Farcaster connector
+    if (!address || !isConnected) {
+      try {
+        console.log("[usePayment] Wallet not connected, connecting...");
+        setState({ step: "connecting" });
+
+        // Find Farcaster connector or use first available
+        const farcasterConnector =
+          connectors.find(
+            (c) =>
+              c.id === "farcasterFrame" ||
+              c.name.toLowerCase().includes("farcaster")
+          ) || connectors[0];
+
+        if (!farcasterConnector) {
+          setState({ step: "error", error: "No wallet connector available" });
+          return;
+        }
+
+        await connectAsync({ connector: farcasterConnector });
+        console.log("[usePayment] Connected successfully");
+      } catch (error) {
+        console.error("[usePayment] Connection failed:", error);
+        setState({ step: "error", error: "Failed to connect wallet" });
+        return;
+      }
     }
 
     if (!transferCall) {
@@ -209,6 +235,9 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
     }
   }, [
     address,
+    isConnected,
+    connectAsync,
+    connectors,
     transferCall,
     isCorrectChain,
     priceInUnits,
@@ -241,9 +270,12 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
     isConfirming: state.step === "confirming",
     isSuccess: state.step === "success",
     isError: state.step === "error",
-    isLoading: ["switching-chain", "pending", "confirming"].includes(
-      state.step
-    ),
+    isLoading: [
+      "connecting",
+      "switching-chain",
+      "pending",
+      "confirming",
+    ].includes(state.step),
 
     // Data
     balance,
@@ -263,6 +295,8 @@ export function getPaymentButtonText(step: PaymentStep): string {
   switch (step) {
     case "idle":
       return `Generate for $${GENERATION_PRICE.toFixed(2)}`;
+    case "connecting":
+      return "Connecting wallet...";
     case "switching-chain":
       return "Switching network...";
     case "pending":

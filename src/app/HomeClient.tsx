@@ -10,7 +10,7 @@ import {
   SuccessScreen,
   ErrorScreen
 } from "@/components/screens";
-import { Confetti, Snowfall } from "@/components/ui";
+import { Confetti, Snowfall, BottomNav, NavTab } from "@/components/ui";
 import { useSound, useFarcaster, useCollectNFT, useWaitlistStatus } from "@/hooks";
 import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
 import { APP_CONFIG } from "@/lib/constants";
@@ -36,12 +36,12 @@ export function HomeClient() {
   const [result, setResult] = useState<GenerationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [activeTab, setActiveTab] = useState<NavTab>("home");
 
   // MiniKit hooks via useFarcaster
   const {
     user,
     isInMiniApp,
-    ready,
     share,
     openUrl,
     addToFavorites,
@@ -91,11 +91,6 @@ export function HomeClient() {
       }
     }
   }, []);
-
-  // Initialize MiniKit - mark frame as ready
-  useEffect(() => {
-    ready();
-  }, [ready]);
 
   // Handle onboarding complete
   const handleOnboardingComplete = useCallback(() => {
@@ -435,6 +430,24 @@ export function HomeClient() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Bottom Navigation - show on landing and success screens */}
+        {(appState === "landing" || appState === "success") && (
+          <BottomNav
+            activeTab={activeTab}
+            onTabChange={(tab) => {
+              sounds.buttonTap();
+              setActiveTab(tab);
+              // Navigate based on tab
+              if (tab === "home" && appState !== "landing") {
+                setAppState("landing");
+                setResult(null);
+              }
+              // Gallery and Profile would navigate to those screens
+              // For now, they stay in place as placeholders
+            }}
+          />
+        )}
       </main>
     </SafeArea>
   );
