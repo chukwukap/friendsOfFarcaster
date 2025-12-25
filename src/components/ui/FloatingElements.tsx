@@ -67,20 +67,15 @@ export const FloatingElements: FC<FloatingElementsProps> = ({ variant = "landing
 
             {/* Variant-specific elements */}
             {variant === "landing" && (
-                <motion.div
-                    className="absolute bottom-[15%] left-[8%] drop-shadow-[0_10px_40px_rgba(255,215,0,0.4)]"
+                <motion.span
+                    className="absolute bottom-[15%] left-[8%] text-[60px] drop-shadow-[0_10px_40px_rgba(255,215,0,0.4)]"
                     variants={floatGiftVariants}
                     animate="animate"
                     initial="initial"
+                    aria-hidden
                 >
-                    <Image
-                        src={ASSETS.giftBox}
-                        alt=""
-                        width={60}
-                        height={60}
-                        aria-hidden
-                    />
-                </motion.div>
+                    🎁
+                </motion.span>
             )}
 
             {variant === "success" && (
