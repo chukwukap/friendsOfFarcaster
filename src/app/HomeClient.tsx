@@ -230,7 +230,7 @@ export function HomeClient() {
 
   return (
     <SafeArea>
-      <main className="min-h-screen min-h-[100dvh] relative">
+      <main className="min-h-dvh relative">
         {/* Snowfall Background */}
         <Snowfall count={25} speed="slow" />
 

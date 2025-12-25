@@ -29,11 +29,11 @@ export const LandingScreen: FC<LandingScreenProps> = ({
     error,
 }) => {
     return (
-        <div className="min-h-[100dvh] flex flex-col relative overflow-x-hidden bg-bg-dark-start">
+        <div className="min-h-dvh flex flex-col relative overflow-x-hidden bg-bg-dark-start">
             {/* Background Layer - Fixed to viewport */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute inset-0 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center opacity-30" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-dark-start/50 to-bg-dark-end/80" />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent via-bg-dark-start/50 to-bg-dark-end/80" />
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[50%] bg-radial-[ellipse_at_center,rgba(83,52,131,0.4)_0%,rgba(233,69,96,0.2)_40%,transparent_70%] blur-[80px]" />
             </div>
 
@@ -70,7 +70,7 @@ export const LandingScreen: FC<LandingScreenProps> = ({
                     <h1 className="font-heading text-[24px] font-bold leading-tight mb-2 text-white">
                         Farcaster Friends
                         <br />
-                        <span className="bg-gradient-to-r from-accent-gold via-primary-red to-secondary-purple bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-accent-gold via-primary-red to-secondary-purple bg-clip-text text-transparent">
                             Christmas Edition
                         </span>
                     </h1>
@@ -81,7 +81,7 @@ export const LandingScreen: FC<LandingScreenProps> = ({
 
                 {/* Airdrop Banner */}
                 <motion.div
-                    className="w-full bg-gradient-to-r from-accent-gold/20 to-orange-500/20 border border-accent-gold/30 rounded-xl p-3 text-center"
+                    className="w-full bg-linear-to-r from-accent-gold/20 to-orange-500/20 border border-accent-gold/30 rounded-xl p-3 text-center"
                     variants={staggerItemVariants}
                 >
                     <p className="text-[13px] text-white font-medium">
