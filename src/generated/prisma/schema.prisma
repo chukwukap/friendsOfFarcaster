@@ -1,0 +1,153 @@
+// FOF: Friends of Farcaster - Prisma Schema
+// Prisma 7 - Using prisma-client-js with explicit output
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ===== User Model =====
+// Represents a Farcaster user who has used the app
+model User {
+  id          String  @id @default(cuid())
+  fid         Int     @unique // Farcaster ID
+  username    String?
+  displayName String?
+  pfpUrl      String?
+
+  // Waffles integration
+  wafflesPoints Int @default(0)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  generations Generation[]
+  collections Collection[]
+
+  @@index([fid])
+  @@index([createdAt])
+}
+
+// ===== Generation Model =====
+// Represents a generated FOF image
+model Generation {
+  id String @id @default(cuid())
+
+  // User who generated
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Image data
+  imageUrl String
+  prompt   String? @db.Text
+
+  // Network data
+  friendCount Int   @default(0)
+  friendFids  Int[] // Array of friend FIDs used
+
+  // Points awarded
+  pointsAwarded Int @default(100)
+
+  // Generation metadata
+  model    String? // AI model used (e.g., "flux-pro/v1.1")
+  duration Int? // Generation time in ms
+
+  // Status
+  status       GenerationStatus @default(COMPLETED)
+  errorMessage String?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+
+  // Relations
+  collection Collection?
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([status])
+}
+
+enum GenerationStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// ===== Collection Model =====
+// Represents an NFT collection of a FOF
+model Collection {
+  id String @id @default(cuid())
+
+  // User who collected
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Generation that was collected
+  generationId String     @unique
+  generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
+
+  // NFT data
+  tokenId String? // On-chain token ID
+  txHash  String? // Mint transaction hash
+  chainId Int? // Chain ID (e.g., 8453 for Base)
+
+  // Points awarded for collecting
+  pointsAwarded Int @default(50)
+
+  // Timestamps
+  collectedAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([collectedAt])
+}
+
+// ===== Share Model =====
+// Tracks shares for analytics
+model Share {
+  id String @id @default(cuid())
+
+  // What was shared
+  generationId String
+
+  // Share metadata
+  platform SharePlatform @default(FARCASTER)
+  castHash String? // Farcaster cast hash
+
+  // Timestamps
+  sharedAt DateTime @default(now())
+
+  @@index([generationId])
+  @@index([sharedAt])
+}
+
+enum SharePlatform {
+  FARCASTER
+  TWITTER
+  DOWNLOAD
+}
+
+// ===== Waitlist Model =====
+// Waffles waitlist entries
+model Waitlist {
+  id       String  @id @default(cuid())
+  fid      Int     @unique
+  username String?
+  email    String?
+
+  // Status
+  joined   Boolean   @default(false)
+  joinedAt DateTime?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+
+  @@index([fid])
+  @@index([createdAt])
+}

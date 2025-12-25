@@ -1,0 +1,106 @@
+.container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.networkBg {
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/bg-network-pattern.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  gap: var(--space-xl);
+}
+
+/* Mascot */
+.mascotContainer {
+  position: relative;
+}
+
+.mascot {
+  animation: bob-sad 2s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+@keyframes bob-sad {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+
+.brokenLine {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--secondary-purple) 0%,
+    var(--secondary-purple) 45%,
+    transparent 45%,
+    transparent 55%,
+    var(--secondary-purple) 55%
+  );
+  transform: translateX(-50%);
+  opacity: 0.6;
+  animation: flicker 2s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Text */
+.textContainer {
+  text-align: center;
+  max-width: 300px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.message {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* CTAs */
+.ctas {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
