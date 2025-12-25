@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 import { motion } from "framer-motion";
-import { progressBarVariants, shimmerVariants, fadeInVariants } from "@/lib/animations";
-import styles from "./ProgressBar.module.css";
+import { fadeInVariants, shimmerVariants } from "@/lib/animations";
+import { cn } from "@/lib/utils";
 
 interface ProgressBarProps {
     progress: number;
@@ -13,14 +13,14 @@ interface ProgressBarProps {
 export const ProgressBar: FC<ProgressBarProps> = ({ progress, message }) => {
     return (
         <motion.div
-            className={styles.container}
+            className="w-full flex flex-col gap-2"
             variants={fadeInVariants}
             initial="initial"
             animate="animate"
         >
-            <div className={styles.track}>
+            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden relative">
                 <motion.div
-                    className={styles.fill}
+                    className="h-full bg-linear-to-r from-secondary-purple to-accent-gold rounded-full relative"
                     initial={{ width: "0%" }}
                     animate={{ width: `${Math.min(progress, 100)}%` }}
                     transition={{
@@ -30,16 +30,16 @@ export const ProgressBar: FC<ProgressBarProps> = ({ progress, message }) => {
                 >
                     {/* Shimmer effect */}
                     <motion.div
-                        className={styles.shimmer}
+                        className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent"
                         variants={shimmerVariants}
-                        initial="initial"
                         animate="animate"
+                        initial="initial"
                     />
                 </motion.div>
             </div>
             {message && (
                 <motion.p
-                    className={styles.message}
+                    className="text-sm text-text-secondary text-center"
                     key={message}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}

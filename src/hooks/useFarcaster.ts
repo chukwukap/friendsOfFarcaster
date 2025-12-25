@@ -58,20 +58,24 @@ export function useFarcaster() {
   // Share on Farcaster using MiniKit composeCast
   // Uses share page URL which has fc:frame metadata for rich embeds
   const share = useCallback(
-    (imageUrl: string, username?: string, friendCount?: number) => {
+    (
+      generationId: number,
+      imageUrl: string,
+      username?: string,
+      friendCount?: number
+    ) => {
       if (!composeCast) return;
 
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fof.app";
 
-      // Generate unique share ID
-      const shareId = Date.now().toString(36);
-
       // Construct share page URL with Frame embed metadata
-      const sharePageUrl = `${appUrl}/share/${shareId}?${new URLSearchParams({
-        imageUrl,
-        username: username || "anon",
-        friendCount: String(friendCount || 0),
-      }).toString()}`;
+      const sharePageUrl = `${appUrl}/share/${generationId}?${new URLSearchParams(
+        {
+          imageUrl,
+          username: username || "anon",
+          friendCount: String(friendCount || 0),
+        }
+      ).toString()}`;
 
       composeCast({
         text: APP_CONFIG.shareText,

@@ -136,16 +136,26 @@ export const SOUNDS = {
 // App configuration
 export const APP_CONFIG = {
   name: "FOF: Friends of Farcaster",
-  edition: "Christmas Edition 2024",
+  edition: "Christmas Edition 2025",
   version: "1.0.0",
+
+  // Pricing
+  price: 1.0, // $1 USD
 
   // Points
   pointsForGeneration: 100,
   pointsForCollect: 50,
+  wafflesBonusPoints: 1000, // Bonus for checking out Waffles
 
   // Generation
   maxFriends: 12,
   generationTimeout: 30000, // 30 seconds
+
+  // Waffles Integration
+  wafflesMiniappUrl: "https://farcaster.xyz/miniapps/sbpPNle-R2-V/waffles",
+
+  // Airdrop
+  airdropPercent: 50, // 50% of $FOF supply
 
   // Share
   shareText:

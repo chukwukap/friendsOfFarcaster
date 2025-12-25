@@ -12,10 +12,11 @@ import {
 } from "@/components/screens";
 import { Confetti, Snowfall } from "@/components/ui";
 import { useSound, useFarcaster, useCollectNFT, useWaitlistStatus } from "@/hooks";
+import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
 import { APP_CONFIG } from "@/lib/constants";
 import { getWafflesWaitlistUrl } from "@/lib/waffles";
 import { pageVariants, springTransition } from "@/lib/animations";
-import styles from "./page.module.css";
+import { cn } from "@/lib/utils";
 
 type AppState = "onboarding" | "landing" | "generating" | "success" | "error";
 
@@ -70,6 +71,17 @@ export function HomeClient() {
     discountedPrice,
   } = useWaitlistStatus({ fid: user?.fid });
 
+  // Payment hook
+  const payment = usePayment((txHash) => {
+    console.log("Payment successful, txHash:", txHash);
+    // Start generation after successful payment
+    if (user) {
+      startGeneration(user.fid, txHash);
+    } else {
+      startGeneration(3, txHash); // Demo FID
+    }
+  });
+
   // Check onboarding status on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -98,27 +110,20 @@ export function HomeClient() {
   const handleJoinWaitlist = useCallback(() => {
     sounds.buttonTap();
     openUrl(getWafflesWaitlistUrl());
-    // After they join, they'll need to refresh to see their discount
-    // We could add a polling mechanism or prompt to refresh
   }, [sounds, openUrl]);
 
-  // Handle FREE access path - Opens Waffles waitlist
+  // Handle FREE access path
   const handleFreeAccess = useCallback(async () => {
     setIsConnecting(true);
     setError(null);
     sounds.buttonTap();
 
     try {
-      // Open Waffles waitlist using MiniKit
       openUrl(getWafflesWaitlistUrl());
-
-      // Get user from MiniKit context
       if (user) {
         await startGeneration(user.fid);
       } else {
-        // Demo mode for testing outside MiniApp
-        console.log("No user context - using demo mode");
-        const demoFid = 3; // dwr.eth
+        const demoFid = 3;
         await startGeneration(demoFid);
       }
     } catch (err) {
@@ -127,18 +132,15 @@ export function HomeClient() {
       sounds.gentleError();
       setIsConnecting(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, sounds, openUrl]);
 
-  // Handle PAID access path - $1 payment
+  // Handle PAID access path
   const handlePaidAccess = useCallback(async () => {
     setIsPaying(true);
     setError(null);
     sounds.buttonTap();
 
     try {
-      // TODO: Integrate wallet payment via MiniKit useSendToken
-
       if (user) {
         await startGeneration(user.fid);
       } else {
@@ -151,11 +153,10 @@ export function HomeClient() {
       sounds.gentleError();
       setIsPaying(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, sounds]);
 
   // Start image generation
-  const startGeneration = async (fid: number) => {
+  const startGeneration = async (fid: number, txHash?: string) => {
     setAppState("generating");
     setProgress(0);
     setIsConnecting(false);
@@ -177,7 +178,7 @@ export function HomeClient() {
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fid }),
+        body: JSON.stringify({ fid, txHash }),
       });
 
       clearInterval(progressInterval);
@@ -200,7 +201,6 @@ export function HomeClient() {
         friendCount: data.friendCount,
       });
 
-      // Celebration!
       sounds.successReveal();
       setShowConfetti(true);
       sounds.confettiBurst();
@@ -208,7 +208,6 @@ export function HomeClient() {
 
       setAppState("success");
 
-      // Prompt user to add app to favorites
       if (isInMiniApp) {
         addToFavorites();
       }
@@ -223,16 +222,13 @@ export function HomeClient() {
     }
   };
 
-  // Handle share on Farcaster using MiniKit
+  // Handle share
   const handleShare = useCallback(async () => {
     if (!result || !user) return;
     sounds.buttonTap();
-
-    // Use MiniKit composeCast with share page URL containing Frame metadata
-    share(result.imageUrl, user.username, result.friendCount);
+    share(result.generationId, result.imageUrl, user.username, result.friendCount);
     sounds.shareComplete();
 
-    // Record share in database
     try {
       await fetch("/api/share", {
         method: "POST",
@@ -248,7 +244,7 @@ export function HomeClient() {
     }
   }, [result, sounds, share, user]);
 
-  // Handle collect as NFT (+50 points)
+  // Handle collect
   const handleCollect = useCallback(async () => {
     if (!result || !user) return;
     sounds.buttonTap();
@@ -285,7 +281,6 @@ export function HomeClient() {
     link.click();
     document.body.removeChild(link);
 
-    // Record download as a share in database
     try {
       await fetch("/api/share", {
         method: "POST",
@@ -319,7 +314,6 @@ export function HomeClient() {
       setAppState("landing");
       setError(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, sounds]);
 
   // Handle go home from error
@@ -331,7 +325,7 @@ export function HomeClient() {
 
   return (
     <SafeArea>
-      <main className={styles.main}>
+      <main className="min-h-screen min-h-[100dvh] relative">
         {/* Snowfall Background */}
         <Snowfall count={25} speed="slow" />
 
@@ -340,7 +334,7 @@ export function HomeClient() {
 
         {/* Mute Toggle */}
         <motion.button
-          className={styles.muteToggle}
+          className="fixed top-lg right-lg z-100 bg-surface-glass backdrop-blur-[10px] border border-surface-glass-border rounded-full w-[44px] h-[44px] flex items-center justify-center text-[20px] cursor-pointer hover:scale-[1.05] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)] active:scale-[0.95] transition-transform duration-200"
           onClick={toggleMute}
           aria-label={isMuted ? "Unmute" : "Mute"}
           whileHover={{ scale: 1.1 }}
@@ -361,7 +355,7 @@ export function HomeClient() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className={styles.screenWrapper}
+              className="w-full h-full flex flex-col items-center justify-center"
             >
               <OnboardingScreen onComplete={handleOnboardingComplete} />
             </motion.div>
@@ -374,19 +368,13 @@ export function HomeClient() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className={styles.screenWrapper}
+              className="w-full h-full flex flex-col items-center justify-center"
             >
               <LandingScreen
-                onFreeAccess={handleFreeAccess}
-                onPaidAccess={handlePaidAccess}
-                onJoinWaitlist={handleJoinWaitlist}
-                isConnecting={isConnecting}
-                isPaying={isPaying}
-                isOnWaitlist={isOnWaitlist}
-                isCheckingWaitlist={isCheckingWaitlist}
-                discountPercent={discountPercent}
-                originalPrice={originalPrice}
-                discountedPrice={discountedPrice}
+                onGenerate={payment.pay}
+                isLoading={payment.isLoading}
+                buttonText={getPaymentButtonText(payment.step)}
+                error={payment.error}
               />
             </motion.div>
           )}
@@ -398,7 +386,7 @@ export function HomeClient() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className={styles.screenWrapper}
+              className="w-full h-full flex flex-col items-center justify-center"
             >
               <GeneratingScreen
                 username={user?.username || "you"}
@@ -415,7 +403,7 @@ export function HomeClient() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className={styles.screenWrapper}
+              className="w-full h-full flex flex-col items-center justify-center"
             >
               <SuccessScreen
                 imageUrl={result.imageUrl}
@@ -424,8 +412,7 @@ export function HomeClient() {
                 friendCount={result.friendCount}
                 onShare={handleShare}
                 onCollect={handleCollect}
-                onDownload={handleDownload}
-                onGenerateAnother={handleGenerateAnother}
+                onBack={handleGenerateAnother}
                 isCollecting={isCollecting}
               />
             </motion.div>
@@ -438,7 +425,7 @@ export function HomeClient() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className={styles.screenWrapper}
+              className="w-full h-full flex flex-col items-center justify-center"
             >
               <ErrorScreen
                 message={error || "Something went wrong"}

@@ -9,9 +9,11 @@ import {
     staggerContainerVariants,
     staggerItemVariants,
     mascotVariants,
+    bobSadVariants,
+    flickerVariants,
     springTransition,
 } from "@/lib/animations";
-import styles from "./ErrorScreen.module.css";
+import { cn } from "@/lib/utils";
 
 interface ErrorScreenProps {
     title?: string;
@@ -27,50 +29,52 @@ export const ErrorScreen: FC<ErrorScreenProps> = ({
     onGoHome,
 }) => {
     return (
-        <div className={styles.container}>
+        <div className="min-h-screen min-h-[100dvh] flex flex-col relative overflow-hidden bg-bg-dark-start">
             {/* Background */}
-            <div className={styles.networkBg} />
+            <div className="fixed inset-0 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center opacity-20 pointer-events-none z-0" />
 
             {/* Content with stagger animation */}
             <motion.div
-                className={styles.content}
+                className="relative z-10 flex-1 flex flex-col items-center justify-center p-lg gap-xl"
                 variants={staggerContainerVariants}
                 initial="initial"
                 animate="animate"
             >
                 {/* Sad Mascot with shake animation */}
                 <motion.div
-                    className={styles.mascotContainer}
+                    className="relative"
                     variants={staggerItemVariants}
                 >
                     <motion.div
-                        variants={mascotVariants}
-                        animate="sad"
+                        variants={bobSadVariants}
+                        animate="animate"
+                        initial="initial"
+                        className="opacity-90"
                     >
                         <Image
                             src={ASSETS.mascotSad}
                             alt="Something went wrong"
                             width={160}
                             height={160}
-                            className={styles.mascot}
+                            className="object-contain"
                             priority
                         />
                     </motion.div>
                     <motion.div
-                        className={styles.brokenLine}
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ delay: 0.3, duration: 0.5 }}
+                        className="absolute bottom-5 left-1/2 -translate-x-1/2 w-[60px] h-[3px] bg-linear-to-r from-secondary-purple from-[45%] via-[transparent_45%_55%] to-secondary-purple to-[55%] opacity-60"
+                        variants={flickerVariants}
+                        animate="animate"
+                        initial="initial"
                     />
                 </motion.div>
 
                 {/* Text with fade-in */}
                 <motion.div
-                    className={styles.textContainer}
+                    className="text-center max-w-[300px]"
                     variants={staggerItemVariants}
                 >
                     <motion.h1
-                        className={styles.title}
+                        className="text-[24px] font-bold mb-xs text-white"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
@@ -78,7 +82,7 @@ export const ErrorScreen: FC<ErrorScreenProps> = ({
                         {title}
                     </motion.h1>
                     <motion.p
-                        className={styles.message}
+                        className="text-[15px] text-text-secondary leading-relaxed"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
@@ -89,7 +93,7 @@ export const ErrorScreen: FC<ErrorScreenProps> = ({
 
                 {/* CTAs with stagger */}
                 <motion.div
-                    className={styles.ctas}
+                    className="w-full max-w-[340px] flex flex-col gap-md"
                     variants={staggerContainerVariants}
                 >
                     <motion.div variants={staggerItemVariants}>

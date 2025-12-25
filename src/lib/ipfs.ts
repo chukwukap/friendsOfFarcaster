@@ -71,13 +71,13 @@ export function buildNFTMetadata({
 }): NFTMetadata {
   return {
     name: `FOF - @${username}`,
-    description: `Friends of Farcaster - A unique portrait featuring @${username} and ${friendCount} of their closest Farcaster friends. Generated with AI for the Christmas 2024 edition.`,
+    description: `Friends of Farcaster - A unique portrait featuring @${username} and ${friendCount} of their closest Farcaster friends. Generated with AI for the Christmas 2025 edition.`,
     image: imageIpfsUri,
     external_url: generationId
       ? `https://fof.app/share/${generationId}`
       : "https://fof.app",
     attributes: [
-      { trait_type: "Edition", value: "Christmas 2024" },
+      { trait_type: "Edition", value: "Christmas 2025" },
       { trait_type: "Username", value: username },
       { trait_type: "FID", value: fid },
       { trait_type: "Friend Count", value: friendCount },

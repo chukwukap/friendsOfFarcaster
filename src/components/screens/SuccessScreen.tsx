@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { PointsBadge } from "@/components/ui/PointsBadge";
+import { FAQ } from "@/components/ui/FAQ";
+import { WafflesFooter } from "@/components/ui/WafflesFooter";
 import { ASSETS, APP_CONFIG } from "@/lib/constants";
 import {
     staggerContainerVariants,
@@ -13,7 +15,7 @@ import {
     imageFrameVariants,
     springTransition,
 } from "@/lib/animations";
-import styles from "./SuccessScreen.module.css";
+import sdk from "@farcaster/miniapp-sdk";
 
 interface SuccessScreenProps {
     imageUrl: string;
@@ -22,8 +24,7 @@ interface SuccessScreenProps {
     friendCount: number;
     onShare: () => void;
     onCollect: () => void;
-    onDownload: () => void;
-    onGenerateAnother: () => void;
+    onBack: () => void;
     isCollecting?: boolean;
 }
 
@@ -34,46 +35,47 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
     friendCount,
     onShare,
     onCollect,
-    onDownload,
-    onGenerateAnother,
+    onBack,
     isCollecting = false,
 }) => {
+    const handleOpenWaffles = async () => {
+        try {
+            await sdk.actions.openUrl({ url: APP_CONFIG.wafflesMiniappUrl });
+        } catch (error) {
+            console.error("Failed to open Waffles:", error);
+            window.open(APP_CONFIG.wafflesMiniappUrl, "_blank");
+        }
+    };
+
     return (
-        <div className={styles.container}>
+        <div className="min-h-[100dvh] flex flex-col relative overflow-x-hidden bg-bg-dark-start">
             {/* Celebration Background */}
             <motion.div
-                className={styles.celebrationBg}
+                className="fixed inset-0 w-full h-full bg-linear-to-b from-bg-dark-start to-bg-dark-end z-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('/assets/bg-celebration.png')] before:bg-cover before:bg-center before:bg-no-repeat before:opacity-50"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
             />
 
-            {/* Content with stagger animation */}
+            {/* Content */}
             <motion.div
-                className={styles.content}
+                className="relative z-10 flex flex-col items-center px-5 py-6 pt-[calc(env(safe-area-inset-top,12px)+12px)] pb-[calc(env(safe-area-inset-bottom,12px)+12px)] max-w-[400px] mx-auto w-full gap-4"
                 variants={staggerContainerVariants}
                 initial="initial"
                 animate="animate"
             >
-                {/* Header with bounce */}
-                <motion.div
-                    className={styles.header}
-                    variants={staggerItemVariants}
-                >
+                {/* Header */}
+                <motion.div className="text-center" variants={staggerItemVariants}>
                     <motion.h1
-                        className={styles.title}
+                        className="text-[26px] font-bold mb-1 text-white"
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 15,
-                        }}
+                        transition={{ type: "spring", stiffness: 500, damping: 15 }}
                     >
                         🎉 Your FOF is Ready!
                     </motion.h1>
                     <motion.p
-                        className={styles.subtitle}
+                        className="text-[14px] text-text-secondary"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
@@ -82,83 +84,59 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                     </motion.p>
                 </motion.div>
 
-                {/* Generated Image with reveal animation */}
+                {/* Generated Image */}
                 <motion.div
-                    className={styles.imageFrame}
+                    className="relative rounded-xl overflow-hidden border-[3px] border-accent-gold shadow-[0_0_60px_rgba(255,215,0,0.3)]"
                     variants={imageFrameVariants}
                     initial="initial"
                     animate="celebration"
                 >
-                    <motion.div
-                        variants={imageRevealVariants}
-                        initial="initial"
-                        animate="animate"
-                    >
+                    <motion.div variants={imageRevealVariants} initial="initial" animate="animate">
                         <Image
                             src={imageUrl}
                             alt={`${displayName}'s FOF`}
-                            width={300}
-                            height={300}
-                            className={styles.generatedImage}
+                            width={280}
+                            height={280}
+                            className="block w-full h-auto max-w-[260px]"
                             priority
                         />
                     </motion.div>
-                    <motion.span
-                        className={styles.badge}
-                        initial={{ opacity: 0, scale: 0, rotate: -20 }}
-                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                        transition={{ delay: 0.6, ...springTransition }}
-                    >
-                        {APP_CONFIG.edition}
-                    </motion.span>
                 </motion.div>
 
-                {/* User Info with slide-in */}
+                {/* User Info */}
+                <motion.div className="flex items-center gap-2 text-white" variants={staggerItemVariants}>
+                    <span className="text-[18px] font-semibold">@{username}</span>
+                    <span className="text-[14px] text-text-secondary">+ {friendCount} friends</span>
+                </motion.div>
+
+                {/* Waffles Bonus Card */}
                 <motion.div
-                    className={styles.userInfo}
+                    className="w-full bg-gradient-to-r from-accent-gold/20 to-orange-500/20 border border-accent-gold/30 rounded-xl p-4"
                     variants={staggerItemVariants}
                 >
-                    <motion.span
-                        className={styles.username}
-                        whileHover={{ scale: 1.05 }}
-                    >
-                        @{username}
-                    </motion.span>
-                    <motion.span className={styles.friendCount}>
-                        + {friendCount} friends
-                    </motion.span>
+                    <div className="flex flex-col items-center gap-2">
+                        <p className="text-[14px] text-white font-medium text-center">
+                            🧇 Get <span className="text-accent-gold font-bold">+{APP_CONFIG.wafflesBonusPoints.toLocaleString()}</span> points for checking out Waffles!
+                        </p>
+                        <Button
+                            variant="secondary"
+                            size="md"
+                            onClick={handleOpenWaffles}
+                            icon={<span>🎮</span>}
+                        >
+                            Learn More about Waffles
+                        </Button>
+                    </div>
                 </motion.div>
 
-                {/* Points Reward with pop animation */}
-                <motion.div
-                    className={styles.pointsReward}
-                    variants={staggerItemVariants}
-                >
-                    <motion.span
-                        className={styles.rewardText}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5 }}
-                    >
-                        ✨ We rewarded you with
-                    </motion.span>
-                    <PointsBadge points={APP_CONFIG.pointsForGeneration} size="lg" />
-                    <motion.span
-                        className={styles.rewardSubtext}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.5 }}
-                    >
-                        For the Waffles leaderboard
-                    </motion.span>
+                {/* Generation Points */}
+                <motion.div className="flex flex-col items-center gap-1" variants={staggerItemVariants}>
+                    <span className="text-[13px] text-text-secondary">✨ You earned</span>
+                    <PointsBadge points={APP_CONFIG.pointsForGeneration} size="md" />
                 </motion.div>
 
-                {/* CTAs with stagger */}
-                <motion.div
-                    className={styles.ctas}
-                    variants={staggerContainerVariants}
-                >
-                    {/* Primary: Share */}
+                {/* Action Buttons */}
+                <motion.div className="w-full flex flex-col gap-2" variants={staggerContainerVariants}>
                     <motion.div variants={staggerItemVariants}>
                         <Button
                             variant="primary"
@@ -171,74 +149,47 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                         </Button>
                     </motion.div>
 
-                    {/* Secondary: Collect as NFT */}
-                    <motion.div variants={staggerItemVariants}>
+                    <motion.div className="flex gap-2 w-full" variants={staggerItemVariants}>
                         <Button
-                            variant="gold"
+                            variant="secondary"
+                            size="md"
                             fullWidth
                             onClick={onCollect}
                             loading={isCollecting}
-                            icon={<span>✨</span>}
                         >
-                            Collect FOF (+{APP_CONFIG.pointsForCollect} pts)
+                            {isCollecting ? "..." : `Collect NFT (+${APP_CONFIG.pointsForCollect})`}
                         </Button>
-                    </motion.div>
-
-                    {/* Tertiary buttons */}
-                    <motion.div
-                        className={styles.tertiaryButtons}
-                        variants={staggerItemVariants}
-                    >
-                        <Button variant="ghost" onClick={onDownload}>
-                            Download
-                        </Button>
-                        <Button variant="ghost" onClick={onGenerateAnother}>
-                            New FOF
+                        <Button
+                            variant="ghost"
+                            size="md"
+                            fullWidth
+                            onClick={onBack}
+                        >
+                            Back
                         </Button>
                     </motion.div>
                 </motion.div>
 
-                {/* Powered By */}
-                <motion.p
-                    className={styles.poweredBy}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2 }}
-                >
-                    Powered by <span className="text-gold">Waffles</span> 🧇
-                </motion.p>
+                {/* FAQ Section */}
+                <FAQ />
+
+                {/* Footer */}
+                <WafflesFooter />
             </motion.div>
 
-            {/* Floating Elements with continuous animation */}
-            <div className={styles.floatingElements}>
+            {/* Floating Elements */}
+            <div className="fixed inset-0 pointer-events-none z-0">
                 <motion.div
-                    className={styles.floatingSnowflake1}
-                    animate={{
-                        y: [0, -20, 0],
-                        rotate: [0, 360],
-                        scale: [1, 1.1, 1],
-                    }}
-                    transition={{
-                        duration: 6,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
+                    className="absolute top-[15%] right-[10%] opacity-60"
+                    animate={{ y: [0, -20, 0], rotate: [0, 360], scale: [1, 1.1, 1] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 >
                     <Image src={ASSETS.snowflake} alt="" width={32} height={32} />
                 </motion.div>
                 <motion.div
-                    className={styles.floatingStar}
-                    animate={{
-                        y: [0, 15, 0],
-                        rotate: [0, -360],
-                        scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.5,
-                    }}
+                    className="absolute bottom-[25%] left-[8%] opacity-70"
+                    animate={{ y: [0, 15, 0], rotate: [0, -360], scale: [1, 1.2, 1] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
                 >
                     <Image src={ASSETS.star} alt="" width={28} height={28} />
                 </motion.div>

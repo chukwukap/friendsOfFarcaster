@@ -275,7 +275,7 @@ export async function GET(request: NextRequest) {
                                 letterSpacing: "1px",
                             }}
                         >
-                            ✨ CHRISTMAS EDITION 2024 ✨
+                            ✨ CHRISTMAS EDITION 2025 ✨
                         </span>
                     </div>
                 </div>

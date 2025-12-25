@@ -5,267 +5,156 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { FAQ } from "@/components/ui/FAQ";
+import { WafflesFooter } from "@/components/ui/WafflesFooter";
 import { ASSETS, APP_CONFIG } from "@/lib/constants";
 import {
     staggerContainerVariants,
     staggerItemVariants,
-    floatVariants,
     scaleInVariants,
     springTransition,
 } from "@/lib/animations";
-import styles from "./LandingScreen.module.css";
 
 interface LandingScreenProps {
-    onFreeAccess: () => void;
-    onPaidAccess: () => void;
-    onJoinWaitlist: () => void;
-    isConnecting: boolean;
-    isPaying: boolean;
-    // Waitlist status
-    isOnWaitlist: boolean;
-    isCheckingWaitlist: boolean;
-    discountPercent: number;
-    originalPrice: number;
-    discountedPrice: number;
+    onGenerate: () => void;
+    isLoading: boolean;
+    buttonText: string;
+    error?: string;
 }
 
 export const LandingScreen: FC<LandingScreenProps> = ({
-    onFreeAccess,
-    onPaidAccess,
-    onJoinWaitlist,
-    isConnecting,
-    isPaying,
-    isOnWaitlist,
-    isCheckingWaitlist,
-    discountPercent,
-    originalPrice,
-    discountedPrice,
+    onGenerate,
+    isLoading,
+    buttonText,
+    error,
 }) => {
     return (
-        <div className={styles.container}>
-            {/* Background */}
-            <div className={styles.networkBg} />
+        <div className="min-h-[100dvh] flex flex-col relative overflow-x-hidden bg-bg-dark-start">
+            {/* Background Layer - Fixed to viewport */}
+            <div className="fixed inset-0 pointer-events-none z-0">
+                <div className="absolute inset-0 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center opacity-30" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-dark-start/50 to-bg-dark-end/80" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[50%] bg-radial-[ellipse_at_center,rgba(83,52,131,0.4)_0%,rgba(233,69,96,0.2)_40%,transparent_70%] blur-[80px]" />
+            </div>
 
-            {/* Content with stagger animation */}
+            {/* Main Content - Scrollable */}
             <motion.div
-                className={styles.content}
+                className="relative z-10 flex flex-col items-center px-5 py-6 pt-[calc(env(safe-area-inset-top,16px)+16px)] pb-[calc(env(safe-area-inset-bottom,16px)+16px)] max-w-[400px] mx-auto w-full gap-6"
                 variants={staggerContainerVariants}
                 initial="initial"
                 animate="animate"
             >
-                {/* Logo */}
-                <motion.div className={styles.logo} variants={staggerItemVariants}>
-                    <Image
-                        src={ASSETS.logo}
-                        alt="FOF"
-                        width={120}
-                        height={48}
-                        priority
-                    />
-                    <motion.span
-                        className={styles.tagline}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3, ...springTransition }}
+                {/* Preview Card with Glass Effect */}
+                <motion.section className="w-full flex justify-center" variants={scaleInVariants}>
+                    <Card
+                        glow="gold"
+                        className="p-1.5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_60px_rgba(255,215,0,0.1)]"
+                        hoverable
                     >
-                        Friends of Farcaster
-                    </motion.span>
-                </motion.div>
+                        <div className="relative rounded-xl overflow-hidden">
+                            <Image
+                                src="/assets/sample-fof.png"
+                                alt="Sample FOF"
+                                width={280}
+                                height={280}
+                                className="block w-full max-w-[260px] h-auto object-cover rounded-lg"
+                                priority
+                            />
+                            <motion.div
+                                className="absolute top-2 right-2 bg-gradient-to-br from-accent-gold to-orange-500 text-bg-dark-start px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-lg"
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.5, ...springTransition }}
+                            >
+                                🎄 {APP_CONFIG.edition}
+                            </motion.div>
+                        </div>
+                    </Card>
+                </motion.section>
 
-                {/* Hero 3D Element with float animation */}
+                {/* Value Proposition */}
+                <motion.section className="text-center px-2" variants={staggerItemVariants}>
+                    <h1 className="font-heading text-[24px] font-bold leading-tight mb-2 text-white">
+                        Farcaster Friends
+                        <br />
+                        <span className="bg-gradient-to-r from-accent-gold via-primary-red to-secondary-purple bg-clip-text text-transparent">
+                            Christmas Edition
+                        </span>
+                    </h1>
+                    <p className="text-[14px] text-text-secondary/90 leading-relaxed max-w-[300px] mx-auto">
+                        Get your personalized Farcaster Friends portrait — celebrating your network this holiday season
+                    </p>
+                </motion.section>
+
+                {/* Airdrop Banner */}
                 <motion.div
-                    className={styles.hero}
+                    className="w-full bg-gradient-to-r from-accent-gold/20 to-orange-500/20 border border-accent-gold/30 rounded-xl p-3 text-center"
                     variants={staggerItemVariants}
                 >
-                    <motion.div
-                        variants={floatVariants}
-                        initial="initial"
-                        animate="animate"
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={springTransition}
-                    >
-                        <Image
-                            src={ASSETS.giftBox}
-                            alt="Gift"
-                            width={160}
-                            height={160}
-                            className={styles.giftBox}
-                        />
+                    <p className="text-[13px] text-white font-medium">
+                        🎁 <span className="text-accent-gold font-bold">{APP_CONFIG.airdropPercent}%</span> of $FOF supply allocated to airdrop for users
+                    </p>
+                </motion.div>
+
+                {/* CTA Section */}
+                <motion.section className="w-full flex flex-col gap-3" variants={staggerContainerVariants}>
+                    <motion.div variants={staggerItemVariants}>
+                        <Button
+                            variant="gold"
+                            size="lg"
+                            fullWidth
+                            onClick={onGenerate}
+                            loading={isLoading}
+                            icon={<span>✨</span>}
+                        >
+                            {buttonText}
+                        </Button>
                     </motion.div>
-                </motion.div>
-
-                {/* Preview Card with scale-in */}
-                <motion.div variants={scaleInVariants}>
-                    <Card glow="purple" className={styles.previewCard} hoverable>
-                        <Image
-                            src="/assets/sample-fof.png"
-                            alt="Sample FOF"
-                            width={240}
-                            height={240}
-                            className={styles.previewImage}
-                        />
-                        <motion.span
-                            className={styles.badge}
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.5, ...springTransition }}
+                    {error && (
+                        <motion.p
+                            className="text-center text-[12px] text-red-400"
+                            variants={staggerItemVariants}
                         >
-                            {APP_CONFIG.edition}
-                        </motion.span>
-                    </Card>
-                </motion.div>
-
-                {/* Value Prop */}
-                <motion.div className={styles.valueProp} variants={staggerItemVariants}>
-                    <h1 className={styles.title}>
-                        Your Farcaster network,
-                        <br />
-                        <motion.span
-                            className="text-gradient"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 }}
-                        >
-                            transformed into art.
-                        </motion.span>
-                    </h1>
-                    <motion.p
-                        className={styles.subtitle}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                    >
-                        Get your personalized Friends of Farcaster image — celebrating your network this holiday
-                    </motion.p>
-                </motion.div>
-
-                {/* Two-Path CTAs with stagger */}
-                <motion.div
-                    className={styles.ctas}
-                    variants={staggerContainerVariants}
-                >
-                    {isOnWaitlist ? (
-                        <>
-                            {/* Waitlist Member: Show 50% Discount */}
-                            <motion.div variants={staggerItemVariants}>
-                                <div className={styles.discountBadge}>
-                                    🎉 {discountPercent}% OFF - Waitlist Member!
-                                </div>
-                            </motion.div>
-                            <motion.div variants={staggerItemVariants}>
-                                <Button
-                                    variant="gold"
-                                    size="lg"
-                                    fullWidth
-                                    onClick={onPaidAccess}
-                                    loading={isPaying}
-                                    icon={<span>✨</span>}
-                                >
-                                    Generate FOF • ${discountedPrice.toFixed(2)}
-                                    <span className={styles.strikePrice}>${originalPrice.toFixed(2)}</span>
-                                </Button>
-                            </motion.div>
-                        </>
-                    ) : (
-                        <>
-                            {/* Not on Waitlist: Join for Discount */}
-                            <motion.div variants={staggerItemVariants}>
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    fullWidth
-                                    onClick={onJoinWaitlist}
-                                    loading={isCheckingWaitlist}
-                                    icon={<span>🧇</span>}
-                                >
-                                    Join Waffles for 50% OFF
-                                </Button>
-                            </motion.div>
-                            <motion.p
-                                className={styles.freeHint}
-                                variants={staggerItemVariants}
-                            >
-                                Get $FOF airdrop eligibility + 50% discount
-                            </motion.p>
-
-                            {/* Divider */}
-                            <motion.div
-                                className={styles.divider}
-                                variants={staggerItemVariants}
-                            >
-                                <span>— OR —</span>
-                            </motion.div>
-
-                            {/* Full Price Path */}
-                            <motion.div variants={staggerItemVariants}>
-                                <Button
-                                    variant="secondary"
-                                    size="lg"
-                                    fullWidth
-                                    onClick={onPaidAccess}
-                                    loading={isPaying}
-                                    icon={<span>💳</span>}
-                                >
-                                    Skip Waitlist • ${originalPrice.toFixed(2)}
-                                </Button>
-                            </motion.div>
-                        </>
+                            {error}
+                        </motion.p>
                     )}
-
                     <motion.p
-                        className={styles.poweredBy}
+                        className="text-center text-[11px] text-text-secondary/70"
                         variants={staggerItemVariants}
                     >
-                        Powered by <span className="text-gold">Waffles</span> 🧇
+                        Eligible for $FOF airdrop + {APP_CONFIG.wafflesBonusPoints.toLocaleString()} Waffles points
                     </motion.p>
-                </motion.div>
+                </motion.section>
+
+                {/* FAQ Section */}
+                <FAQ />
+
+                {/* Footer */}
+                <WafflesFooter />
             </motion.div>
 
-            {/* Floating Snowflakes with motion */}
-            <div className={styles.snowflakes}>
+            {/* Floating Decorations */}
+            <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
                 <motion.div
-                    className={styles.snowflake1}
-                    animate={{
-                        y: [0, -15, 0],
-                        rotate: [0, 180, 360],
-                    }}
-                    transition={{
-                        duration: 6,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
-                >
-                    <Image src={ASSETS.snowflake} alt="" width={40} height={40} />
-                </motion.div>
-                <motion.div
-                    className={styles.snowflake2}
-                    animate={{
-                        y: [0, 10, 0],
-                        rotate: [0, -180, -360],
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.5,
-                    }}
+                    className="absolute top-[12%] right-[8%] opacity-40"
+                    animate={{ y: [0, -8, 0], rotate: [0, 180, 360] }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
                 >
                     <Image src={ASSETS.snowflake} alt="" width={24} height={24} />
                 </motion.div>
                 <motion.div
-                    className={styles.snowflake3}
-                    animate={{
-                        y: [0, -20, 0],
-                        rotate: [0, 360, 720],
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 1,
-                    }}
+                    className="absolute bottom-[25%] left-[6%] opacity-25"
+                    animate={{ y: [0, 8, 0], rotate: [0, -90, 0] }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                 >
-                    <Image src={ASSETS.snowflake} alt="" width={32} height={32} />
+                    <Image src={ASSETS.snowflake} alt="" width={20} height={20} />
+                </motion.div>
+                <motion.div
+                    className="absolute top-[20%] left-[12%] text-[16px] opacity-30"
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    ✨
                 </motion.div>
             </div>
         </div>

@@ -300,6 +300,115 @@ export const sparkleVariants: Variants = {
   },
 };
 
+export const floatSnowVariants: Variants = {
+  initial: { y: 0, rotate: 0 },
+  animate: {
+    y: -12,
+    rotate: 10,
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const floatGiftVariants: Variants = {
+  initial: { y: 0, rotate: -3 },
+  animate: {
+    y: -15,
+    rotate: 3,
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const floatCoinVariants: Variants = {
+  initial: { y: 0 },
+  animate: {
+    y: -10,
+    transition: {
+      duration: 1.5,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const orbitVariants: Variants = {
+  animate: {
+    transform: [
+      "translate(-50%, -50%) rotate(0deg) translateX(100px) rotate(0deg)",
+      "translate(-50%, -50%) rotate(360deg) translateX(100px) rotate(-360deg)",
+    ],
+    transition: {
+      duration: 8,
+      repeat: Infinity,
+      ease: "linear",
+    },
+  },
+};
+
+export const float1Variants: Variants = {
+  initial: { y: 0, rotate: 0 },
+  animate: {
+    y: -15,
+    rotate: 10,
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const float2Variants: Variants = {
+  initial: { y: 0, rotate: 0 },
+  animate: {
+    y: -20,
+    rotate: -5,
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const float3Variants: Variants = {
+  initial: { y: 0, rotate: 0 },
+  animate: {
+    y: -10,
+    rotate: 15,
+    transition: {
+      duration: 3.5,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const spinSlowVariants: Variants = {
+  initial: { rotate: 0 },
+  animate: {
+    rotate: 360,
+    transition: {
+      duration: 15,
+      repeat: Infinity,
+      ease: "linear",
+    },
+  },
+};
+
 // ===== PROGRESS ANIMATIONS =====
 
 export const progressBarVariants: Variants = {
@@ -321,6 +430,49 @@ export const shimmerVariants: Variants = {
       duration: 1.5,
       repeat: Infinity,
       ease: "linear",
+    },
+  },
+};
+
+export const goldShimmerVariants: Variants = {
+  initial: { backgroundPosition: "150% 0" },
+  animate: {
+    backgroundPosition: "-50% 0",
+    transition: {
+      duration: 2.5,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const pulseGlowVariants: Variants = {
+  initial: { scale: 1, opacity: 0.7 },
+  animate: {
+    scale: 1.05,
+    opacity: 1,
+    transition: {
+      duration: 1,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const pulseRippleVariants: Variants = {
+  initial: { scale: 1, boxShadow: "0 0 0 0 rgba(255, 215, 0, 0.4)" },
+  animate: {
+    scale: [1, 1.05, 1],
+    boxShadow: [
+      "0 0 0 0 rgba(255, 215, 0, 0.4)",
+      "0 0 0 10px rgba(255, 215, 0, 0)",
+      "0 0 0 0 rgba(255, 215, 0, 0)",
+    ],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut",
     },
   },
 };
@@ -425,6 +577,46 @@ export const mascotVariants: Variants = {
     transition: {
       duration: 3,
       repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const bobVariants: Variants = {
+  initial: { y: 0 },
+  animate: {
+    y: -5,
+    transition: {
+      duration: 1,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const bobSadVariants: Variants = {
+  initial: { y: 0, rotate: -2 },
+  animate: {
+    y: -5,
+    rotate: 2,
+    transition: {
+      duration: 1,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const flickerVariants: Variants = {
+  initial: { opacity: 0.6 },
+  animate: {
+    opacity: 0.3,
+    transition: {
+      duration: 1,
+      repeat: Infinity,
+      repeatType: "reverse",
       ease: "easeInOut",
     },
   },

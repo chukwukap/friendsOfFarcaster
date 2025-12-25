@@ -27,7 +27,7 @@ const frameEmbed = {
  * The fc:miniapp and fc:frame meta tags enable MiniApp discovery and launching
  */
 export const metadata: Metadata = {
-  title: "FOF: Friends of Farcaster | Christmas Edition 2024",
+  title: "FOF: Friends of Farcaster | Christmas Edition 2025",
   description:
     "Transform your Farcaster network into stunning AI art. Create your personalized Friends of Farcaster portrait this Christmas!",
   metadataBase: new URL(APP_URL),

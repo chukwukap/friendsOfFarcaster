@@ -2,7 +2,7 @@
 
 import { FC, useMemo } from "react";
 import { motion } from "framer-motion";
-import styles from "./Snowfall.module.css";
+import { cn } from "@/lib/utils";
 
 interface SnowfallProps {
     count?: number;
@@ -25,11 +25,11 @@ export const Snowfall: FC<SnowfallProps> = ({ count = 30, speed = "normal" }) =>
     }, [count, speedMultiplier]);
 
     return (
-        <div className={styles.container}>
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
             {snowflakes.map((flake) => (
                 <motion.div
                     key={flake.id}
-                    className={styles.snowflake}
+                    className="absolute -top-[10px] rounded-full bg-radial-[circle,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.4)_50%,transparent_100%]"
                     style={{
                         left: flake.left,
                         width: flake.size,

@@ -2,9 +2,14 @@
 
 import { FC } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { ASSETS } from "@/lib/constants";
-import styles from "./EmptyScreen.module.css";
+import {
+    mascotVariants,
+    pulseRippleVariants,
+    floatSnowVariants
+} from "@/lib/animations";
 
 interface EmptyScreenProps {
     onGenerate: () => void;
@@ -12,37 +17,46 @@ interface EmptyScreenProps {
 
 export const EmptyScreen: FC<EmptyScreenProps> = ({ onGenerate }) => {
     return (
-        <div className={styles.container}>
+        <div className="min-h-screen min-h-[100dvh] flex flex-col relative overflow-hidden bg-bg-dark-start">
             {/* Background */}
-            <div className={styles.networkBg} />
+            <div className="fixed inset-0 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center opacity-25 pointer-events-none z-0" />
 
             {/* Content */}
-            <div className={styles.content}>
+            <div className="relative z-10 flex-1 flex flex-col items-center justify-center p-lg gap-xl">
                 {/* Mascot with empty frame */}
-                <div className={styles.mascotContainer}>
-                    <Image
-                        src={ASSETS.mascotDefault}
-                        alt="FOF Mascot"
-                        width={140}
-                        height={140}
-                        className={styles.mascot}
-                        priority
-                    />
-                    <div className={styles.emptyFrame}>
-                        <span className={styles.questionMark}>?</span>
-                    </div>
+                <div className="flex items-center gap-lg">
+                    <motion.div
+                        variants={mascotVariants}
+                        animate="idle"
+                    >
+                        <Image
+                            src={ASSETS.mascotDefault}
+                            alt="FOF Mascot"
+                            width={140}
+                            height={140}
+                            priority
+                        />
+                    </motion.div>
+                    <motion.div
+                        className="w-[120px] h-[120px] border-2 border-dashed border-accent-gold/40 rounded-lg flex items-center justify-center bg-white/[0.02]"
+                        variants={pulseRippleVariants}
+                        animate="animate"
+                        initial="initial"
+                    >
+                        <span className="text-[48px] font-bold text-accent-gold/40">?</span>
+                    </motion.div>
                 </div>
 
                 {/* Text */}
-                <div className={styles.textContainer}>
-                    <h1 className={styles.title}>No FOF Yet</h1>
-                    <p className={styles.message}>
+                <div className="text-center max-w-[280px]">
+                    <h1 className="text-[24px] font-bold mb-xs text-white">No FOF Yet</h1>
+                    <p className="text-[15px] text-text-secondary leading-relaxed">
                         Create your first Friends of Farcaster portrait!
                     </p>
                 </div>
 
                 {/* CTA */}
-                <div className={styles.cta}>
+                <div className="w-full max-w-[340px]">
                     <Button
                         variant="primary"
                         size="lg"
@@ -56,15 +70,21 @@ export const EmptyScreen: FC<EmptyScreenProps> = ({ onGenerate }) => {
             </div>
 
             {/* Floating Elements */}
-            <div className={styles.floatingElements}>
-                <Image
-                    src={ASSETS.snowflake}
-                    alt=""
-                    width={36}
-                    height={36}
-                    className={styles.floatingSnowflake}
-                    aria-hidden
-                />
+            <div className="absolute inset-0 pointer-events-none">
+                <motion.div
+                    className="absolute top-[15%] right-[12%] opacity-50"
+                    variants={floatSnowVariants}
+                    animate="animate"
+                    initial="initial"
+                >
+                    <Image
+                        src={ASSETS.snowflake}
+                        alt=""
+                        width={36}
+                        height={36}
+                        aria-hidden
+                    />
+                </motion.div>
             </div>
         </div>
     );

@@ -15,7 +15,9 @@ interface SharePageProps {
 /**
  * Generate Frame embed metadata for Farcaster
  */
-export async function generateMetadata({ searchParams }: SharePageProps): Promise<Metadata> {
+export async function generateMetadata({ params: paramsPromise, searchParams }: SharePageProps): Promise<Metadata> {
+    const resolvedParams = await paramsPromise;
+    const { id } = resolvedParams;
     const params = await searchParams;
     const { imageUrl, username, friendCount } = params;
 
@@ -33,11 +35,11 @@ export async function generateMetadata({ searchParams }: SharePageProps): Promis
         version: "1",
         imageUrl: ogImageUrl,
         button: {
-            title: "🎄 Create My FOF",
+            title: "🎄 Collect This FOF",
             action: {
                 type: "launch_frame",
-                name: "FOF: Friends of Farcaster",
-                url: appUrl,
+                name: "Collect FOF",
+                url: `${appUrl}/collect/${id}`,
                 splashImageUrl: `${appUrl}/assets/splash.png`,
                 splashBackgroundColor: "#0A0A0F",
             },
@@ -105,7 +107,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
                     🎄 {username}&apos;s FOF 🎄
                 </h1>
                 <p style={{ color: "#A0A0B0", marginTop: "8px" }}>
-                    Christmas Edition 2024
+                    Christmas Edition 2025
                 </p>
             </div>
 

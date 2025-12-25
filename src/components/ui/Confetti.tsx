@@ -2,8 +2,7 @@
 
 import { FC, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { confettiPieceVariants } from "@/lib/animations";
-import styles from "./Confetti.module.css";
+import { cn } from "@/lib/utils";
 
 interface ConfettiProps {
     active: boolean;
@@ -36,11 +35,11 @@ export const Confetti: FC<ConfettiProps> = ({ active, count = 50 }) => {
     return (
         <AnimatePresence>
             {active && (
-                <div className={styles.container}>
+                <div className="fixed inset-0 pointer-events-none overflow-hidden z-[1000]">
                     {pieces.map((piece) => (
                         <motion.span
                             key={piece.id}
-                            className={styles.piece}
+                            className="absolute -top-5 opacity-100"
                             style={{
                                 left: piece.left,
                                 backgroundColor: piece.color,
