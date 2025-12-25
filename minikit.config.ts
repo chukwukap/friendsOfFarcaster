@@ -34,7 +34,7 @@ export const minikitConfig: MiniAppManifest = {
     name: "FOF: Friends of Farcaster",
 
     // Optional: Short description shown in app listing
-    subtitle: "Christmas Edition 2024",
+    subtitle: "Christmas Edition 2025",
 
     // Optional: Full description for app store
     description:
