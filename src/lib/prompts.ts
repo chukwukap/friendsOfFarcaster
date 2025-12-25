@@ -15,9 +15,8 @@ const CONFIG = {
   editionEmoji: "🎄",
 
   // Style parameters
-  style: "Heavy-Lined Oversized Eye Caricature",
-  artisticInfluence:
-    "thick black outlines, enormous eyes, polished digital cartoon",
+  style: "stylized digital cartoon portrait",
+  artisticInfluence: "bold outlines, expressive eyes, polished cartoon finish",
 
   // Composition
   maxFriendsToName: 4,
@@ -36,17 +35,17 @@ const CONFIG = {
 
 /**
  * Core visual style anchor - consistency across all generations
- * Heavy-Lined, Oversized Eye Caricature Style
+ * Stylized Digital Cartoon with Bold Lines
  */
 const STYLE_ANCHOR = `
-ARTISTIC STYLE (MANDATORY - Heavy-Lined Oversized Eye Caricature):
-- Extremely thick, uneven black outlines
-- Enormous, wide-set eyes with small irises
-- Subtle dark under-eye bags for character depth
-- Simple block colors with minimal soft shading
+ARTISTIC STYLE (MANDATORY - Stylized Digital Cartoon):
+- Bold, clean black outlines (thick but consistent)
+- Expressive, slightly enlarged eyes with clear irises
+- Simple block colors with soft highlights
 - Clean polished digital cartoon finish
-- Exaggerated but flattering proportions
-- Stylized digital cartoon rendering
+- Stylized but natural-looking proportions
+- Preserve each person's recognizable likeness
+- No distortion, no weird artifacts
 - Sharp, detailed, 4k quality output
 `.trim();
 
@@ -242,10 +241,10 @@ export function buildSimpleFOFPrompt(
   friendCount: number
 ): string {
   if (friendCount === 0) {
-    return `${CONFIG.quality}, solo portrait of @${username} in cozy Christmas setting, ${CONFIG.style}, thick black outlines, enormous wide-set eyes, block colors, warm golden lighting, decorated tree background, wearing festive sweater, genuine smile, badge "FOF: ${CONFIG.edition}"`;
+    return `${CONFIG.quality}, solo portrait of @${username} in cozy Christmas setting, ${CONFIG.style}, bold outlines, expressive eyes, block colors, warm golden lighting, decorated tree background, wearing festive sweater, genuine smile, natural proportions, badge "FOF: ${CONFIG.edition}"`;
   }
 
-  return `${CONFIG.quality}, heartwarming group portrait of @${username} with ${friendCount} friends in cozy Christmas setting, ${CONFIG.style}, thick black outlines, enormous wide-set eyes, block colors, warm golden lighting, decorated tree, festive sweaters, genuine smiles, natural poses, badge "FOF: ${CONFIG.edition}"`;
+  return `${CONFIG.quality}, heartwarming group portrait of @${username} with ${friendCount} friends in cozy Christmas setting, ${CONFIG.style}, bold outlines, expressive eyes, block colors, warm golden lighting, decorated tree, festive sweaters, genuine smiles, natural poses, natural proportions, badge "FOF: ${CONFIG.edition}"`;
 }
 
 // =============================================================================
