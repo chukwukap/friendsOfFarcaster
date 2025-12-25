@@ -1,6 +1,6 @@
 // ===========================================================================
 // FOF: Friends of Farcaster - Database Schema
-// Simple, rock-solid design
+// Simple but complete - all useful data, no complexity
 // ===========================================================================
 
 generator client {
@@ -13,7 +13,7 @@ datasource db {
 }
 
 // ===========================================================================
-// USER - Core identity
+// USER - Farcaster identity + stats
 // ===========================================================================
 
 model User {
@@ -21,14 +21,14 @@ model User {
     fid Int @unique
 
     // Profile (from Farcaster)
-    username    String? @db.VarChar(50)
-    displayName String? @db.VarChar(100)
-    pfpUrl      String? @db.VarChar(500)
+    username    String?
+    displayName String?
+    pfpUrl      String?
 
-    // Wallet for NFT
-    wallet String? @db.VarChar(42)
+    // Wallet for NFT minting
+    wallet String?
 
-    // Points
+    // Points (simple accumulator)
     points Int @default(0)
 
     // Waffles integration
@@ -40,16 +40,13 @@ model User {
 
     // Relations
     generations Generation[]
-    collections Collection[]
-    shares      Share[]
-    payments    Payment[]
 
     @@index([fid])
     @@index([points(sort: Desc)])
 }
 
 // ===========================================================================
-// GENERATION - FOF image creation
+// GENERATION - FOF image with all tracking
 // ===========================================================================
 
 model Generation {
@@ -58,156 +55,35 @@ model Generation {
     user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId Int
 
-    // Image
-    imageUrl String @db.VarChar(500)
-
-    // Config
-    prompt      String  @db.VarChar(5000)
-    model       String? @db.VarChar(100) // AI model used
-    friendCount Int     @db.SmallInt
+    // The generated image
+    imageUrl    String
+    friendCount Int
     friendFids  Int[]
 
-    // Processing
-    status   GenerationStatus @default(PENDING)
-    duration Int?             @db.SmallInt // ms
+    // Generation config
+    prompt String?
+    model  String?
 
-    // Points awarded
-    points Int @default(100) @db.SmallInt
+    // Payment (optional - if paid generation)
+    paymentTxHash String? @unique
+    paymentAmount Float?
 
-    // Timestamps
-    createdAt   DateTime  @default(now())
-    completedAt DateTime?
+    // NFT minting (optional - if collected as NFT)
+    nftTxHash   String? @unique
+    nftTokenId  String?
+    nftTokenUri String?
 
-    // Relations
-    collection Collection?
-    shares     Share[]
-    payment    Payment?
-
-    @@index([userId, createdAt(sort: Desc)])
-    @@index([status])
-}
-
-enum GenerationStatus {
-    PENDING
-    PROCESSING
-    COMPLETED
-    FAILED
-}
-
-// ===========================================================================
-// COLLECTION - NFT minting
-// ===========================================================================
-
-model Collection {
-    id Int @id @default(autoincrement())
-
-    user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId Int
-
-    generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
-    generationId Int        @unique
-
-    // Blockchain
-    chainId         Int     @db.SmallInt
-    contractAddress String  @db.VarChar(42)
-    tokenId         BigInt?
-    txHash          String? @unique @db.VarChar(66)
-    tokenUri        String? @db.VarChar(500)
-
-    // Status
-    status CollectionStatus @default(PENDING)
-
-    // Points
-    points Int @default(50) @db.SmallInt
-
-    // Timestamps
-    createdAt DateTime  @default(now())
-    mintedAt  DateTime?
-
-    @@index([userId])
-    @@index([txHash])
-}
-
-enum CollectionStatus {
-    PENDING
-    MINTING
-    COMPLETED
-    FAILED
-}
-
-// ===========================================================================
-// SHARE - Social sharing
-// ===========================================================================
-
-model Share {
-    id Int @id @default(autoincrement())
-
-    user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId Int
-
-    generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
-    generationId Int
-
-    // Platform
-    platform SharePlatform
-    castHash String?       @db.VarChar(66)
-
-    // Points
-    points Int @default(25) @db.SmallInt
+    // Sharing tracking
+    sharedOnFarcaster Boolean @default(false)
+    farcasterCastHash String?
+    shareCount        Int     @default(0)
 
     // Timestamps
     createdAt DateTime @default(now())
 
-    @@index([userId])
-    @@index([generationId])
-}
-
-enum SharePlatform {
-    FARCASTER
-    TWITTER
-    DOWNLOAD
-}
-
-// ===========================================================================
-// PAYMENT - Monetization
-// ===========================================================================
-
-model Payment {
-    id Int @id @default(autoincrement())
-
-    user   User @relation(fields: [userId], references: [id])
-    userId Int
-
-    generation   Generation @relation(fields: [generationId], references: [id])
-    generationId Int        @unique
-
-    // Amount
-    amount   Float // USD
-    currency String @default("USDC") @db.VarChar(10)
-
-    // Discount (Waffles waitlist)
-    discount    Float? // Amount saved
-    discountPct Int?   @db.SmallInt // 50 for 50%
-
-    // Blockchain
-    txHash String? @unique @db.VarChar(66)
-
-    // Status
-    status PaymentStatus @default(PENDING)
-
-    // Timestamps
-    createdAt   DateTime  @default(now())
-    confirmedAt DateTime?
-
-    @@index([userId])
-    @@index([txHash])
-}
-
-enum PaymentStatus {
-    PENDING
-    COMPLETED
-    FAILED
-    REFUNDED
+    @@index([userId, createdAt(sort: Desc)])
+    @@index([paymentTxHash])
+    @@index([nftTxHash])
 }
 
 // ===========================================================================
@@ -219,8 +95,8 @@ model NotificationToken {
 
     fid    Int
     appFid Int
-    token  String @db.VarChar(255)
-    url    String @db.VarChar(500)
+    token  String
+    url    String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

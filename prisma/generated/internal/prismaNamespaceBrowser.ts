@@ -53,9 +53,6 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Generation: 'Generation',
-  Collection: 'Collection',
-  Share: 'Share',
-  Payment: 'Payment',
   NotificationToken: 'NotificationToken'
 } as const
 
@@ -95,66 +92,22 @@ export const GenerationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   imageUrl: 'imageUrl',
-  prompt: 'prompt',
-  model: 'model',
   friendCount: 'friendCount',
   friendFids: 'friendFids',
-  status: 'status',
-  duration: 'duration',
-  points: 'points',
-  createdAt: 'createdAt',
-  completedAt: 'completedAt'
-} as const
-
-export type GenerationScalarFieldEnum = (typeof GenerationScalarFieldEnum)[keyof typeof GenerationScalarFieldEnum]
-
-
-export const CollectionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  generationId: 'generationId',
-  chainId: 'chainId',
-  contractAddress: 'contractAddress',
-  tokenId: 'tokenId',
-  txHash: 'txHash',
-  tokenUri: 'tokenUri',
-  status: 'status',
-  points: 'points',
-  createdAt: 'createdAt',
-  mintedAt: 'mintedAt'
-} as const
-
-export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum]
-
-
-export const ShareScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  generationId: 'generationId',
-  platform: 'platform',
-  castHash: 'castHash',
-  points: 'points',
+  prompt: 'prompt',
+  model: 'model',
+  paymentTxHash: 'paymentTxHash',
+  paymentAmount: 'paymentAmount',
+  nftTxHash: 'nftTxHash',
+  nftTokenId: 'nftTokenId',
+  nftTokenUri: 'nftTokenUri',
+  sharedOnFarcaster: 'sharedOnFarcaster',
+  farcasterCastHash: 'farcasterCastHash',
+  shareCount: 'shareCount',
   createdAt: 'createdAt'
 } as const
 
-export type ShareScalarFieldEnum = (typeof ShareScalarFieldEnum)[keyof typeof ShareScalarFieldEnum]
-
-
-export const PaymentScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  generationId: 'generationId',
-  amount: 'amount',
-  currency: 'currency',
-  discount: 'discount',
-  discountPct: 'discountPct',
-  txHash: 'txHash',
-  status: 'status',
-  createdAt: 'createdAt',
-  confirmedAt: 'confirmedAt'
-} as const
-
-export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+export type GenerationScalarFieldEnum = (typeof GenerationScalarFieldEnum)[keyof typeof GenerationScalarFieldEnum]
 
 
 export const NotificationTokenScalarFieldEnum = {

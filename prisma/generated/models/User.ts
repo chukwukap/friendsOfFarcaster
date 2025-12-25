@@ -265,9 +265,6 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   generations?: Prisma.GenerationListRelationFilter
-  collections?: Prisma.CollectionListRelationFilter
-  shares?: Prisma.ShareListRelationFilter
-  payments?: Prisma.PaymentListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -282,9 +279,6 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   generations?: Prisma.GenerationOrderByRelationAggregateInput
-  collections?: Prisma.CollectionOrderByRelationAggregateInput
-  shares?: Prisma.ShareOrderByRelationAggregateInput
-  payments?: Prisma.PaymentOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -302,9 +296,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   generations?: Prisma.GenerationListRelationFilter
-  collections?: Prisma.CollectionListRelationFilter
-  shares?: Prisma.ShareListRelationFilter
-  payments?: Prisma.PaymentListRelationFilter
 }, "id" | "fid">
 
 export type UserOrderByWithAggregationInput = {
@@ -352,9 +343,6 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   generations?: Prisma.GenerationCreateNestedManyWithoutUserInput
-  collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -369,9 +357,6 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   generations?: Prisma.GenerationUncheckedCreateNestedManyWithoutUserInput
-  collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -385,9 +370,6 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   generations?: Prisma.GenerationUpdateManyWithoutUserNestedInput
-  collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -402,9 +384,6 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   generations?: Prisma.GenerationUncheckedUpdateManyWithoutUserNestedInput
-  collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -535,48 +514,6 @@ export type UserUpdateOneRequiredWithoutGenerationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGenerationsInput, Prisma.UserUpdateWithoutGenerationsInput>, Prisma.UserUncheckedUpdateWithoutGenerationsInput>
 }
 
-export type UserCreateNestedOneWithoutCollectionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCollectionsInput, Prisma.UserUncheckedCreateWithoutCollectionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCollectionsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutCollectionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCollectionsInput, Prisma.UserUncheckedCreateWithoutCollectionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCollectionsInput
-  upsert?: Prisma.UserUpsertWithoutCollectionsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCollectionsInput, Prisma.UserUpdateWithoutCollectionsInput>, Prisma.UserUncheckedUpdateWithoutCollectionsInput>
-}
-
-export type UserCreateNestedOneWithoutSharesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSharesInput, Prisma.UserUncheckedCreateWithoutSharesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSharesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutSharesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSharesInput, Prisma.UserUncheckedCreateWithoutSharesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSharesInput
-  upsert?: Prisma.UserUpsertWithoutSharesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSharesInput, Prisma.UserUpdateWithoutSharesInput>, Prisma.UserUncheckedUpdateWithoutSharesInput>
-}
-
-export type UserCreateNestedOneWithoutPaymentsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsInput
-  upsert?: Prisma.UserUpsertWithoutPaymentsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UserUpdateWithoutPaymentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
-}
-
 export type UserCreateWithoutGenerationsInput = {
   fid: number
   username?: string | null
@@ -587,9 +524,6 @@ export type UserCreateWithoutGenerationsInput = {
   isOnWaitlist?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGenerationsInput = {
@@ -603,9 +537,6 @@ export type UserUncheckedCreateWithoutGenerationsInput = {
   isOnWaitlist?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGenerationsInput = {
@@ -634,9 +565,6 @@ export type UserUpdateWithoutGenerationsInput = {
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGenerationsInput = {
@@ -650,243 +578,6 @@ export type UserUncheckedUpdateWithoutGenerationsInput = {
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutCollectionsInput = {
-  fid: number
-  username?: string | null
-  displayName?: string | null
-  pfpUrl?: string | null
-  wallet?: string | null
-  points?: number
-  isOnWaitlist?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  generations?: Prisma.GenerationCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutCollectionsInput = {
-  id?: number
-  fid: number
-  username?: string | null
-  displayName?: string | null
-  pfpUrl?: string | null
-  wallet?: string | null
-  points?: number
-  isOnWaitlist?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  generations?: Prisma.GenerationUncheckedCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutCollectionsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCollectionsInput, Prisma.UserUncheckedCreateWithoutCollectionsInput>
-}
-
-export type UserUpsertWithoutCollectionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCollectionsInput, Prisma.UserUncheckedUpdateWithoutCollectionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCollectionsInput, Prisma.UserUncheckedCreateWithoutCollectionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCollectionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCollectionsInput, Prisma.UserUncheckedUpdateWithoutCollectionsInput>
-}
-
-export type UserUpdateWithoutCollectionsInput = {
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  generations?: Prisma.GenerationUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCollectionsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  generations?: Prisma.GenerationUncheckedUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutSharesInput = {
-  fid: number
-  username?: string | null
-  displayName?: string | null
-  pfpUrl?: string | null
-  wallet?: string | null
-  points?: number
-  isOnWaitlist?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  generations?: Prisma.GenerationCreateNestedManyWithoutUserInput
-  collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutSharesInput = {
-  id?: number
-  fid: number
-  username?: string | null
-  displayName?: string | null
-  pfpUrl?: string | null
-  wallet?: string | null
-  points?: number
-  isOnWaitlist?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  generations?: Prisma.GenerationUncheckedCreateNestedManyWithoutUserInput
-  collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
-  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutSharesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSharesInput, Prisma.UserUncheckedCreateWithoutSharesInput>
-}
-
-export type UserUpsertWithoutSharesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSharesInput, Prisma.UserUncheckedUpdateWithoutSharesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutSharesInput, Prisma.UserUncheckedCreateWithoutSharesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutSharesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSharesInput, Prisma.UserUncheckedUpdateWithoutSharesInput>
-}
-
-export type UserUpdateWithoutSharesInput = {
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  generations?: Prisma.GenerationUpdateManyWithoutUserNestedInput
-  collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutSharesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  generations?: Prisma.GenerationUncheckedUpdateManyWithoutUserNestedInput
-  collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
-  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutPaymentsInput = {
-  fid: number
-  username?: string | null
-  displayName?: string | null
-  pfpUrl?: string | null
-  wallet?: string | null
-  points?: number
-  isOnWaitlist?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  generations?: Prisma.GenerationCreateNestedManyWithoutUserInput
-  collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutPaymentsInput = {
-  id?: number
-  fid: number
-  username?: string | null
-  displayName?: string | null
-  pfpUrl?: string | null
-  wallet?: string | null
-  points?: number
-  isOnWaitlist?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  generations?: Prisma.GenerationUncheckedCreateNestedManyWithoutUserInput
-  collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutPaymentsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
-}
-
-export type UserUpsertWithoutPaymentsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsInput, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsInput, Prisma.UserUncheckedCreateWithoutPaymentsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsInput, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
-}
-
-export type UserUpdateWithoutPaymentsInput = {
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  generations?: Prisma.GenerationUpdateManyWithoutUserNestedInput
-  collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutPaymentsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wallet?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  generations?: Prisma.GenerationUncheckedUpdateManyWithoutUserNestedInput
-  collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -896,16 +587,10 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
 
 export type UserCountOutputType = {
   generations: number
-  collections: number
-  shares: number
-  payments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   generations?: boolean | UserCountOutputTypeCountGenerationsArgs
-  collections?: boolean | UserCountOutputTypeCountCollectionsArgs
-  shares?: boolean | UserCountOutputTypeCountSharesArgs
-  payments?: boolean | UserCountOutputTypeCountPaymentsArgs
 }
 
 /**
@@ -925,27 +610,6 @@ export type UserCountOutputTypeCountGenerationsArgs<ExtArgs extends runtime.Type
   where?: Prisma.GenerationWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCollectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CollectionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSharesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ShareWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PaymentWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -959,9 +623,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   generations?: boolean | Prisma.User$generationsArgs<ExtArgs>
-  collections?: boolean | Prisma.User$collectionsArgs<ExtArgs>
-  shares?: boolean | Prisma.User$sharesArgs<ExtArgs>
-  payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1007,9 +668,6 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fid" | "username" | "displayName" | "pfpUrl" | "wallet" | "points" | "isOnWaitlist" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   generations?: boolean | Prisma.User$generationsArgs<ExtArgs>
-  collections?: boolean | Prisma.User$collectionsArgs<ExtArgs>
-  shares?: boolean | Prisma.User$sharesArgs<ExtArgs>
-  payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1019,9 +677,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     generations: Prisma.$GenerationPayload<ExtArgs>[]
-    collections: Prisma.$CollectionPayload<ExtArgs>[]
-    shares: Prisma.$SharePayload<ExtArgs>[]
-    payments: Prisma.$PaymentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1429,9 +1084,6 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   generations<T extends Prisma.User$generationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$generationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GenerationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  collections<T extends Prisma.User$collectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$collectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  shares<T extends Prisma.User$sharesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1880,78 +1532,6 @@ export type User$generationsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.GenerationScalarFieldEnum | Prisma.GenerationScalarFieldEnum[]
-}
-
-/**
- * User.collections
- */
-export type User$collectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Collection
-   */
-  select?: Prisma.CollectionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Collection
-   */
-  omit?: Prisma.CollectionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CollectionInclude<ExtArgs> | null
-  where?: Prisma.CollectionWhereInput
-  orderBy?: Prisma.CollectionOrderByWithRelationInput | Prisma.CollectionOrderByWithRelationInput[]
-  cursor?: Prisma.CollectionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CollectionScalarFieldEnum | Prisma.CollectionScalarFieldEnum[]
-}
-
-/**
- * User.shares
- */
-export type User$sharesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Share
-   */
-  select?: Prisma.ShareSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Share
-   */
-  omit?: Prisma.ShareOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ShareInclude<ExtArgs> | null
-  where?: Prisma.ShareWhereInput
-  orderBy?: Prisma.ShareOrderByWithRelationInput | Prisma.ShareOrderByWithRelationInput[]
-  cursor?: Prisma.ShareWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ShareScalarFieldEnum | Prisma.ShareScalarFieldEnum[]
-}
-
-/**
- * User.payments
- */
-export type User$paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Payment
-   */
-  select?: Prisma.PaymentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Payment
-   */
-  omit?: Prisma.PaymentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PaymentInclude<ExtArgs> | null
-  where?: Prisma.PaymentWhereInput
-  orderBy?: Prisma.PaymentOrderByWithRelationInput | Prisma.PaymentOrderByWithRelationInput[]
-  cursor?: Prisma.PaymentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
 }
 
 /**

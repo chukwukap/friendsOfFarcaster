@@ -386,9 +386,6 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Generation: 'Generation',
-  Collection: 'Collection',
-  Share: 'Share',
-  Payment: 'Payment',
   NotificationToken: 'NotificationToken'
 } as const
 
@@ -405,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "generation" | "collection" | "share" | "payment" | "notificationToken"
+    modelProps: "user" | "generation" | "notificationToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -557,228 +554,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Collection: {
-      payload: Prisma.$CollectionPayload<ExtArgs>
-      fields: Prisma.CollectionFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.CollectionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.CollectionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>
-        }
-        findFirst: {
-          args: Prisma.CollectionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.CollectionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>
-        }
-        findMany: {
-          args: Prisma.CollectionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>[]
-        }
-        create: {
-          args: Prisma.CollectionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>
-        }
-        createMany: {
-          args: Prisma.CollectionCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.CollectionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>[]
-        }
-        delete: {
-          args: Prisma.CollectionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>
-        }
-        update: {
-          args: Prisma.CollectionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>
-        }
-        deleteMany: {
-          args: Prisma.CollectionDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.CollectionUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.CollectionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>[]
-        }
-        upsert: {
-          args: Prisma.CollectionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CollectionPayload>
-        }
-        aggregate: {
-          args: Prisma.CollectionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCollection>
-        }
-        groupBy: {
-          args: Prisma.CollectionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CollectionGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.CollectionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CollectionCountAggregateOutputType> | number
-        }
-      }
-    }
-    Share: {
-      payload: Prisma.$SharePayload<ExtArgs>
-      fields: Prisma.ShareFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ShareFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ShareFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>
-        }
-        findFirst: {
-          args: Prisma.ShareFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ShareFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>
-        }
-        findMany: {
-          args: Prisma.ShareFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>[]
-        }
-        create: {
-          args: Prisma.ShareCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>
-        }
-        createMany: {
-          args: Prisma.ShareCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ShareCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>[]
-        }
-        delete: {
-          args: Prisma.ShareDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>
-        }
-        update: {
-          args: Prisma.ShareUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>
-        }
-        deleteMany: {
-          args: Prisma.ShareDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ShareUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ShareUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>[]
-        }
-        upsert: {
-          args: Prisma.ShareUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SharePayload>
-        }
-        aggregate: {
-          args: Prisma.ShareAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateShare>
-        }
-        groupBy: {
-          args: Prisma.ShareGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ShareGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ShareCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ShareCountAggregateOutputType> | number
-        }
-      }
-    }
-    Payment: {
-      payload: Prisma.$PaymentPayload<ExtArgs>
-      fields: Prisma.PaymentFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.PaymentFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.PaymentFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
-        }
-        findFirst: {
-          args: Prisma.PaymentFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.PaymentFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
-        }
-        findMany: {
-          args: Prisma.PaymentFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>[]
-        }
-        create: {
-          args: Prisma.PaymentCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
-        }
-        createMany: {
-          args: Prisma.PaymentCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.PaymentCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>[]
-        }
-        delete: {
-          args: Prisma.PaymentDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
-        }
-        update: {
-          args: Prisma.PaymentUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
-        }
-        deleteMany: {
-          args: Prisma.PaymentDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.PaymentUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.PaymentUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>[]
-        }
-        upsert: {
-          args: Prisma.PaymentUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
-        }
-        aggregate: {
-          args: Prisma.PaymentAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePayment>
-        }
-        groupBy: {
-          args: Prisma.PaymentGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PaymentGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.PaymentCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PaymentCountAggregateOutputType> | number
-        }
-      }
-    }
     NotificationToken: {
       payload: Prisma.$NotificationTokenPayload<ExtArgs>
       fields: Prisma.NotificationTokenFieldRefs
@@ -912,66 +687,22 @@ export const GenerationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   imageUrl: 'imageUrl',
-  prompt: 'prompt',
-  model: 'model',
   friendCount: 'friendCount',
   friendFids: 'friendFids',
-  status: 'status',
-  duration: 'duration',
-  points: 'points',
-  createdAt: 'createdAt',
-  completedAt: 'completedAt'
-} as const
-
-export type GenerationScalarFieldEnum = (typeof GenerationScalarFieldEnum)[keyof typeof GenerationScalarFieldEnum]
-
-
-export const CollectionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  generationId: 'generationId',
-  chainId: 'chainId',
-  contractAddress: 'contractAddress',
-  tokenId: 'tokenId',
-  txHash: 'txHash',
-  tokenUri: 'tokenUri',
-  status: 'status',
-  points: 'points',
-  createdAt: 'createdAt',
-  mintedAt: 'mintedAt'
-} as const
-
-export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum]
-
-
-export const ShareScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  generationId: 'generationId',
-  platform: 'platform',
-  castHash: 'castHash',
-  points: 'points',
+  prompt: 'prompt',
+  model: 'model',
+  paymentTxHash: 'paymentTxHash',
+  paymentAmount: 'paymentAmount',
+  nftTxHash: 'nftTxHash',
+  nftTokenId: 'nftTokenId',
+  nftTokenUri: 'nftTokenUri',
+  sharedOnFarcaster: 'sharedOnFarcaster',
+  farcasterCastHash: 'farcasterCastHash',
+  shareCount: 'shareCount',
   createdAt: 'createdAt'
 } as const
 
-export type ShareScalarFieldEnum = (typeof ShareScalarFieldEnum)[keyof typeof ShareScalarFieldEnum]
-
-
-export const PaymentScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  generationId: 'generationId',
-  amount: 'amount',
-  currency: 'currency',
-  discount: 'discount',
-  discountPct: 'discountPct',
-  txHash: 'txHash',
-  status: 'status',
-  createdAt: 'createdAt',
-  confirmedAt: 'confirmedAt'
-} as const
-
-export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+export type GenerationScalarFieldEnum = (typeof GenerationScalarFieldEnum)[keyof typeof GenerationScalarFieldEnum]
 
 
 export const NotificationTokenScalarFieldEnum = {
@@ -1067,62 +798,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'GenerationStatus'
- */
-export type EnumGenerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GenerationStatus'>
-    
-
-
-/**
- * Reference to a field of type 'GenerationStatus[]'
- */
-export type ListEnumGenerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GenerationStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt'
- */
-export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt[]'
- */
-export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
-    
-
-
-/**
- * Reference to a field of type 'CollectionStatus'
- */
-export type EnumCollectionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CollectionStatus'>
-    
-
-
-/**
- * Reference to a field of type 'CollectionStatus[]'
- */
-export type ListEnumCollectionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CollectionStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'SharePlatform'
- */
-export type EnumSharePlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SharePlatform'>
-    
-
-
-/**
- * Reference to a field of type 'SharePlatform[]'
- */
-export type ListEnumSharePlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SharePlatform[]'>
-    
-
-
-/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1133,20 +808,6 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'PaymentStatus'
- */
-export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
-    
-
-
-/**
- * Reference to a field of type 'PaymentStatus[]'
- */
-export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
     
 
 /**
@@ -1246,9 +907,6 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   generation?: Prisma.GenerationOmit
-  collection?: Prisma.CollectionOmit
-  share?: Prisma.ShareOmit
-  payment?: Prisma.PaymentOmit
   notificationToken?: Prisma.NotificationTokenOmit
 }
 

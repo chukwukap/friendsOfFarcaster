@@ -29,23 +29,21 @@ export async function generateMetadata({
     }
 
     const username = generation.user.username || "friend";
-    const ogParams = new URLSearchParams();
-    ogParams.set("imageUrl", generation.imageUrl);
-    ogParams.set("username", username);
-    ogParams.set("friendCount", generation.friendCount.toString());
-    const ogImageUrl = `${env.rootUrl}/api/og?${ogParams.toString()}`;
+
+    // Use the generated image directly for embed
+    const embedImageUrl = generation.imageUrl;
 
     return {
         title: `Collect @${username}'s FOF`,
         description: `Collect this FOF portrait as an NFT!`,
         openGraph: {
             title: `Collect @${username}'s FOF`,
-            images: [ogImageUrl],
+            images: [embedImageUrl],
         },
         other: {
             "fc:frame": JSON.stringify({
                 version: "1",
-                imageUrl: ogImageUrl,
+                imageUrl: embedImageUrl,
                 button: {
                     title: "🎄 Collect This FOF",
                     action: {

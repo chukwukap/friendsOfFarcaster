@@ -1,23 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prepareNFTForMinting } from "@/lib/ipfs";
 import { prisma } from "@/lib/db";
-import { getNFTContractAddress, getNFTChain } from "@/constants/nft";
 
 /**
  * POST /api/collect
- *
- * Prepares an NFT for minting by:
- * 1. Uploading the generated image to IPFS
- * 2. Creating and uploading NFT metadata to IPFS
- * 3. Creating Collection record in database
- * 4. Returning the token URI for minting
+ * Prepares NFT for minting (IPFS upload) and stores tokenUri on generation.
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { imageUrl, username, fid, friendCount, generationId } = body;
 
-    // Validate required fields
     if (!imageUrl || !username || !fid || !generationId) {
       return NextResponse.json(
         {
@@ -28,7 +21,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check PINATA_JWT is configured
     if (!process.env.PINATA_JWT) {
       console.error("PINATA_JWT not configured");
       return NextResponse.json(
@@ -39,43 +31,7 @@ export async function POST(request: NextRequest) {
 
     console.log(`Preparing NFT for @${username} (FID: ${fid})`);
 
-    // 1. Get user from database
-    const user = await prisma.user.findUnique({
-      where: { fid: parseInt(fid, 10) },
-    });
-
-    if (!user) {
-      console.error(`User not found for FID: ${fid}`);
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    // 2. Get generation from database
-    const generation = await prisma.generation.findUnique({
-      where: { id: parseInt(generationId, 10) },
-    });
-
-    if (!generation) {
-      console.error(`Generation not found for ID: ${generationId}`);
-      return NextResponse.json(
-        { error: "Generation not found" },
-        { status: 404 }
-      );
-    }
-
-    // 3. Check if already collected
-    const existingCollection = await prisma.collection.findUnique({
-      where: { generationId: generation.id },
-    });
-
-    if (existingCollection) {
-      console.error(`Generation ${generationId} already collected`);
-      return NextResponse.json(
-        { error: "Already collected as NFT" },
-        { status: 409 }
-      );
-    }
-
-    // 4. Upload to IPFS and prepare metadata
+    // Upload to IPFS
     const { tokenUri, imageUri } = await prepareNFTForMinting({
       imageUrl,
       username,
@@ -84,35 +40,18 @@ export async function POST(request: NextRequest) {
       generationId: generationId.toString(),
     });
 
+    // Store tokenUri on generation
+    await prisma.generation.update({
+      where: { id: parseInt(generationId, 10) },
+      data: { nftTokenUri: tokenUri },
+    });
+
     console.log(`NFT prepared: ${tokenUri}`);
-
-    // 5. Create Collection record (status: PENDING until tx confirmed)
-    const collection = await prisma.collection.create({
-      data: {
-        userId: user.id,
-        generationId: generation.id,
-        chainId: getNFTChain().id,
-        contractAddress: getNFTContractAddress(),
-        tokenUri,
-        status: "PENDING",
-        points: 50,
-      },
-    });
-
-    // 6. Award points to user
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        points: { increment: 50 },
-      },
-    });
 
     return NextResponse.json({
       success: true,
-      collectionId: collection.id,
       tokenUri,
       imageUri,
-      message: "NFT metadata ready for minting",
     });
   } catch (error) {
     console.error("Error preparing NFT:", error);
@@ -128,41 +67,41 @@ export async function POST(request: NextRequest) {
 
 /**
  * PATCH /api/collect
- *
- * Updates collection status after minting transaction
+ * Updates generation with NFT minting tx details after on-chain mint.
  */
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
-    const { collectionId, txHash, tokenId, status } = body;
+    const { generationId, txHash, tokenId } = body;
 
-    if (!collectionId) {
+    if (!generationId || !txHash) {
       return NextResponse.json(
-        { error: "Missing collectionId" },
+        { error: "Missing generationId or txHash" },
         { status: 400 }
       );
     }
 
-    const updateData: Record<string, unknown> = {};
-
-    if (txHash) updateData.txHash = txHash;
-    if (tokenId) updateData.tokenId = BigInt(tokenId);
-    if (status) updateData.status = status;
-    if (status === "COMPLETED") updateData.mintedAt = new Date();
-
-    const collection = await prisma.collection.update({
-      where: { id: parseInt(collectionId, 10) },
-      data: updateData,
+    // Update generation with NFT details and award points
+    const generation = await prisma.generation.update({
+      where: { id: parseInt(generationId, 10) },
+      data: {
+        nftTxHash: txHash,
+        nftTokenId: tokenId?.toString() || null,
+      },
+      include: { user: true },
     });
 
-    return NextResponse.json({
-      success: true,
-      collection,
+    // Award 50 points for collecting
+    await prisma.user.update({
+      where: { id: generation.userId },
+      data: { points: { increment: 50 } },
     });
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error updating collection:", error);
+    console.error("Error updating NFT:", error);
     return NextResponse.json(
-      { error: "Failed to update collection" },
+      { error: "Failed to update NFT" },
       { status: 500 }
     );
   }

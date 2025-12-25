@@ -5,4 +5,3 @@ export { Confetti } from "./Confetti";
 export { Snowfall } from "./Snowfall";
 export { FloatingElements } from "./FloatingElements";
 export { PointsBadge } from "./PointsBadge";
-export { BottomNav, type NavTab } from "./BottomNav";

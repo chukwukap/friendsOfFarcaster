@@ -31,8 +31,8 @@ export type GenerationAvgAggregateOutputType = {
   userId: number | null
   friendCount: number | null
   friendFids: number | null
-  duration: number | null
-  points: number | null
+  paymentAmount: number | null
+  shareCount: number | null
 }
 
 export type GenerationSumAggregateOutputType = {
@@ -40,51 +40,63 @@ export type GenerationSumAggregateOutputType = {
   userId: number | null
   friendCount: number | null
   friendFids: number[]
-  duration: number | null
-  points: number | null
+  paymentAmount: number | null
+  shareCount: number | null
 }
 
 export type GenerationMinAggregateOutputType = {
   id: number | null
   userId: number | null
   imageUrl: string | null
+  friendCount: number | null
   prompt: string | null
   model: string | null
-  friendCount: number | null
-  status: $Enums.GenerationStatus | null
-  duration: number | null
-  points: number | null
+  paymentTxHash: string | null
+  paymentAmount: number | null
+  nftTxHash: string | null
+  nftTokenId: string | null
+  nftTokenUri: string | null
+  sharedOnFarcaster: boolean | null
+  farcasterCastHash: string | null
+  shareCount: number | null
   createdAt: Date | null
-  completedAt: Date | null
 }
 
 export type GenerationMaxAggregateOutputType = {
   id: number | null
   userId: number | null
   imageUrl: string | null
+  friendCount: number | null
   prompt: string | null
   model: string | null
-  friendCount: number | null
-  status: $Enums.GenerationStatus | null
-  duration: number | null
-  points: number | null
+  paymentTxHash: string | null
+  paymentAmount: number | null
+  nftTxHash: string | null
+  nftTokenId: string | null
+  nftTokenUri: string | null
+  sharedOnFarcaster: boolean | null
+  farcasterCastHash: string | null
+  shareCount: number | null
   createdAt: Date | null
-  completedAt: Date | null
 }
 
 export type GenerationCountAggregateOutputType = {
   id: number
   userId: number
   imageUrl: number
-  prompt: number
-  model: number
   friendCount: number
   friendFids: number
-  status: number
-  duration: number
-  points: number
+  prompt: number
+  model: number
+  paymentTxHash: number
+  paymentAmount: number
+  nftTxHash: number
+  nftTokenId: number
+  nftTokenUri: number
+  sharedOnFarcaster: number
+  farcasterCastHash: number
+  shareCount: number
   createdAt: number
-  completedAt: number
   _all: number
 }
 
@@ -94,8 +106,8 @@ export type GenerationAvgAggregateInputType = {
   userId?: true
   friendCount?: true
   friendFids?: true
-  duration?: true
-  points?: true
+  paymentAmount?: true
+  shareCount?: true
 }
 
 export type GenerationSumAggregateInputType = {
@@ -103,51 +115,63 @@ export type GenerationSumAggregateInputType = {
   userId?: true
   friendCount?: true
   friendFids?: true
-  duration?: true
-  points?: true
+  paymentAmount?: true
+  shareCount?: true
 }
 
 export type GenerationMinAggregateInputType = {
   id?: true
   userId?: true
   imageUrl?: true
+  friendCount?: true
   prompt?: true
   model?: true
-  friendCount?: true
-  status?: true
-  duration?: true
-  points?: true
+  paymentTxHash?: true
+  paymentAmount?: true
+  nftTxHash?: true
+  nftTokenId?: true
+  nftTokenUri?: true
+  sharedOnFarcaster?: true
+  farcasterCastHash?: true
+  shareCount?: true
   createdAt?: true
-  completedAt?: true
 }
 
 export type GenerationMaxAggregateInputType = {
   id?: true
   userId?: true
   imageUrl?: true
+  friendCount?: true
   prompt?: true
   model?: true
-  friendCount?: true
-  status?: true
-  duration?: true
-  points?: true
+  paymentTxHash?: true
+  paymentAmount?: true
+  nftTxHash?: true
+  nftTokenId?: true
+  nftTokenUri?: true
+  sharedOnFarcaster?: true
+  farcasterCastHash?: true
+  shareCount?: true
   createdAt?: true
-  completedAt?: true
 }
 
 export type GenerationCountAggregateInputType = {
   id?: true
   userId?: true
   imageUrl?: true
-  prompt?: true
-  model?: true
   friendCount?: true
   friendFids?: true
-  status?: true
-  duration?: true
-  points?: true
+  prompt?: true
+  model?: true
+  paymentTxHash?: true
+  paymentAmount?: true
+  nftTxHash?: true
+  nftTokenId?: true
+  nftTokenUri?: true
+  sharedOnFarcaster?: true
+  farcasterCastHash?: true
+  shareCount?: true
   createdAt?: true
-  completedAt?: true
   _all?: true
 }
 
@@ -241,15 +265,19 @@ export type GenerationGroupByOutputType = {
   id: number
   userId: number
   imageUrl: string
-  prompt: string
-  model: string | null
   friendCount: number
   friendFids: number[]
-  status: $Enums.GenerationStatus
-  duration: number | null
-  points: number
+  prompt: string | null
+  model: string | null
+  paymentTxHash: string | null
+  paymentAmount: number | null
+  nftTxHash: string | null
+  nftTokenId: string | null
+  nftTokenUri: string | null
+  sharedOnFarcaster: boolean
+  farcasterCastHash: string | null
+  shareCount: number
   createdAt: Date
-  completedAt: Date | null
   _count: GenerationCountAggregateOutputType | null
   _avg: GenerationAvgAggregateOutputType | null
   _sum: GenerationSumAggregateOutputType | null
@@ -279,75 +307,82 @@ export type GenerationWhereInput = {
   id?: Prisma.IntFilter<"Generation"> | number
   userId?: Prisma.IntFilter<"Generation"> | number
   imageUrl?: Prisma.StringFilter<"Generation"> | string
-  prompt?: Prisma.StringFilter<"Generation"> | string
-  model?: Prisma.StringNullableFilter<"Generation"> | string | null
   friendCount?: Prisma.IntFilter<"Generation"> | number
   friendFids?: Prisma.IntNullableListFilter<"Generation">
-  status?: Prisma.EnumGenerationStatusFilter<"Generation"> | $Enums.GenerationStatus
-  duration?: Prisma.IntNullableFilter<"Generation"> | number | null
-  points?: Prisma.IntFilter<"Generation"> | number
+  prompt?: Prisma.StringNullableFilter<"Generation"> | string | null
+  model?: Prisma.StringNullableFilter<"Generation"> | string | null
+  paymentTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
+  paymentAmount?: Prisma.FloatNullableFilter<"Generation"> | number | null
+  nftTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
+  nftTokenId?: Prisma.StringNullableFilter<"Generation"> | string | null
+  nftTokenUri?: Prisma.StringNullableFilter<"Generation"> | string | null
+  sharedOnFarcaster?: Prisma.BoolFilter<"Generation"> | boolean
+  farcasterCastHash?: Prisma.StringNullableFilter<"Generation"> | string | null
+  shareCount?: Prisma.IntFilter<"Generation"> | number
   createdAt?: Prisma.DateTimeFilter<"Generation"> | Date | string
-  completedAt?: Prisma.DateTimeNullableFilter<"Generation"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  collection?: Prisma.XOR<Prisma.CollectionNullableScalarRelationFilter, Prisma.CollectionWhereInput> | null
-  shares?: Prisma.ShareListRelationFilter
-  payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
 }
 
 export type GenerationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
-  prompt?: Prisma.SortOrder
-  model?: Prisma.SortOrderInput | Prisma.SortOrder
   friendCount?: Prisma.SortOrder
   friendFids?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  duration?: Prisma.SortOrderInput | Prisma.SortOrder
-  points?: Prisma.SortOrder
+  prompt?: Prisma.SortOrderInput | Prisma.SortOrder
+  model?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  nftTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  nftTokenId?: Prisma.SortOrderInput | Prisma.SortOrder
+  nftTokenUri?: Prisma.SortOrderInput | Prisma.SortOrder
+  sharedOnFarcaster?: Prisma.SortOrder
+  farcasterCastHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  collection?: Prisma.CollectionOrderByWithRelationInput
-  shares?: Prisma.ShareOrderByRelationAggregateInput
-  payment?: Prisma.PaymentOrderByWithRelationInput
 }
 
 export type GenerationWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  paymentTxHash?: string
+  nftTxHash?: string
   AND?: Prisma.GenerationWhereInput | Prisma.GenerationWhereInput[]
   OR?: Prisma.GenerationWhereInput[]
   NOT?: Prisma.GenerationWhereInput | Prisma.GenerationWhereInput[]
   userId?: Prisma.IntFilter<"Generation"> | number
   imageUrl?: Prisma.StringFilter<"Generation"> | string
-  prompt?: Prisma.StringFilter<"Generation"> | string
-  model?: Prisma.StringNullableFilter<"Generation"> | string | null
   friendCount?: Prisma.IntFilter<"Generation"> | number
   friendFids?: Prisma.IntNullableListFilter<"Generation">
-  status?: Prisma.EnumGenerationStatusFilter<"Generation"> | $Enums.GenerationStatus
-  duration?: Prisma.IntNullableFilter<"Generation"> | number | null
-  points?: Prisma.IntFilter<"Generation"> | number
+  prompt?: Prisma.StringNullableFilter<"Generation"> | string | null
+  model?: Prisma.StringNullableFilter<"Generation"> | string | null
+  paymentAmount?: Prisma.FloatNullableFilter<"Generation"> | number | null
+  nftTokenId?: Prisma.StringNullableFilter<"Generation"> | string | null
+  nftTokenUri?: Prisma.StringNullableFilter<"Generation"> | string | null
+  sharedOnFarcaster?: Prisma.BoolFilter<"Generation"> | boolean
+  farcasterCastHash?: Prisma.StringNullableFilter<"Generation"> | string | null
+  shareCount?: Prisma.IntFilter<"Generation"> | number
   createdAt?: Prisma.DateTimeFilter<"Generation"> | Date | string
-  completedAt?: Prisma.DateTimeNullableFilter<"Generation"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  collection?: Prisma.XOR<Prisma.CollectionNullableScalarRelationFilter, Prisma.CollectionWhereInput> | null
-  shares?: Prisma.ShareListRelationFilter
-  payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
-}, "id">
+}, "id" | "paymentTxHash" | "nftTxHash">
 
 export type GenerationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
-  prompt?: Prisma.SortOrder
-  model?: Prisma.SortOrderInput | Prisma.SortOrder
   friendCount?: Prisma.SortOrder
   friendFids?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  duration?: Prisma.SortOrderInput | Prisma.SortOrder
-  points?: Prisma.SortOrder
+  prompt?: Prisma.SortOrderInput | Prisma.SortOrder
+  model?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  nftTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  nftTokenId?: Prisma.SortOrderInput | Prisma.SortOrder
+  nftTokenUri?: Prisma.SortOrderInput | Prisma.SortOrder
+  sharedOnFarcaster?: Prisma.SortOrder
+  farcasterCastHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.GenerationCountOrderByAggregateInput
   _avg?: Prisma.GenerationAvgOrderByAggregateInput
   _max?: Prisma.GenerationMaxOrderByAggregateInput
@@ -362,128 +397,148 @@ export type GenerationScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Generation"> | number
   userId?: Prisma.IntWithAggregatesFilter<"Generation"> | number
   imageUrl?: Prisma.StringWithAggregatesFilter<"Generation"> | string
-  prompt?: Prisma.StringWithAggregatesFilter<"Generation"> | string
-  model?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
   friendCount?: Prisma.IntWithAggregatesFilter<"Generation"> | number
   friendFids?: Prisma.IntNullableListFilter<"Generation">
-  status?: Prisma.EnumGenerationStatusWithAggregatesFilter<"Generation"> | $Enums.GenerationStatus
-  duration?: Prisma.IntNullableWithAggregatesFilter<"Generation"> | number | null
-  points?: Prisma.IntWithAggregatesFilter<"Generation"> | number
+  prompt?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
+  model?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
+  paymentTxHash?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
+  paymentAmount?: Prisma.FloatNullableWithAggregatesFilter<"Generation"> | number | null
+  nftTxHash?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
+  nftTokenId?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
+  nftTokenUri?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
+  sharedOnFarcaster?: Prisma.BoolWithAggregatesFilter<"Generation"> | boolean
+  farcasterCastHash?: Prisma.StringNullableWithAggregatesFilter<"Generation"> | string | null
+  shareCount?: Prisma.IntWithAggregatesFilter<"Generation"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Generation"> | Date | string
-  completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Generation"> | Date | string | null
 }
 
 export type GenerationCreateInput = {
   imageUrl: string
-  prompt: string
-  model?: string | null
   friendCount: number
   friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
+  prompt?: string | null
+  model?: string | null
+  paymentTxHash?: string | null
+  paymentAmount?: number | null
+  nftTxHash?: string | null
+  nftTokenId?: string | null
+  nftTokenUri?: string | null
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: string | null
+  shareCount?: number
   createdAt?: Date | string
-  completedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutGenerationsInput
-  collection?: Prisma.CollectionCreateNestedOneWithoutGenerationInput
-  shares?: Prisma.ShareCreateNestedManyWithoutGenerationInput
-  payment?: Prisma.PaymentCreateNestedOneWithoutGenerationInput
 }
 
 export type GenerationUncheckedCreateInput = {
   id?: number
   userId: number
   imageUrl: string
-  prompt: string
-  model?: string | null
   friendCount: number
   friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
+  prompt?: string | null
+  model?: string | null
+  paymentTxHash?: string | null
+  paymentAmount?: number | null
+  nftTxHash?: string | null
+  nftTokenId?: string | null
+  nftTokenUri?: string | null
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: string | null
+  shareCount?: number
   createdAt?: Date | string
-  completedAt?: Date | string | null
-  collection?: Prisma.CollectionUncheckedCreateNestedOneWithoutGenerationInput
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutGenerationInput
-  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutGenerationInput
 }
 
 export type GenerationUpdateInput = {
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   friendCount?: Prisma.IntFieldUpdateOperationsInput | number
   friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
+  prompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutGenerationsNestedInput
-  collection?: Prisma.CollectionUpdateOneWithoutGenerationNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUpdateOneWithoutGenerationNestedInput
 }
 
 export type GenerationUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   friendCount?: Prisma.IntFieldUpdateOperationsInput | number
   friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
+  prompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  collection?: Prisma.CollectionUncheckedUpdateOneWithoutGenerationNestedInput
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUncheckedUpdateOneWithoutGenerationNestedInput
 }
 
 export type GenerationCreateManyInput = {
   id?: number
   userId: number
   imageUrl: string
-  prompt: string
-  model?: string | null
   friendCount: number
   friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
+  prompt?: string | null
+  model?: string | null
+  paymentTxHash?: string | null
+  paymentAmount?: number | null
+  nftTxHash?: string | null
+  nftTokenId?: string | null
+  nftTokenUri?: string | null
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: string | null
+  shareCount?: number
   createdAt?: Date | string
-  completedAt?: Date | string | null
 }
 
 export type GenerationUpdateManyMutationInput = {
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   friendCount?: Prisma.IntFieldUpdateOperationsInput | number
   friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
+  prompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type GenerationUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   friendCount?: Prisma.IntFieldUpdateOperationsInput | number
   friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
+  prompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type GenerationListRelationFilter = {
@@ -508,15 +563,19 @@ export type GenerationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
-  prompt?: Prisma.SortOrder
-  model?: Prisma.SortOrder
   friendCount?: Prisma.SortOrder
   friendFids?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
-  points?: Prisma.SortOrder
+  prompt?: Prisma.SortOrder
+  model?: Prisma.SortOrder
+  paymentTxHash?: Prisma.SortOrder
+  paymentAmount?: Prisma.SortOrder
+  nftTxHash?: Prisma.SortOrder
+  nftTokenId?: Prisma.SortOrder
+  nftTokenUri?: Prisma.SortOrder
+  sharedOnFarcaster?: Prisma.SortOrder
+  farcasterCastHash?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrder
 }
 
 export type GenerationAvgOrderByAggregateInput = {
@@ -524,36 +583,44 @@ export type GenerationAvgOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   friendCount?: Prisma.SortOrder
   friendFids?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
-  points?: Prisma.SortOrder
+  paymentAmount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
 }
 
 export type GenerationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  friendCount?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
   model?: Prisma.SortOrder
-  friendCount?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
-  points?: Prisma.SortOrder
+  paymentTxHash?: Prisma.SortOrder
+  paymentAmount?: Prisma.SortOrder
+  nftTxHash?: Prisma.SortOrder
+  nftTokenId?: Prisma.SortOrder
+  nftTokenUri?: Prisma.SortOrder
+  sharedOnFarcaster?: Prisma.SortOrder
+  farcasterCastHash?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrder
 }
 
 export type GenerationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  friendCount?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
   model?: Prisma.SortOrder
-  friendCount?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
-  points?: Prisma.SortOrder
+  paymentTxHash?: Prisma.SortOrder
+  paymentAmount?: Prisma.SortOrder
+  nftTxHash?: Prisma.SortOrder
+  nftTokenId?: Prisma.SortOrder
+  nftTokenUri?: Prisma.SortOrder
+  sharedOnFarcaster?: Prisma.SortOrder
+  farcasterCastHash?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrder
 }
 
 export type GenerationSumOrderByAggregateInput = {
@@ -561,13 +628,8 @@ export type GenerationSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   friendCount?: Prisma.SortOrder
   friendFids?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
-  points?: Prisma.SortOrder
-}
-
-export type GenerationScalarRelationFilter = {
-  is?: Prisma.GenerationWhereInput
-  isNot?: Prisma.GenerationWhereInput
+  paymentAmount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
 }
 
 export type GenerationCreateNestedManyWithoutUserInput = {
@@ -625,11 +687,7 @@ export type GenerationUpdatefriendFidsInput = {
   push?: number | number[]
 }
 
-export type EnumGenerationStatusFieldUpdateOperationsInput = {
-  set?: $Enums.GenerationStatus
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
+export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
   decrement?: number
@@ -637,83 +695,39 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type GenerationCreateNestedOneWithoutCollectionInput = {
-  create?: Prisma.XOR<Prisma.GenerationCreateWithoutCollectionInput, Prisma.GenerationUncheckedCreateWithoutCollectionInput>
-  connectOrCreate?: Prisma.GenerationCreateOrConnectWithoutCollectionInput
-  connect?: Prisma.GenerationWhereUniqueInput
-}
-
-export type GenerationUpdateOneRequiredWithoutCollectionNestedInput = {
-  create?: Prisma.XOR<Prisma.GenerationCreateWithoutCollectionInput, Prisma.GenerationUncheckedCreateWithoutCollectionInput>
-  connectOrCreate?: Prisma.GenerationCreateOrConnectWithoutCollectionInput
-  upsert?: Prisma.GenerationUpsertWithoutCollectionInput
-  connect?: Prisma.GenerationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.GenerationUpdateToOneWithWhereWithoutCollectionInput, Prisma.GenerationUpdateWithoutCollectionInput>, Prisma.GenerationUncheckedUpdateWithoutCollectionInput>
-}
-
-export type GenerationCreateNestedOneWithoutSharesInput = {
-  create?: Prisma.XOR<Prisma.GenerationCreateWithoutSharesInput, Prisma.GenerationUncheckedCreateWithoutSharesInput>
-  connectOrCreate?: Prisma.GenerationCreateOrConnectWithoutSharesInput
-  connect?: Prisma.GenerationWhereUniqueInput
-}
-
-export type GenerationUpdateOneRequiredWithoutSharesNestedInput = {
-  create?: Prisma.XOR<Prisma.GenerationCreateWithoutSharesInput, Prisma.GenerationUncheckedCreateWithoutSharesInput>
-  connectOrCreate?: Prisma.GenerationCreateOrConnectWithoutSharesInput
-  upsert?: Prisma.GenerationUpsertWithoutSharesInput
-  connect?: Prisma.GenerationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.GenerationUpdateToOneWithWhereWithoutSharesInput, Prisma.GenerationUpdateWithoutSharesInput>, Prisma.GenerationUncheckedUpdateWithoutSharesInput>
-}
-
-export type GenerationCreateNestedOneWithoutPaymentInput = {
-  create?: Prisma.XOR<Prisma.GenerationCreateWithoutPaymentInput, Prisma.GenerationUncheckedCreateWithoutPaymentInput>
-  connectOrCreate?: Prisma.GenerationCreateOrConnectWithoutPaymentInput
-  connect?: Prisma.GenerationWhereUniqueInput
-}
-
-export type GenerationUpdateOneRequiredWithoutPaymentNestedInput = {
-  create?: Prisma.XOR<Prisma.GenerationCreateWithoutPaymentInput, Prisma.GenerationUncheckedCreateWithoutPaymentInput>
-  connectOrCreate?: Prisma.GenerationCreateOrConnectWithoutPaymentInput
-  upsert?: Prisma.GenerationUpsertWithoutPaymentInput
-  connect?: Prisma.GenerationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.GenerationUpdateToOneWithWhereWithoutPaymentInput, Prisma.GenerationUpdateWithoutPaymentInput>, Prisma.GenerationUncheckedUpdateWithoutPaymentInput>
-}
-
 export type GenerationCreateWithoutUserInput = {
   imageUrl: string
-  prompt: string
-  model?: string | null
   friendCount: number
   friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
+  prompt?: string | null
+  model?: string | null
+  paymentTxHash?: string | null
+  paymentAmount?: number | null
+  nftTxHash?: string | null
+  nftTokenId?: string | null
+  nftTokenUri?: string | null
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: string | null
+  shareCount?: number
   createdAt?: Date | string
-  completedAt?: Date | string | null
-  collection?: Prisma.CollectionCreateNestedOneWithoutGenerationInput
-  shares?: Prisma.ShareCreateNestedManyWithoutGenerationInput
-  payment?: Prisma.PaymentCreateNestedOneWithoutGenerationInput
 }
 
 export type GenerationUncheckedCreateWithoutUserInput = {
   id?: number
   imageUrl: string
-  prompt: string
-  model?: string | null
   friendCount: number
   friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
+  prompt?: string | null
+  model?: string | null
+  paymentTxHash?: string | null
+  paymentAmount?: number | null
+  nftTxHash?: string | null
+  nftTokenId?: string | null
+  nftTokenUri?: string | null
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: string | null
+  shareCount?: number
   createdAt?: Date | string
-  completedAt?: Date | string | null
-  collection?: Prisma.CollectionUncheckedCreateNestedOneWithoutGenerationInput
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutGenerationInput
-  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutGenerationInput
 }
 
 export type GenerationCreateOrConnectWithoutUserInput = {
@@ -749,388 +763,131 @@ export type GenerationScalarWhereInput = {
   id?: Prisma.IntFilter<"Generation"> | number
   userId?: Prisma.IntFilter<"Generation"> | number
   imageUrl?: Prisma.StringFilter<"Generation"> | string
-  prompt?: Prisma.StringFilter<"Generation"> | string
-  model?: Prisma.StringNullableFilter<"Generation"> | string | null
   friendCount?: Prisma.IntFilter<"Generation"> | number
   friendFids?: Prisma.IntNullableListFilter<"Generation">
-  status?: Prisma.EnumGenerationStatusFilter<"Generation"> | $Enums.GenerationStatus
-  duration?: Prisma.IntNullableFilter<"Generation"> | number | null
-  points?: Prisma.IntFilter<"Generation"> | number
+  prompt?: Prisma.StringNullableFilter<"Generation"> | string | null
+  model?: Prisma.StringNullableFilter<"Generation"> | string | null
+  paymentTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
+  paymentAmount?: Prisma.FloatNullableFilter<"Generation"> | number | null
+  nftTxHash?: Prisma.StringNullableFilter<"Generation"> | string | null
+  nftTokenId?: Prisma.StringNullableFilter<"Generation"> | string | null
+  nftTokenUri?: Prisma.StringNullableFilter<"Generation"> | string | null
+  sharedOnFarcaster?: Prisma.BoolFilter<"Generation"> | boolean
+  farcasterCastHash?: Prisma.StringNullableFilter<"Generation"> | string | null
+  shareCount?: Prisma.IntFilter<"Generation"> | number
   createdAt?: Prisma.DateTimeFilter<"Generation"> | Date | string
-  completedAt?: Prisma.DateTimeNullableFilter<"Generation"> | Date | string | null
-}
-
-export type GenerationCreateWithoutCollectionInput = {
-  imageUrl: string
-  prompt: string
-  model?: string | null
-  friendCount: number
-  friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
-  createdAt?: Date | string
-  completedAt?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutGenerationsInput
-  shares?: Prisma.ShareCreateNestedManyWithoutGenerationInput
-  payment?: Prisma.PaymentCreateNestedOneWithoutGenerationInput
-}
-
-export type GenerationUncheckedCreateWithoutCollectionInput = {
-  id?: number
-  userId: number
-  imageUrl: string
-  prompt: string
-  model?: string | null
-  friendCount: number
-  friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
-  createdAt?: Date | string
-  completedAt?: Date | string | null
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutGenerationInput
-  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutGenerationInput
-}
-
-export type GenerationCreateOrConnectWithoutCollectionInput = {
-  where: Prisma.GenerationWhereUniqueInput
-  create: Prisma.XOR<Prisma.GenerationCreateWithoutCollectionInput, Prisma.GenerationUncheckedCreateWithoutCollectionInput>
-}
-
-export type GenerationUpsertWithoutCollectionInput = {
-  update: Prisma.XOR<Prisma.GenerationUpdateWithoutCollectionInput, Prisma.GenerationUncheckedUpdateWithoutCollectionInput>
-  create: Prisma.XOR<Prisma.GenerationCreateWithoutCollectionInput, Prisma.GenerationUncheckedCreateWithoutCollectionInput>
-  where?: Prisma.GenerationWhereInput
-}
-
-export type GenerationUpdateToOneWithWhereWithoutCollectionInput = {
-  where?: Prisma.GenerationWhereInput
-  data: Prisma.XOR<Prisma.GenerationUpdateWithoutCollectionInput, Prisma.GenerationUncheckedUpdateWithoutCollectionInput>
-}
-
-export type GenerationUpdateWithoutCollectionInput = {
-  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  friendCount?: Prisma.IntFieldUpdateOperationsInput | number
-  friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutGenerationsNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUpdateOneWithoutGenerationNestedInput
-}
-
-export type GenerationUncheckedUpdateWithoutCollectionInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  friendCount?: Prisma.IntFieldUpdateOperationsInput | number
-  friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUncheckedUpdateOneWithoutGenerationNestedInput
-}
-
-export type GenerationCreateWithoutSharesInput = {
-  imageUrl: string
-  prompt: string
-  model?: string | null
-  friendCount: number
-  friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
-  createdAt?: Date | string
-  completedAt?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutGenerationsInput
-  collection?: Prisma.CollectionCreateNestedOneWithoutGenerationInput
-  payment?: Prisma.PaymentCreateNestedOneWithoutGenerationInput
-}
-
-export type GenerationUncheckedCreateWithoutSharesInput = {
-  id?: number
-  userId: number
-  imageUrl: string
-  prompt: string
-  model?: string | null
-  friendCount: number
-  friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
-  createdAt?: Date | string
-  completedAt?: Date | string | null
-  collection?: Prisma.CollectionUncheckedCreateNestedOneWithoutGenerationInput
-  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutGenerationInput
-}
-
-export type GenerationCreateOrConnectWithoutSharesInput = {
-  where: Prisma.GenerationWhereUniqueInput
-  create: Prisma.XOR<Prisma.GenerationCreateWithoutSharesInput, Prisma.GenerationUncheckedCreateWithoutSharesInput>
-}
-
-export type GenerationUpsertWithoutSharesInput = {
-  update: Prisma.XOR<Prisma.GenerationUpdateWithoutSharesInput, Prisma.GenerationUncheckedUpdateWithoutSharesInput>
-  create: Prisma.XOR<Prisma.GenerationCreateWithoutSharesInput, Prisma.GenerationUncheckedCreateWithoutSharesInput>
-  where?: Prisma.GenerationWhereInput
-}
-
-export type GenerationUpdateToOneWithWhereWithoutSharesInput = {
-  where?: Prisma.GenerationWhereInput
-  data: Prisma.XOR<Prisma.GenerationUpdateWithoutSharesInput, Prisma.GenerationUncheckedUpdateWithoutSharesInput>
-}
-
-export type GenerationUpdateWithoutSharesInput = {
-  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  friendCount?: Prisma.IntFieldUpdateOperationsInput | number
-  friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutGenerationsNestedInput
-  collection?: Prisma.CollectionUpdateOneWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUpdateOneWithoutGenerationNestedInput
-}
-
-export type GenerationUncheckedUpdateWithoutSharesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  friendCount?: Prisma.IntFieldUpdateOperationsInput | number
-  friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  collection?: Prisma.CollectionUncheckedUpdateOneWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUncheckedUpdateOneWithoutGenerationNestedInput
-}
-
-export type GenerationCreateWithoutPaymentInput = {
-  imageUrl: string
-  prompt: string
-  model?: string | null
-  friendCount: number
-  friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
-  createdAt?: Date | string
-  completedAt?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutGenerationsInput
-  collection?: Prisma.CollectionCreateNestedOneWithoutGenerationInput
-  shares?: Prisma.ShareCreateNestedManyWithoutGenerationInput
-}
-
-export type GenerationUncheckedCreateWithoutPaymentInput = {
-  id?: number
-  userId: number
-  imageUrl: string
-  prompt: string
-  model?: string | null
-  friendCount: number
-  friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
-  createdAt?: Date | string
-  completedAt?: Date | string | null
-  collection?: Prisma.CollectionUncheckedCreateNestedOneWithoutGenerationInput
-  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutGenerationInput
-}
-
-export type GenerationCreateOrConnectWithoutPaymentInput = {
-  where: Prisma.GenerationWhereUniqueInput
-  create: Prisma.XOR<Prisma.GenerationCreateWithoutPaymentInput, Prisma.GenerationUncheckedCreateWithoutPaymentInput>
-}
-
-export type GenerationUpsertWithoutPaymentInput = {
-  update: Prisma.XOR<Prisma.GenerationUpdateWithoutPaymentInput, Prisma.GenerationUncheckedUpdateWithoutPaymentInput>
-  create: Prisma.XOR<Prisma.GenerationCreateWithoutPaymentInput, Prisma.GenerationUncheckedCreateWithoutPaymentInput>
-  where?: Prisma.GenerationWhereInput
-}
-
-export type GenerationUpdateToOneWithWhereWithoutPaymentInput = {
-  where?: Prisma.GenerationWhereInput
-  data: Prisma.XOR<Prisma.GenerationUpdateWithoutPaymentInput, Prisma.GenerationUncheckedUpdateWithoutPaymentInput>
-}
-
-export type GenerationUpdateWithoutPaymentInput = {
-  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  friendCount?: Prisma.IntFieldUpdateOperationsInput | number
-  friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutGenerationsNestedInput
-  collection?: Prisma.CollectionUpdateOneWithoutGenerationNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutGenerationNestedInput
-}
-
-export type GenerationUncheckedUpdateWithoutPaymentInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  friendCount?: Prisma.IntFieldUpdateOperationsInput | number
-  friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  collection?: Prisma.CollectionUncheckedUpdateOneWithoutGenerationNestedInput
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutGenerationNestedInput
 }
 
 export type GenerationCreateManyUserInput = {
   id?: number
   imageUrl: string
-  prompt: string
-  model?: string | null
   friendCount: number
   friendFids?: Prisma.GenerationCreatefriendFidsInput | number[]
-  status?: $Enums.GenerationStatus
-  duration?: number | null
-  points?: number
+  prompt?: string | null
+  model?: string | null
+  paymentTxHash?: string | null
+  paymentAmount?: number | null
+  nftTxHash?: string | null
+  nftTokenId?: string | null
+  nftTokenUri?: string | null
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: string | null
+  shareCount?: number
   createdAt?: Date | string
-  completedAt?: Date | string | null
 }
 
 export type GenerationUpdateWithoutUserInput = {
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   friendCount?: Prisma.IntFieldUpdateOperationsInput | number
   friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
+  prompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  collection?: Prisma.CollectionUpdateOneWithoutGenerationNestedInput
-  shares?: Prisma.ShareUpdateManyWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUpdateOneWithoutGenerationNestedInput
 }
 
 export type GenerationUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   friendCount?: Prisma.IntFieldUpdateOperationsInput | number
   friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
+  prompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  collection?: Prisma.CollectionUncheckedUpdateOneWithoutGenerationNestedInput
-  shares?: Prisma.ShareUncheckedUpdateManyWithoutGenerationNestedInput
-  payment?: Prisma.PaymentUncheckedUpdateOneWithoutGenerationNestedInput
 }
 
 export type GenerationUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   friendCount?: Prisma.IntFieldUpdateOperationsInput | number
   friendFids?: Prisma.GenerationUpdatefriendFidsInput | number[]
-  status?: Prisma.EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  points?: Prisma.IntFieldUpdateOperationsInput | number
+  prompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nftTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nftTokenUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sharedOnFarcaster?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  farcasterCastHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-
-/**
- * Count Type GenerationCountOutputType
- */
-
-export type GenerationCountOutputType = {
-  shares: number
-}
-
-export type GenerationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  shares?: boolean | GenerationCountOutputTypeCountSharesArgs
-}
-
-/**
- * GenerationCountOutputType without action
- */
-export type GenerationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the GenerationCountOutputType
-   */
-  select?: Prisma.GenerationCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * GenerationCountOutputType without action
- */
-export type GenerationCountOutputTypeCountSharesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ShareWhereInput
-}
 
 
 export type GenerationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
   imageUrl?: boolean
-  prompt?: boolean
-  model?: boolean
   friendCount?: boolean
   friendFids?: boolean
-  status?: boolean
-  duration?: boolean
-  points?: boolean
+  prompt?: boolean
+  model?: boolean
+  paymentTxHash?: boolean
+  paymentAmount?: boolean
+  nftTxHash?: boolean
+  nftTokenId?: boolean
+  nftTokenUri?: boolean
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: boolean
+  shareCount?: boolean
   createdAt?: boolean
-  completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  collection?: boolean | Prisma.Generation$collectionArgs<ExtArgs>
-  shares?: boolean | Prisma.Generation$sharesArgs<ExtArgs>
-  payment?: boolean | Prisma.Generation$paymentArgs<ExtArgs>
-  _count?: boolean | Prisma.GenerationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["generation"]>
 
 export type GenerationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
   imageUrl?: boolean
-  prompt?: boolean
-  model?: boolean
   friendCount?: boolean
   friendFids?: boolean
-  status?: boolean
-  duration?: boolean
-  points?: boolean
+  prompt?: boolean
+  model?: boolean
+  paymentTxHash?: boolean
+  paymentAmount?: boolean
+  nftTxHash?: boolean
+  nftTokenId?: boolean
+  nftTokenUri?: boolean
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: boolean
+  shareCount?: boolean
   createdAt?: boolean
-  completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["generation"]>
 
@@ -1138,15 +895,19 @@ export type GenerationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   userId?: boolean
   imageUrl?: boolean
-  prompt?: boolean
-  model?: boolean
   friendCount?: boolean
   friendFids?: boolean
-  status?: boolean
-  duration?: boolean
-  points?: boolean
+  prompt?: boolean
+  model?: boolean
+  paymentTxHash?: boolean
+  paymentAmount?: boolean
+  nftTxHash?: boolean
+  nftTokenId?: boolean
+  nftTokenUri?: boolean
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: boolean
+  shareCount?: boolean
   createdAt?: boolean
-  completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["generation"]>
 
@@ -1154,24 +915,24 @@ export type GenerationSelectScalar = {
   id?: boolean
   userId?: boolean
   imageUrl?: boolean
-  prompt?: boolean
-  model?: boolean
   friendCount?: boolean
   friendFids?: boolean
-  status?: boolean
-  duration?: boolean
-  points?: boolean
+  prompt?: boolean
+  model?: boolean
+  paymentTxHash?: boolean
+  paymentAmount?: boolean
+  nftTxHash?: boolean
+  nftTokenId?: boolean
+  nftTokenUri?: boolean
+  sharedOnFarcaster?: boolean
+  farcasterCastHash?: boolean
+  shareCount?: boolean
   createdAt?: boolean
-  completedAt?: boolean
 }
 
-export type GenerationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "imageUrl" | "prompt" | "model" | "friendCount" | "friendFids" | "status" | "duration" | "points" | "createdAt" | "completedAt", ExtArgs["result"]["generation"]>
+export type GenerationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "imageUrl" | "friendCount" | "friendFids" | "prompt" | "model" | "paymentTxHash" | "paymentAmount" | "nftTxHash" | "nftTokenId" | "nftTokenUri" | "sharedOnFarcaster" | "farcasterCastHash" | "shareCount" | "createdAt", ExtArgs["result"]["generation"]>
 export type GenerationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  collection?: boolean | Prisma.Generation$collectionArgs<ExtArgs>
-  shares?: boolean | Prisma.Generation$sharesArgs<ExtArgs>
-  payment?: boolean | Prisma.Generation$paymentArgs<ExtArgs>
-  _count?: boolean | Prisma.GenerationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GenerationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1184,23 +945,24 @@ export type $GenerationPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "Generation"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    collection: Prisma.$CollectionPayload<ExtArgs> | null
-    shares: Prisma.$SharePayload<ExtArgs>[]
-    payment: Prisma.$PaymentPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     userId: number
     imageUrl: string
-    prompt: string
-    model: string | null
     friendCount: number
     friendFids: number[]
-    status: $Enums.GenerationStatus
-    duration: number | null
-    points: number
+    prompt: string | null
+    model: string | null
+    paymentTxHash: string | null
+    paymentAmount: number | null
+    nftTxHash: string | null
+    nftTokenId: string | null
+    nftTokenUri: string | null
+    sharedOnFarcaster: boolean
+    farcasterCastHash: string | null
+    shareCount: number
     createdAt: Date
-    completedAt: Date | null
   }, ExtArgs["result"]["generation"]>
   composites: {}
 }
@@ -1596,9 +1358,6 @@ readonly fields: GenerationFieldRefs;
 export interface Prisma__GenerationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  collection<T extends Prisma.Generation$collectionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Generation$collectionArgs<ExtArgs>>): Prisma.Prisma__CollectionClient<runtime.Types.Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  shares<T extends Prisma.Generation$sharesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Generation$sharesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  payment<T extends Prisma.Generation$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Generation$paymentArgs<ExtArgs>>): Prisma.Prisma__PaymentClient<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1631,15 +1390,19 @@ export interface GenerationFieldRefs {
   readonly id: Prisma.FieldRef<"Generation", 'Int'>
   readonly userId: Prisma.FieldRef<"Generation", 'Int'>
   readonly imageUrl: Prisma.FieldRef<"Generation", 'String'>
-  readonly prompt: Prisma.FieldRef<"Generation", 'String'>
-  readonly model: Prisma.FieldRef<"Generation", 'String'>
   readonly friendCount: Prisma.FieldRef<"Generation", 'Int'>
   readonly friendFids: Prisma.FieldRef<"Generation", 'Int[]'>
-  readonly status: Prisma.FieldRef<"Generation", 'GenerationStatus'>
-  readonly duration: Prisma.FieldRef<"Generation", 'Int'>
-  readonly points: Prisma.FieldRef<"Generation", 'Int'>
+  readonly prompt: Prisma.FieldRef<"Generation", 'String'>
+  readonly model: Prisma.FieldRef<"Generation", 'String'>
+  readonly paymentTxHash: Prisma.FieldRef<"Generation", 'String'>
+  readonly paymentAmount: Prisma.FieldRef<"Generation", 'Float'>
+  readonly nftTxHash: Prisma.FieldRef<"Generation", 'String'>
+  readonly nftTokenId: Prisma.FieldRef<"Generation", 'String'>
+  readonly nftTokenUri: Prisma.FieldRef<"Generation", 'String'>
+  readonly sharedOnFarcaster: Prisma.FieldRef<"Generation", 'Boolean'>
+  readonly farcasterCastHash: Prisma.FieldRef<"Generation", 'String'>
+  readonly shareCount: Prisma.FieldRef<"Generation", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Generation", 'DateTime'>
-  readonly completedAt: Prisma.FieldRef<"Generation", 'DateTime'>
 }
     
 
@@ -2033,68 +1796,6 @@ export type GenerationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Generations to delete.
    */
   limit?: number
-}
-
-/**
- * Generation.collection
- */
-export type Generation$collectionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Collection
-   */
-  select?: Prisma.CollectionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Collection
-   */
-  omit?: Prisma.CollectionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CollectionInclude<ExtArgs> | null
-  where?: Prisma.CollectionWhereInput
-}
-
-/**
- * Generation.shares
- */
-export type Generation$sharesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Share
-   */
-  select?: Prisma.ShareSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Share
-   */
-  omit?: Prisma.ShareOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ShareInclude<ExtArgs> | null
-  where?: Prisma.ShareWhereInput
-  orderBy?: Prisma.ShareOrderByWithRelationInput | Prisma.ShareOrderByWithRelationInput[]
-  cursor?: Prisma.ShareWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ShareScalarFieldEnum | Prisma.ShareScalarFieldEnum[]
-}
-
-/**
- * Generation.payment
- */
-export type Generation$paymentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Payment
-   */
-  select?: Prisma.PaymentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Payment
-   */
-  omit?: Prisma.PaymentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PaymentInclude<ExtArgs> | null
-  where?: Prisma.PaymentWhereInput
 }
 
 /**

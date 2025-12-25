@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import {
   useAccount,
   useConnect,
@@ -49,6 +49,13 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
   const currentChainId = useChainId();
   const { switchChainAsync } = useSwitchChain();
   const [state, setState] = useState<PaymentState>({ step: "idle" });
+
+  // Ref to track latest onSuccess callback (avoids stale closure in effect)
+  const onSuccessRef = useRef(onSuccess);
+  onSuccessRef.current = onSuccess;
+
+  // Ref to track if success callback has been called for current transaction
+  const successHandledRef = useRef(false);
 
   // Price in token units (1 USDC = 1,000,000 units)
   const priceInUnits = useMemo(
@@ -152,16 +159,19 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
       setState({ step: "error", error: "Transaction failed on-chain" });
     }
 
-    if (callsStatus.status === "success") {
+    if (callsStatus.status === "success" && !successHandledRef.current) {
       const txHash = callsStatus.receipts?.[0]?.transactionHash;
       console.log("[usePayment] Confirmed! TX:", txHash);
       setState({ step: "success", txHash });
 
+      // Mark as handled to prevent duplicate calls
+      successHandledRef.current = true;
+
       if (txHash) {
-        onSuccess?.(txHash);
+        onSuccessRef.current?.(txHash);
       }
     }
-  }, [callsStatus, state.step, onSuccess]);
+  }, [callsStatus, state.step]);
 
   // ==========================================
   // PAY FUNCTION
@@ -222,6 +232,7 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
     // Reset previous state
     resetSendCalls();
     setState({ step: "pending" });
+    successHandledRef.current = false;
 
     // Send transfer
     try {
@@ -252,6 +263,7 @@ export function usePayment(onSuccess?: (txHash: string) => void) {
   const reset = useCallback(() => {
     resetSendCalls();
     setState({ step: "idle" });
+    successHandledRef.current = false;
   }, [resetSendCalls]);
 
   // ==========================================

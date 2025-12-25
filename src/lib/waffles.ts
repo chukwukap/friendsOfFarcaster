@@ -20,6 +20,11 @@ export interface WaitlistStatus {
  * Verify if a user (by FID) is on the Waffles waitlist
  */
 export async function verifyWaitlist(fid: number): Promise<WaitlistStatus> {
+  // Skip if no valid FID
+  if (!fid || fid <= 0) {
+    return { onWaitlist: false, points: 0 };
+  }
+
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -31,24 +36,35 @@ export async function verifyWaitlist(fid: number): Promise<WaitlistStatus> {
       headers["X-API-Key"] = apiKey;
     }
 
+    // Use AbortController for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
     const response = await fetch(
       `${WAFFLES_API}/api/v1/external/verify-waitlist?fid=${fid}`,
       {
         method: "GET",
         headers,
-        // Don't cache this - we want fresh data
         cache: "no-store",
+        signal: controller.signal,
       }
     );
 
+    clearTimeout(timeoutId);
+
     if (!response.ok) {
-      console.error("Failed to verify waitlist:", response.status);
+      console.warn("Waffles API returned non-OK status:", response.status);
       return { onWaitlist: false, points: 0 };
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error verifying waitlist:", error);
+    // Silently handle network errors - this is a non-critical feature
+    if (error instanceof Error && error.name === "AbortError") {
+      console.warn("Waffles API request timed out");
+    } else {
+      console.warn("Waffles API unavailable:", error);
+    }
     return { onWaitlist: false, points: 0 };
   }
 }

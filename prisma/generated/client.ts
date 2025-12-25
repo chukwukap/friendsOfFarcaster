@@ -50,21 +50,6 @@ export type User = Prisma.UserModel
  */
 export type Generation = Prisma.GenerationModel
 /**
- * Model Collection
- * 
- */
-export type Collection = Prisma.CollectionModel
-/**
- * Model Share
- * 
- */
-export type Share = Prisma.ShareModel
-/**
- * Model Payment
- * 
- */
-export type Payment = Prisma.PaymentModel
-/**
  * Model NotificationToken
  * 
  */

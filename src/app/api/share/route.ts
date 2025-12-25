@@ -3,16 +3,13 @@ import { prisma } from "@/lib/db";
 
 /**
  * POST /api/share
- *
- * Records when a user shares their FOF generation on social platforms.
- * Awards points for sharing.
+ * Records share on generation and awards points.
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { fid, generationId, platform, castHash } = body;
 
-    // Validate required fields
     if (!fid || !generationId || !platform) {
       return NextResponse.json(
         { error: "Missing required fields: fid, generationId, platform" },
@@ -20,29 +17,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate platform
-    const validPlatforms = ["FARCASTER", "TWITTER", "DOWNLOAD"];
-    if (!validPlatforms.includes(platform)) {
-      return NextResponse.json(
-        {
-          error: `Invalid platform. Must be one of: ${validPlatforms.join(
-            ", "
-          )}`,
-        },
-        { status: 400 }
-      );
-    }
-
-    // 1. Get user
-    const user = await prisma.user.findUnique({
-      where: { fid: parseInt(fid, 10) },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    // 2. Get generation
+    // Get generation
     const generation = await prisma.generation.findUnique({
       where: { id: parseInt(generationId, 10) },
     });
@@ -54,30 +29,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Create share record
-    const share = await prisma.share.create({
-      data: {
-        userId: user.id,
-        generationId: generation.id,
-        platform,
-        castHash: castHash || null,
-        points: 25,
-      },
+    // Update generation with share info
+    const updateData: Record<string, unknown> = {
+      shareCount: { increment: 1 },
+    };
+
+    if (platform === "FARCASTER") {
+      updateData.sharedOnFarcaster = true;
+      if (castHash) updateData.farcasterCastHash = castHash;
+    }
+
+    await prisma.generation.update({
+      where: { id: generation.id },
+      data: updateData,
     });
 
-    // 4. Award points to user
+    // Award 25 points for sharing
     await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        points: { increment: 25 },
-      },
+      where: { id: generation.userId },
+      data: { points: { increment: 25 } },
     });
 
-    return NextResponse.json({
-      success: true,
-      shareId: share.id,
-      pointsAwarded: 25,
-    });
+    console.log(
+      `Share recorded: FID ${fid}, Generation ${generationId}, Platform ${platform}`
+    );
+
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error recording share:", error);
     return NextResponse.json(

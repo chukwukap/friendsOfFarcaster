@@ -10,8 +10,5 @@
  */
 export type * from './models/User'
 export type * from './models/Generation'
-export type * from './models/Collection'
-export type * from './models/Share'
-export type * from './models/Payment'
 export type * from './models/NotificationToken'
 export type * from './commonInputTypes'

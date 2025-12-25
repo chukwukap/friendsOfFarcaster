@@ -9,40 +9,7 @@
 * 🟢 You can import this file directly.
 */
 
-export const GenerationStatus = {
-  PENDING: 'PENDING',
-  PROCESSING: 'PROCESSING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED'
-} as const
-
-export type GenerationStatus = (typeof GenerationStatus)[keyof typeof GenerationStatus]
 
 
-export const CollectionStatus = {
-  PENDING: 'PENDING',
-  MINTING: 'MINTING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED'
-} as const
-
-export type CollectionStatus = (typeof CollectionStatus)[keyof typeof CollectionStatus]
-
-
-export const SharePlatform = {
-  FARCASTER: 'FARCASTER',
-  TWITTER: 'TWITTER',
-  DOWNLOAD: 'DOWNLOAD'
-} as const
-
-export type SharePlatform = (typeof SharePlatform)[keyof typeof SharePlatform]
-
-
-export const PaymentStatus = {
-  PENDING: 'PENDING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED'
-} as const
-
-export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+// This file is empty because there are no enums in the schema.
+export {}

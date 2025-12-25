@@ -25,17 +25,13 @@ export async function generateMetadata({ params: paramsPromise, searchParams }: 
 
     const appUrl = env.rootUrl;
 
-    // Dynamic OG image URL with parameters
-    const ogImageUrl = `${appUrl}/api/og?${new URLSearchParams({
-        imageUrl: imageUrl || "",
-        username: username || "anon",
-        friendCount: friendCount || "0",
-    }).toString()}`;
+    // Use the generated image directly for embed
+    const embedImageUrl = imageUrl || `${appUrl}/assets/og-image.png`;
 
     // Frame embed JSON for fc:frame meta tag
     const frameEmbed = {
         version: "1",
-        imageUrl: ogImageUrl,
+        imageUrl: embedImageUrl,
         button: {
             title: "🎄 Collect This FOF",
             action: {
@@ -51,18 +47,18 @@ export async function generateMetadata({ params: paramsPromise, searchParams }: 
     return {
         title: `${username}'s FOF | Friends of Farcaster`,
         description: `Check out ${username}'s Friends of Farcaster portrait featuring ${friendCount} friends! Create yours now.`,
-        metadataBase: new URL(appUrl),
+        metadataBase: new URL(appUrl || ""),
         openGraph: {
             title: `${username}'s FOF Portrait`,
             description: `A festive portrait featuring ${username} and ${friendCount} Farcaster friends.`,
-            images: [ogImageUrl],
+            images: [embedImageUrl],
             type: "website",
         },
         twitter: {
             card: "summary_large_image",
             title: `${username}'s FOF Portrait`,
             description: `A festive portrait featuring ${username} and ${friendCount} Farcaster friends.`,
-            images: [ogImageUrl],
+            images: [embedImageUrl],
         },
         other: {
             // Farcaster Frame embed - new format

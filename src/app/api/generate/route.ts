@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { fid } = body;
+    const { fid, txHash } = body;
 
     if (!fid) {
       return NextResponse.json(
@@ -66,29 +66,24 @@ export async function POST(request: NextRequest) {
     const result = await generateFOFWithReferences(prompt, profilePictureUrls);
     console.log("Image generated:", result.imageUrl);
 
-    const duration = Date.now() - startTime;
-
     // 6. Save generation to database
     const generation = await prisma.generation.create({
       data: {
         userId: dbUser.id,
         imageUrl: result.imageUrl,
-        prompt,
         friendCount: friends.length,
         friendFids: friends.map((f) => f.fid),
-        model: "fal-ai/nano-banana-pro/edit",
-        duration,
-        points: 100,
-        status: "COMPLETED",
+        prompt,
+        model: "fal-ai/flux-pro/v1.1",
+        paymentTxHash: txHash || null,
+        paymentAmount: txHash ? 1.0 : null, // Assuming $1.00 fixed price for now
       },
     });
 
     // 7. Award points to user
     await prisma.user.update({
       where: { id: dbUser.id },
-      data: {
-        points: { increment: 100 },
-      },
+      data: { points: { increment: 100 } },
     });
 
     return NextResponse.json({
@@ -103,7 +98,6 @@ export async function POST(request: NextRequest) {
       },
       friendCount: friends.length,
       seed: result.seed,
-      pointsAwarded: 100,
     });
   } catch (error) {
     console.error("Error generating FOF image:", error);

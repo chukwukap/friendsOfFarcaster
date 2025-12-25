@@ -2,9 +2,9 @@
  * useCollectNFT Hook
  *
  * Handles the full NFT collection flow:
- * 1. Prepare NFT (upload to IPFS, create DB record)
+ * 1. Prepare NFT (upload to IPFS)
  * 2. Mint NFT on-chain
- * 3. Update DB with tx hash and status
+ * 3. Record mint tx on generation
  */
 
 import { useState, useCallback, useEffect, useRef } from "react";
@@ -49,7 +49,10 @@ export function useCollectNFT(): UseCollectNFTReturn {
   const [status, setStatus] = useState<CollectStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   const [tokenUri, setTokenUri] = useState<string | null>(null);
-  const collectionIdRef = useRef<number | null>(null);
+
+  // Track generationId for PATCH call after mint
+  const generationIdRef = useRef<number | null>(null);
+  const mintRecordedRef = useRef(false);
 
   const {
     writeContractAsync,
@@ -62,7 +65,7 @@ export function useCollectNFT(): UseCollectNFTReturn {
     hash: txHash,
   });
 
-  // Update status based on transaction state
+  // Update status and record mint after confirmation
   useEffect(() => {
     if (isWritePending && status === "ready") {
       setStatus("minting");
@@ -70,49 +73,42 @@ export function useCollectNFT(): UseCollectNFTReturn {
     if (isConfirming && status === "minting") {
       setStatus("confirming");
     }
-    if (isSuccess && (status === "confirming" || status === "minting")) {
+    if (
+      isSuccess &&
+      (status === "confirming" || status === "minting") &&
+      !mintRecordedRef.current
+    ) {
       setStatus("success");
-      // Update collection status in database
-      if (collectionIdRef.current && txHash) {
-        updateCollectionStatus(collectionIdRef.current, txHash, "COMPLETED");
+      mintRecordedRef.current = true;
+
+      // Record mint tx on generation
+      if (generationIdRef.current && txHash) {
+        fetch("/api/collect", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            generationId: generationIdRef.current,
+            txHash,
+          }),
+        }).catch((err) => console.error("Failed to record mint:", err));
       }
     }
   }, [isWritePending, isConfirming, isSuccess, status, txHash]);
 
-  // Update collection status in database
-  const updateCollectionStatus = async (
-    collectionId: number,
-    hash: string,
-    newStatus: string
-  ) => {
-    try {
-      await fetch("/api/collect", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          collectionId,
-          txHash: hash,
-          status: newStatus,
-        }),
-      });
-    } catch (err) {
-      console.error("Failed to update collection status:", err);
-    }
-  };
-
-  // Full collection flow: prepare + mint
   const collect = useCallback(
     async (params: CollectParams) => {
       const { imageUrl, username, fid, friendCount, generationId } = params;
 
-      // If wallet not connected, try to connect with Farcaster connector
+      // Store generationId for later
+      generationIdRef.current = generationId;
+      mintRecordedRef.current = false;
+
+      // Connect wallet if needed
       if (!address || !isConnected) {
         try {
-          console.log("[useCollectNFT] Wallet not connected, connecting...");
           setStatus("connecting");
           setError(null);
 
-          // Find Farcaster connector or use first available
           const farcasterConnector =
             connectors.find(
               (c) =>
@@ -127,7 +123,6 @@ export function useCollectNFT(): UseCollectNFTReturn {
           }
 
           await connectAsync({ connector: farcasterConnector });
-          console.log("[useCollectNFT] Connected successfully");
         } catch (err) {
           console.error("[useCollectNFT] Connection failed:", err);
           setError("Failed to connect wallet");
@@ -137,7 +132,7 @@ export function useCollectNFT(): UseCollectNFTReturn {
       }
 
       try {
-        // Step 1: Prepare NFT (upload to IPFS, create DB record)
+        // Step 1: Prepare NFT (upload to IPFS)
         setStatus("preparing");
         setError(null);
 
@@ -160,21 +155,13 @@ export function useCollectNFT(): UseCollectNFTReturn {
 
         const data = await response.json();
         const uri = data.tokenUri;
-        collectionIdRef.current = data.collectionId;
         setTokenUri(uri);
         setStatus("ready");
 
         // Step 2: Mint NFT on-chain
         const contractAddress = getNFTContractAddress();
-        if (!contractAddress) {
-          throw new Error("NFT contract not configured");
-        }
-
-        // Verify we have an address after potential connection
-        const userAddress = address;
-        if (!userAddress) {
-          throw new Error("Wallet address not available after connection");
-        }
+        if (!contractAddress) throw new Error("NFT contract not configured");
+        if (!address) throw new Error("Wallet address not available");
 
         setStatus("minting");
 
@@ -182,22 +169,14 @@ export function useCollectNFT(): UseCollectNFTReturn {
           address: contractAddress,
           abi: MINT_ABI,
           functionName: "mint",
-          args: [userAddress, uri],
+          args: [address, uri],
           chain: getNFTChain(),
         });
-
-        // Status will be updated by useEffect watching transaction
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Collection failed";
         setError(message);
         setStatus("error");
-
-        // Update collection status to failed if we have an ID
-        if (collectionIdRef.current) {
-          updateCollectionStatus(collectionIdRef.current, "", "FAILED");
-        }
-
         console.error("Collect error:", err);
       }
     },
@@ -208,16 +187,10 @@ export function useCollectNFT(): UseCollectNFTReturn {
     setStatus("idle");
     setError(null);
     setTokenUri(null);
-    collectionIdRef.current = null;
+    generationIdRef.current = null;
+    mintRecordedRef.current = false;
     resetWrite();
   }, [resetWrite]);
 
-  return {
-    status,
-    error,
-    tokenUri,
-    txHash,
-    collect,
-    reset,
-  };
+  return { status, error, tokenUri, txHash, collect, reset };
 }

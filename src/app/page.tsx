@@ -9,7 +9,7 @@ import { env } from "@/lib/env";
  */
 const frameEmbed = {
   version: "1",
-  imageUrl: `${env.rootUrl}/api/og`,
+  imageUrl: `${env.rootUrl}/assets/og-image.png`,
   button: {
     title: "🎄 Create My FOF",
     action: {
@@ -30,18 +30,18 @@ export const metadata: Metadata = {
   title: "FOF: Friends of Farcaster | Christmas Edition 2025",
   description:
     "Transform your Farcaster network into stunning AI art. Create your personalized Friends of Farcaster portrait this Christmas!",
-  metadataBase: new URL(env.rootUrl),
+  metadataBase: new URL(env.rootUrl || "https://fof.app"),
   openGraph: {
     title: "FOF: Friends of Farcaster",
     description: "Your Farcaster network, transformed into art.",
-    images: [`${env.rootUrl}/api/og`],
+    images: [`${env.rootUrl}/assets/og-image.png`],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "FOF: Friends of Farcaster",
     description: "Your Farcaster network, transformed into art.",
-    images: [`${env.rootUrl}/api/og`],
+    images: [`${env.rootUrl}/assets/og-image.png`],
   },
   other: {
     // Farcaster MiniApp embed - enables launching the app from casts
@@ -57,3 +57,4 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return <HomeClient />;
 }
+

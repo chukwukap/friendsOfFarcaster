@@ -15,11 +15,13 @@ interface ProvidersProps {
  * This signals to the Farcaster client that the app is ready.
  */
 function FarcasterInitializer({ children }: { children: ReactNode }) {
-    const { setMiniAppReady } = useMiniKit();
-
+    const { setMiniAppReady, isMiniAppReady } = useMiniKit();
     useEffect(() => {
-        setMiniAppReady();
-    }, [setMiniAppReady]);
+        if (!isMiniAppReady) {
+            setMiniAppReady();
+        }
+    }, [setMiniAppReady, isMiniAppReady]);
+
 
     return <>{children}</>;
 }
