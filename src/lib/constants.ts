@@ -59,7 +59,7 @@ export const TYPOGRAPHY = {
 // Asset paths
 export const ASSETS = {
   // Logo
-  logo: "/assets/logo.png",
+  logo: "/assets/fof-logo.png",
   wafflesLogo: "/assets/waffles-logo.png",
 
   // 3D Elements

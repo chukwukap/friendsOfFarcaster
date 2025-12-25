@@ -17,7 +17,7 @@ const frameEmbed = {
       type: "launch_frame",
       name: "FOF: Friends of Farcaster",
       url: env.rootUrl,
-      splashImageUrl: minikitConfig.miniapp?.splashImageUrl || `${env.rootUrl}/assets/logo.png`,
+      splashImageUrl: minikitConfig.miniapp?.splashImageUrl || `${env.rootUrl}/assets/fof-logo.png`,
       splashBackgroundColor: "#0A0A0F",
     },
   },
