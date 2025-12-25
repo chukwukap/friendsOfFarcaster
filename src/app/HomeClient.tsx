@@ -16,7 +16,7 @@ import {
   ErrorScreen
 } from "@/components/screens";
 import { Confetti, Snowfall } from "@/components/ui";
-import { useSound, useFarcaster, useCollectNFT, useWaitlistStatus } from "@/hooks";
+import { useSound, useFarcaster, useWaitlistStatus } from "@/hooks";
 import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
 import { APP_CONFIG } from "@/lib/constants";
 import { getWafflesWaitlistUrl } from "@/lib/waffles";
@@ -54,18 +54,6 @@ export function HomeClient() {
   } = useFarcaster();
 
   const { sounds, toggleMute, isMuted } = useSound();
-
-  // NFT Collection hook
-  const {
-    status: collectStatus,
-    error: collectError,
-    txHash,
-    collect,
-    reset: resetCollect,
-  } = useCollectNFT();
-
-  // Derive isCollecting from collect status
-  const isCollecting = collectStatus === "preparing" || collectStatus === "minting" || collectStatus === "confirming";
 
   // Waitlist status for 50% discount
   const {
@@ -293,31 +281,6 @@ export function HomeClient() {
     }
   }, [result, sounds, share, user]);
 
-  // Handle collect
-  const handleCollect = useCallback(async () => {
-    if (!result || !user) return;
-    sounds.buttonTap();
-
-    await collect({
-      imageUrl: result.imageUrl,
-      username: user.username || "anon",
-      fid: user.fid,
-      friendCount: result.friendCount,
-      generationId: result.generationId,
-    });
-  }, [result, user, sounds, collect]);
-
-  // Handle collect status changes
-  useEffect(() => {
-    if (collectStatus === "success") {
-      sounds.pointsBonus();
-      console.log(`Collected FOF as NFT! +${APP_CONFIG.pointsForCollect} points. Tx: ${txHash}`);
-    } else if (collectStatus === "error" && collectError) {
-      sounds.gentleError();
-      console.error("Collect error:", collectError);
-    }
-  }, [collectStatus, collectError, txHash, sounds]);
-
   // Handle download
   const handleDownload = useCallback(async () => {
     if (!result || !user) return;
@@ -449,9 +412,7 @@ export function HomeClient() {
                 displayName={user?.displayName || "Anonymous"}
                 friendCount={result.friendCount}
                 onShare={handleShare}
-                onCollect={handleCollect}
                 onBack={handleGenerateAnother}
-                isCollecting={isCollecting}
               />
             </motion.div>
           )}

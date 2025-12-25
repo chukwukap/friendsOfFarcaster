@@ -41,7 +41,7 @@ const faqItems: FAQItem[] = [
     },
     {
         question: "Can I share my FOF on Farcaster?",
-        answer: "Yes! After generating your FOF, you can share it directly to Farcaster and collect it as an NFT.",
+        answer: "Yes! After generating your FOF, you can share it directly to Farcaster.",
     },
 ];
 

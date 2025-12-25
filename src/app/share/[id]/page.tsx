@@ -33,11 +33,11 @@ export async function generateMetadata({ params: paramsPromise, searchParams }: 
         version: "1",
         imageUrl: embedImageUrl,
         button: {
-            title: "🎄 Collect This FOF",
+            title: "🎄 Create Your FOF",
             action: {
                 type: "launch_frame",
-                name: "Collect FOF",
-                url: `${appUrl}/collect/${id}`,
+                name: "Create FOF",
+                url: appUrl,
                 splashImageUrl: minikitConfig.miniapp?.splashImageUrl || `${appUrl}/assets/logo.png`,
                 splashBackgroundColor: minikitConfig.miniapp?.splashBackgroundColor || "#0A0A0F",
             },

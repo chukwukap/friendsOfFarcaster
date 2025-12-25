@@ -21,9 +21,7 @@ interface SuccessScreenProps {
     displayName: string;
     friendCount: number;
     onShare: () => void;
-    onCollect: () => void;
     onBack: () => void;
-    isCollecting?: boolean;
 }
 
 export const SuccessScreen: FC<SuccessScreenProps> = ({
@@ -32,9 +30,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
     displayName,
     friendCount,
     onShare,
-    onCollect,
     onBack,
-    isCollecting = false,
 }) => {
     const handleOpenWaffles = async () => {
         try {
@@ -144,21 +140,12 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
 
                     <motion.div className="flex gap-2 w-full" variants={staggerItemVariants}>
                         <Button
-                            variant="secondary"
-                            size="md"
-                            fullWidth
-                            onClick={onCollect}
-                            loading={isCollecting}
-                        >
-                            {isCollecting ? "..." : `Collect NFT (+${APP_CONFIG.pointsForCollect})`}
-                        </Button>
-                        <Button
                             variant="ghost"
                             size="md"
                             fullWidth
                             onClick={onBack}
                         >
-                            Back
+                            Create Another
                         </Button>
                     </motion.div>
                 </motion.div>

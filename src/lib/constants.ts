@@ -123,7 +123,6 @@ export const APP_CONFIG = {
 
   // Points
   pointsForGeneration: 100,
-  pointsForCollect: 50,
   wafflesBonusPoints: 1000, // Bonus for checking out Waffles
 
   // Generation
