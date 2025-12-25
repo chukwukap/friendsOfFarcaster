@@ -18,7 +18,7 @@ type NetworkConfig = {
 };
 
 // Default treasury wallet (can be overridden in env)
-const DEFAULT_TREASURY = "0xd584F8079192E078F0f3237622345E19360384A2" as const;
+const DEFAULT_TREASURY = "0xEa99418E4f419108619f2D4FF262e43231f05d11" as const;
 
 const TESTNET_CONFIG: NetworkConfig = {
   chain: baseSepolia,
