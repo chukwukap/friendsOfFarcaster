@@ -93,52 +93,47 @@ export function buildFOFPrompt(
   user: UserWithFriends["user"],
   friends: FriendData[]
 ): string {
-  const friendCount = friends.length;
+  const totalPeople = friends.length + 1; // +1 for user
 
-  // Build friend reference text
-  const friendText = buildFriendDescription(friends);
-
-  // Determine composition based on group size
-  const composition = getCompositionForGroupSize(friendCount + 1); // +1 for user
-
-  // Build the master prompt
   return `
-${CONFIG.quality}
+Create a FAMILY-PHOTO STYLE group portrait featuring all ${totalPeople} referenced individuals.  
+Preserve each person's exact likeness: facial structure, proportions, skin tone, and identity.
 
-SUBJECT:
-A heartwarming group portrait of @${user.username} (${user.displayName}) surrounded by their ${friendCount} closest Farcaster friends${friendText}.
+STYLE TRANSFORMATION (HIGH PRIORITY):
+Transform the entire group into a unified stylized digital cartoon in the 
+Heavy-Lined, Oversized Eye Caricature style:
+- Extremely thick, uneven black outlines
+- Enormous, wide-set eyes with small irises
+- Subtle dark under-eye bags
+- Simple block colors
+- Minimal soft shading
+- Clean polished digital cartoon finish
+- Exaggerated but flattering proportions
 
-${composition}
+CHRISTMAS FAMILY-PHOTO VIBE (APPLY STRONGLY):
+- Warm glowing indoor Christmas setting (living room)
+- Decorated Christmas tree with lights in the background
+- Cozy warm lighting (golden holiday glow)
+- Soft falling snow visible through a window behind them
+- Subtle red, green, and gold color accents throughout the scene
+- Gentle sparkle effects for a magical holiday atmosphere
+- Classic "holiday portrait" composition
 
-${STYLE_ANCHOR}
+GROUP COMPOSITION (FAMILY PHOTO STYLE):
+- Characters posed closely together like a family Christmas portrait
+- Natural, warm expressions: gentle smiles or slight holiday smirks
+- Everyone wearing cozy, well-coordinated festive outfits:
+    * deep-brown winter sweaters or suit jackets  
+    * warm scarves with Christmas palette trims  
+    * subtle festive accessories (optional)
+- Optional: a couple of holiday-themed stemmed glasses (mulled wine look)
 
-${CHRISTMAS_THEME}
-
-EXPRESSIONS & POSES:
-- Everyone with genuine, warm smiles
-- Natural relaxed poses (no stiff formal photos)
-- Some looking at camera, some at each other
-- Subtle personality in each character
-- Arms around shoulders, cozy proximity
-
-WARDROBE (COORDINATED BUT NOT MATCHING):
-- Mix of cozy sweaters, cardigans, festive scarves
-- Color harmony: burgundy, cream, forest green, gold
-- Subtle festive touches: snowflake patterns, reindeer pins
-- Optional: someone holding a gift, someone with cocoa mug
-
-LIGHTING:
-- Key light: warm golden from fireplace/tree lights
-- Fill light: soft ambient from window
-- Rim light: subtle backlight for depth
-- Catch lights in all eyes
-
-BADGE ELEMENT:
-Small elegant badge in bottom-right corner: "${CONFIG.editionEmoji} FOF: ${CONFIG.edition}"
-
-${NEGATIVE_PROMPT}
-
-OUTPUT: ${CONFIG.aspectRatio} square format, publication-ready quality
+OUTPUT REQUIREMENTS:
+- Single cohesive group family portrait
+- Highly stylized digital cartoon art
+- Sharp, detailed rendering
+- 1k quality
+- --ar 1:1
 `.trim();
 }
 
