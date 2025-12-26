@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";
+import {
+  setUserNotificationDetails,
+  deleteUserNotificationDetails,
+} from "@/lib/notifications";
 
 /**
  * POST /api/notifications/token
@@ -24,29 +27,22 @@ export async function POST(request: NextRequest) {
     // App FID from env
     const appFid = env.appFid;
 
-    // Upsert notification token
-    const notificationToken = await prisma.notificationToken.upsert({
-      where: {
-        fid_appFid: {
-          fid: parseInt(fid, 10),
-          appFid,
-        },
-      },
-      update: {
-        token,
-        url,
-      },
-      create: {
-        fid: parseInt(fid, 10),
-        appFid,
-        token,
-        url,
-      },
-    });
+    // Save notification token using the notifications library
+    const success = await setUserNotificationDetails(
+      parseInt(fid, 10),
+      appFid,
+      { token, url }
+    );
+
+    if (!success) {
+      return NextResponse.json(
+        { error: "User not found or failed to save token" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      id: notificationToken.id,
     });
   } catch (error) {
     console.error("Error storing notification token:", error);
@@ -76,14 +72,8 @@ export async function DELETE(request: NextRequest) {
 
     const appFid = env.appFid;
 
-    await prisma.notificationToken.delete({
-      where: {
-        fid_appFid: {
-          fid: parseInt(fid, 10),
-          appFid,
-        },
-      },
-    });
+    // Delete notification token using the notifications library
+    await deleteUserNotificationDetails(parseInt(fid, 10), appFid);
 
     return NextResponse.json({
       success: true,
