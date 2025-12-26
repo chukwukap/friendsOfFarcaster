@@ -20,7 +20,6 @@ import {
 import { Confetti, Snowfall } from "@/components/ui";
 import { useFarcaster, useWaitlistStatus } from "@/hooks";
 import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
-import { APP_CONFIG } from "@/lib/constants";
 import { pageVariants } from "@/lib/animations";
 
 type AppState = "onboarding" | "landing" | "generating" | "success" | "error" | "gallery";
@@ -30,8 +29,6 @@ interface GenerationResult {
   imageUrl: string;
   friendCount: number;
 }
-
-const ONBOARDING_KEY = "fof_onboarding_completed";
 
 export function HomeClient() {
   const [appState, setAppState] = useState<AppState>("onboarding");
@@ -72,20 +69,29 @@ export function HomeClient() {
     }
   });
 
-  // Check onboarding status on mount
+  // Check onboarding status on mount by checking if user exists in DB
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const onboardingComplete = localStorage.getItem(ONBOARDING_KEY);
-      if (onboardingComplete) {
-        setAppState("landing");
+    const checkUserExists = async () => {
+      try {
+        const response = await sdk.quickAuth.fetch("/api/me");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.exists) {
+            // User exists in DB = already onboarded
+            setAppState("landing");
+          }
+        }
+      } catch (error) {
+        console.error("Error checking user:", error);
+        // On error, show onboarding to be safe
       }
-    }
+    };
+
+    checkUserExists();
   }, []);
 
   const handleOnboardingComplete = useCallback(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem(ONBOARDING_KEY, "true");
-    }
+    // User was created in OnboardingScreen via /api/me POST
     setAppState("landing");
   }, []);
 

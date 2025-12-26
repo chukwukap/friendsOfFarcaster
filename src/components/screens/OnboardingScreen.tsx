@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAddFrame } from "@coinbase/onchainkit/minikit";
 import Image from "next/image";
+import sdk from "@farcaster/miniapp-sdk";
 import { Button } from "@/components/ui/Button";
 import { Snowfall } from "@/components/ui/Snowfall";
 import { ASSETS } from "@/lib/constants";
@@ -47,19 +48,32 @@ const PAGES: OnboardingPage[] = [
 
 export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
     const [currentPage, setCurrentPage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const addFrame = useAddFrame();
 
     const handleNext = async () => {
         if (currentPage < PAGES.length - 1) {
             setCurrentPage((prev) => prev + 1);
         } else {
-            // Prompt user to add the mini app with notifications enabled
+            setIsLoading(true);
             try {
+                // Prompt user to add the mini app with notifications enabled
                 await addFrame();
+
+                // Create user in database via Quick Auth
+                const response = await sdk.quickAuth.fetch("/api/me", {
+                    method: "POST",
+                });
+
+                if (!response.ok) {
+                    console.error("Failed to create user:", await response.text());
+                }
             } catch (error) {
-                console.error("Failed to add frame:", error);
+                console.error("Onboarding error:", error);
+            } finally {
+                setIsLoading(false);
+                onComplete();
             }
-            onComplete();
         }
     };
 

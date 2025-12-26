@@ -65,7 +65,7 @@ export async function verifyAuthToken(
  * Use this in API routes to authenticate requests
  *
  * @param request - The incoming request with Authorization header
- * @returns AuthResult with fid and userId, or null if unauthenticated
+ * @returns AuthResult with fid (and optionally userId), or null if unauthenticated
  */
 export async function verifyQuickAuthRequest(
   request: Request
@@ -83,17 +83,15 @@ export async function verifyQuickAuthRequest(
     return null;
   }
 
-  // Look up user by FID
+  // Look up user by FID - may not exist for first-time users
   const user = await prisma.user.findUnique({
     where: { fid },
     select: { id: true, fid: true },
   });
 
-  if (!user) {
-    return null;
-  }
-
-  return { fid: user.fid, userId: user.id };
+  // Return auth even if user not in DB yet (userId will be 0)
+  // This allows endpoints like /prepare to create the user
+  return { fid, userId: user?.id ?? 0 };
 }
 
 // ============================================================================
