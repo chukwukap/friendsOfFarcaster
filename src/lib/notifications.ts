@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";
+import { neynarClient } from "@/lib/neynar";
 import {
   SendNotificationRequest,
   sendNotificationResponseSchema,
@@ -22,6 +23,7 @@ type SendNotificationResult =
 /**
  * Save or update user notification details
  * Called when user adds the app or enables notifications
+ * Will create the user if they don't exist
  */
 export async function setUserNotificationDetails(
   fid: number,
@@ -30,15 +32,48 @@ export async function setUserNotificationDetails(
 ): Promise<boolean> {
   try {
     // Find user by FID
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { fid },
     });
 
+    // If user doesn't exist, create them
     if (!user) {
-      console.warn(
-        `[Notification] User with FID ${fid} not found, cannot save token`
+      console.log(
+        `[Notification] User with FID ${fid} not found, creating user...`
       );
-      return false;
+
+      try {
+        // Fetch user info from Neynar
+        const neynarResponse = await neynarClient.fetchBulkUsers({
+          fids: [fid],
+        });
+
+        const neynarUser = neynarResponse.users[0];
+        if (!neynarUser) {
+          console.error(
+            `[Notification] Could not fetch user info from Neynar for FID ${fid}`
+          );
+          return false;
+        }
+
+        // Create the user
+        user = await prisma.user.create({
+          data: {
+            fid,
+            username: neynarUser.username,
+            displayName: neynarUser.display_name,
+            pfpUrl: neynarUser.pfp_url,
+          },
+        });
+
+        console.log(`[Notification] Created user for FID ${fid}`);
+      } catch (createError) {
+        console.error(
+          `[Notification] Failed to create user for FID ${fid}:`,
+          createError
+        );
+        return false;
+      }
     }
 
     // Upsert notification token
