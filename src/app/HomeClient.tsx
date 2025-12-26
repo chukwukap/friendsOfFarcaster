@@ -18,8 +18,9 @@ import {
   GalleryScreen
 } from "@/components/screens";
 import { Confetti, Snowfall } from "@/components/ui";
-import { useFarcaster, useWaitlistStatus } from "@/hooks";
+import { useFarcaster } from "@/hooks";
 import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
+import { GENERATION_PRICE } from "@/lib/contracts/config";
 import { pageVariants } from "@/lib/animations";
 
 type AppState = "onboarding" | "landing" | "generating" | "success" | "error" | "gallery";
@@ -51,18 +52,8 @@ export function HomeClient() {
     addToFavorites,
   } = useFarcaster();
 
-  // Waitlist status for 50% discount
-  const {
-    onWaitlist: isOnWaitlist,
-    isLoading: isCheckingWaitlist,
-    refresh: refreshWaitlist,
-    discountPercent,
-    originalPrice,
-    discountedPrice,
-  } = useWaitlistStatus({ fid: user?.fid });
-
-  // Payment hook - pass discountedPrice to apply waitlist discount
-  const payment = usePayment(discountedPrice, (txHash) => {
+  // Payment hook - use fixed generation price
+  const payment = usePayment(GENERATION_PRICE, (txHash) => {
     // Start generation after successful payment
     if (user) {
       startGeneration(user.fid, txHash);
@@ -288,7 +279,7 @@ export function HomeClient() {
               <LandingScreen
                 onGenerate={payment.pay}
                 isLoading={payment.isLoading}
-                buttonText={getPaymentButtonText(payment.step, discountedPrice)}
+                buttonText={getPaymentButtonText(payment.step, GENERATION_PRICE)}
                 error={payment.error}
                 onViewGallery={handleViewGallery}
               />
