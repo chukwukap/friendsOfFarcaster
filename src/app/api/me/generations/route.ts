@@ -8,12 +8,30 @@ import { withAuth } from "@/lib/auth";
  * Protected route - requires Quick Auth
  *
  * Returns the authenticated user's generations and total points
+ * Uses FID for lookup to handle cases where user might not exist in DB yet
  */
 export const GET = withAuth(async (request, auth) => {
   try {
+    // Find user by FID first
+    const user = await prisma.user.findUnique({
+      where: { fid: auth.fid },
+      select: {
+        id: true,
+        points: true,
+      },
+    });
+
+    // If user doesn't exist, return empty gallery
+    if (!user) {
+      return NextResponse.json({
+        generations: [],
+        totalPoints: 0,
+      });
+    }
+
     // Fetch user's generations ordered by newest first
     const generations = await prisma.generation.findMany({
-      where: { userId: auth.userId },
+      where: { userId: user.id },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
@@ -25,15 +43,9 @@ export const GET = withAuth(async (request, auth) => {
       },
     });
 
-    // Get user's total points
-    const user = await prisma.user.findUnique({
-      where: { id: auth.userId },
-      select: { points: true },
-    });
-
     return NextResponse.json({
       generations,
-      totalPoints: user?.points ?? 0,
+      totalPoints: user.points ?? 0,
     });
   } catch (error) {
     console.error("Error fetching generations:", error);
