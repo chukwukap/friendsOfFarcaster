@@ -4,7 +4,6 @@ import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAddFrame } from "@coinbase/onchainkit/minikit";
 import Image from "next/image";
-import sdk from "@farcaster/miniapp-sdk";
 import { Button } from "@/components/ui/Button";
 import { Snowfall } from "@/components/ui/Snowfall";
 import { ASSETS } from "@/lib/constants";
@@ -59,15 +58,6 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
             try {
                 // Prompt user to add the mini app with notifications enabled
                 await addFrame();
-
-                // Create user in database via Quick Auth
-                const response = await sdk.quickAuth.fetch("/api/me", {
-                    method: "POST",
-                });
-
-                if (!response.ok) {
-                    console.error("Failed to create user:", await response.text());
-                }
             } catch (error) {
                 console.error("Onboarding error:", error);
             } finally {

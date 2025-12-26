@@ -30,6 +30,8 @@ interface GenerationResult {
   friendCount: number;
 }
 
+const ONBOARDING_KEY = "fof_onboarding_completed";
+
 export function HomeClient() {
   const [appState, setAppState] = useState<AppState>("onboarding");
   const [progress, setProgress] = useState(0);
@@ -69,29 +71,20 @@ export function HomeClient() {
     }
   });
 
-  // Check onboarding status on mount by checking if user exists in DB
+  // Check onboarding status on mount - use localStorage (no auth required)
   useEffect(() => {
-    const checkUserExists = async () => {
-      try {
-        const response = await sdk.quickAuth.fetch("/api/me");
-        if (response.ok) {
-          const data = await response.json();
-          if (data.exists) {
-            // User exists in DB = already onboarded
-            setAppState("landing");
-          }
-        }
-      } catch (error) {
-        console.error("Error checking user:", error);
-        // On error, show onboarding to be safe
+    if (typeof window !== "undefined") {
+      const onboardingComplete = localStorage.getItem(ONBOARDING_KEY);
+      if (onboardingComplete) {
+        setAppState("landing");
       }
-    };
-
-    checkUserExists();
+    }
   }, []);
 
   const handleOnboardingComplete = useCallback(() => {
-    // User was created in OnboardingScreen via /api/me POST
+    if (typeof window !== "undefined") {
+      localStorage.setItem(ONBOARDING_KEY, "true");
+    }
     setAppState("landing");
   }, []);
 
