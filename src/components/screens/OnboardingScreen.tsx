@@ -3,7 +3,10 @@
 import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAddFrame } from "@coinbase/onchainkit/minikit";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { Snowfall } from "@/components/ui/Snowfall";
+import { ASSETS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 
@@ -65,13 +68,16 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
 
 
     return (
-        <div className="fixed inset-0 w-screen h-screen z-50 flex flex-col bg-linear-to-b from-[#0f0a1a] via-[#1a0f2e] to-[#0d0815] overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 pointer-events-none opacity-40 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center no-repeat" />
+        <div className="fixed inset-0 w-screen h-screen z-50 flex flex-col bg-bg-dark-start overflow-hidden">
+            {/* Snowfall */}
+            <Snowfall count={20} speed="slow" />
 
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 pointer-events-none bg-radial-[ellipse_80%_50%_at_50%_0%] from-violet-500/25 to-transparent" />
-            <div className="absolute inset-0 pointer-events-none bg-radial-[ellipse_60%_40%_at_50%_100%] from-purple-500/15 to-transparent" />
+            {/* Background Pattern */}
+            <div className="absolute inset-0 pointer-events-none opacity-30 bg-[url('/assets/bg-network-pattern.png')] bg-cover bg-center" />
+
+            {/* Gradient Overlays - Christmas themed */}
+            <div className="absolute inset-0 pointer-events-none bg-linear-to-b from-transparent via-bg-dark-start/50 to-bg-dark-end/80" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[50%] bg-radial-[ellipse_at_center,rgba(83,52,131,0.4)_0%,rgba(233,69,96,0.2)_40%,transparent_70%] blur-[80px]" />
 
             {/* Main Content */}
             <div className="relative z-10 flex-1 flex flex-col items-center justify-between p-5 pt-[calc(env(safe-area-inset-top,0px)+60px)] pb-[calc(env(safe-area-inset-bottom,0px)+20px)] max-w-[400px] mx-auto w-full">
@@ -87,14 +93,14 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
                             exit={{ opacity: 0, scale: 0.8, y: -20 }}
                             transition={{ type: "spring", stiffness: 300, damping: 25 }}
                         >
-                            {/* Icon Glow */}
-                            <div className="absolute w-[220px] h-[220px] bg-radial-[circle,rgba(139,92,246,0.5)_0%,rgba(139,92,246,0.2)_40%,transparent_70%] rounded-full blur-[20px] animate-[pulse-glow_2.5s_ease-in-out_infinite]" />
+                            {/* Icon Glow - Gold tinted */}
+                            <div className="absolute w-[220px] h-[220px] bg-radial-[circle,rgba(255,215,0,0.3)_0%,rgba(139,92,246,0.2)_40%,transparent_70%] rounded-full blur-[20px]" />
 
                             {/* Icon Container */}
                             <motion.div
                                 animate={{ y: [0, -8, 0] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                className="relative z-10 w-[180px] h-[180px] rounded-full bg-surface-glass backdrop-blur-[20px] border border-surface-glass-border flex items-center justify-center shadow-[0_20px_40px_rgba(139,92,246,0.4)]"
+                                className="relative z-10 w-[180px] h-[180px] rounded-full bg-white/5 backdrop-blur-xl border-2 border-accent-gold/30 flex items-center justify-center shadow-[0_20px_40px_rgba(255,215,0,0.2),0_0_60px_rgba(139,92,246,0.2)]"
                             >
                                 <span className="text-[80px]">{page.icon}</span>
                             </motion.div>
@@ -163,13 +169,13 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
                             {/* Badge */}
                             {page.badge && (
                                 <motion.div
-                                    className="inline-flex items-center gap-[6px] bg-linear-[135deg,rgba(139,92,246,0.9)_0%,rgba(109,40,217,0.9)_100%] border border-white/20 px-4 py-2 rounded-full shadow-[0_4px_16px_rgba(139,92,246,0.4)] inner-shadow-[0_1px_0_rgba(255,255,255,0.15)]"
+                                    className="inline-flex items-center gap-[6px] bg-linear-to-r from-accent-gold/20 to-orange-500/20 border border-accent-gold/30 px-4 py-2 rounded-full"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.1 }}
                                 >
                                     <span className="text-[14px]">{page.badge.icon}</span>
-                                    <span className="text-[12px] font-bold text-white uppercase tracking-[0.5px]">{page.badge.text}</span>
+                                    <span className="text-[12px] font-bold text-accent-gold uppercase tracking-[0.5px]">{page.badge.text}</span>
                                 </motion.div>
                             )}
 
@@ -195,7 +201,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = ({ onComplete }) => {
                                 key={index}
                                 className={cn(
                                     "w-[10px] h-[10px] rounded-full bg-white/20 border-none p-0 cursor-pointer transition-all duration-250 hover:bg-white/40",
-                                    index === currentPage && "bg-linear-[135deg,#8b5cf6,#6d28d9] scale-120 shadow-[0_0_12px_rgba(139,92,246,0.6)]"
+                                    index === currentPage && "bg-accent-gold scale-120 shadow-[0_0_12px_rgba(255,215,0,0.6)]"
                                 )}
                                 onClick={() => setCurrentPage(index)}
                                 aria-label={`Go to page ${index + 1}`}

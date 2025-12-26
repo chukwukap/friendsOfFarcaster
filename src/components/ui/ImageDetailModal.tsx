@@ -3,6 +3,7 @@
 import { FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import sdk from "@farcaster/miniapp-sdk";
 import { Button } from "@/components/ui/Button";
 import { ASSETS } from "@/lib/constants";
 import {
@@ -43,6 +44,17 @@ export const ImageDetailModal: FC<ImageDetailModalProps> = ({
         day: "numeric",
         year: "numeric",
     });
+
+    const handleDownload = async () => {
+        const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+        const downloadUrl = `${baseUrl}/api/download?url=${encodeURIComponent(generation.imageUrl)}&filename=fof-${username}-${generation.id}.png`;
+        try {
+            await sdk.actions.openUrl({ url: downloadUrl });
+        } catch (error) {
+            console.error("Download failed:", error);
+            window.open(downloadUrl, "_blank");
+        }
+    };
 
     return (
         <AnimatePresence>
@@ -112,15 +124,25 @@ export const ImageDetailModal: FC<ImageDetailModalProps> = ({
 
                                 {/* Actions */}
                                 <div className="flex flex-col gap-2">
-                                    <Button
-                                        variant="primary"
-                                        size="md"
-                                        fullWidth
-                                        onClick={() => onShare(generation)}
-                                        icon={<span>🔮</span>}
-                                    >
-                                        {generation.sharedOnFarcaster ? "Share Again" : "Share on Farcaster"}
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="primary"
+                                            size="md"
+                                            fullWidth
+                                            onClick={() => onShare(generation)}
+                                            icon={<span>🔮</span>}
+                                        >
+                                            {generation.sharedOnFarcaster ? "Share Again" : "Share"}
+                                        </Button>
+                                        <Button
+                                            variant="secondary"
+                                            size="md"
+                                            onClick={handleDownload}
+                                            icon={<span>📥</span>}
+                                        >
+                                            Save
+                                        </Button>
+                                    </div>
                                     <Button
                                         variant="ghost"
                                         size="md"

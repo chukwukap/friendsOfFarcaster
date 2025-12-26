@@ -44,6 +44,17 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
         }
     };
 
+    const handleDownload = async () => {
+        const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+        const downloadUrl = `${baseUrl}/api/download?url=${encodeURIComponent(imageUrl)}&filename=fof-${username}-${Date.now()}.png`;
+        try {
+            await sdk.actions.openUrl({ url: downloadUrl });
+        } catch (error) {
+            console.error("Download failed:", error);
+            window.open(downloadUrl, "_blank");
+        }
+    };
+
     return (
         <div className="min-h-dvh flex flex-col relative overflow-x-hidden bg-bg-dark-start">
             {/* Celebration Background */}
@@ -128,7 +139,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
 
                 {/* Action Buttons */}
                 <motion.div className="w-full flex flex-col gap-2" variants={staggerContainerVariants}>
-                    <motion.div variants={staggerItemVariants}>
+                    <motion.div className="flex gap-2 w-full" variants={staggerItemVariants}>
                         <Button
                             variant="primary"
                             size="lg"
@@ -137,6 +148,14 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                             icon={<span>🔮</span>}
                         >
                             Share on Farcaster
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            size="lg"
+                            onClick={handleDownload}
+                            icon={<span>📥</span>}
+                        >
+                            Save
                         </Button>
                     </motion.div>
 
