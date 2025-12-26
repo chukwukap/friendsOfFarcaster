@@ -3,10 +3,8 @@
 import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAddFrame } from "@coinbase/onchainkit/minikit";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Snowfall } from "@/components/ui/Snowfall";
-import { ASSETS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 
