@@ -56,7 +56,7 @@ export function useFarcaster() {
   }, [setFrameReady]);
 
   // Share on Farcaster using MiniKit composeCast
-  // Uses share page URL which has fc:frame metadata for rich embeds
+  // Includes both the image and share page URL for rich embeds
   const share = useCallback(
     (
       generationId: number,
@@ -79,7 +79,7 @@ export function useFarcaster() {
 
       composeCast({
         text: APP_CONFIG.shareText,
-        embeds: [sharePageUrl], // Share page URL with Frame metadata
+        embeds: [imageUrl, sharePageUrl], // Image + Frame page for preview
       });
     },
     [composeCast]
