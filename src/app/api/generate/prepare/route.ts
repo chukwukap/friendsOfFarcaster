@@ -52,13 +52,17 @@ export const POST = withAuth(async (request, auth) => {
     // 4. Build prompt
     const prompt = buildFOFPrompt(user, friends);
 
+    // Filter to max 8 friends (since max 9 people total including user)
+    // This ensures the friend count and FIDs match what's actually used in generation
+    const usedFriends = friends.slice(0, 8);
+
     return NextResponse.json({
       userId: dbUser.id,
       username: user.username,
-      friendCount: friends.length,
-      friendFids: friends.map((f) => f.fid),
+      friendCount: usedFriends.length,
+      friendFids: usedFriends.map((f) => f.fid),
       prompt,
-      imageUrls: profilePictureUrls.slice(0, 9), // Use top 9 friends max
+      imageUrls: profilePictureUrls.slice(0, 9), // user + 8 friends
     });
   } catch (error) {
     console.error("Error preparing generation:", error);

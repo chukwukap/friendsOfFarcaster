@@ -104,5 +104,5 @@ export const APP_CONFIG = {
 
   // Share
   shareText:
-    "Just made my FOF: Christmas Edition photo🎄\nWho do you think showed up in mine? 👀\nGet yours 👇",
+    "Just made my FOF: Christmas Edition photo🎄\n\nWho do you think showed up in mine? 👀\n\nGet yours 👇",
 } as const;

@@ -147,7 +147,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                             onClick={onShare}
                             icon={<span>🔮</span>}
                         >
-                            Share on Farcaster
+                            Share
                         </Button>
                         <Button
                             variant="secondary"
