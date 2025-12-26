@@ -4,6 +4,7 @@ import { FC } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { GalleryButton } from "@/components/ui/GalleryButton";
 import { Card } from "@/components/ui/Card";
 import { FAQ } from "@/components/ui/FAQ";
 import { WafflesFooter } from "@/components/ui/WafflesFooter";
@@ -123,15 +124,8 @@ export const LandingScreen: FC<LandingScreenProps> = ({
 
                 {/* My Gallery Link */}
                 {onViewGallery && (
-                    <motion.div variants={staggerItemVariants}>
-                        <Button
-                            variant="ghost"
-                            size="md"
-                            onClick={onViewGallery}
-                            icon={<span>🖼️</span>}
-                        >
-                            My Gallery
-                        </Button>
+                    <motion.div variants={staggerItemVariants} className="w-full">
+                        <GalleryButton onClick={onViewGallery} />
                     </motion.div>
                 )}
 

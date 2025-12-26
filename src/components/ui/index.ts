@@ -7,3 +7,4 @@ export { FloatingElements } from "./FloatingElements";
 export { PointsBadge } from "./PointsBadge";
 export { GenerationCard } from "./GenerationCard";
 export { ImageDetailModal } from "./ImageDetailModal";
+export { GalleryButton } from "./GalleryButton";

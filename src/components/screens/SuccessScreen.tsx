@@ -4,6 +4,7 @@ import { FC } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { GalleryButton } from "@/components/ui/GalleryButton";
 import { PointsBadge } from "@/components/ui/PointsBadge";
 import { FAQ } from "@/components/ui/FAQ";
 import { WafflesFooter } from "@/components/ui/WafflesFooter";
@@ -169,14 +170,9 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                             Create Another
                         </Button>
                         {onViewGallery && (
-                            <Button
-                                variant="secondary"
-                                size="md"
-                                fullWidth
-                                onClick={onViewGallery}
-                            >
-                                My Gallery
-                            </Button>
+                            <div className="w-full pt-2">
+                                <GalleryButton onClick={onViewGallery} />
+                            </div>
                         )}
                     </motion.div>
                 </motion.div>
