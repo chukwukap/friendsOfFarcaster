@@ -36,7 +36,8 @@ model User {
     updatedAt DateTime @updatedAt
 
     // Relations
-    generations Generation[]
+    generations        Generation[]
+    notificationTokens NotificationToken[]
 
     @@index([fid])
     @@index([points(sort: Desc)])
@@ -84,7 +85,8 @@ model Generation {
 model NotificationToken {
     id Int @id @default(autoincrement())
 
-    fid    Int
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId Int
     appFid Int
     token  String
     url    String
@@ -92,6 +94,6 @@ model NotificationToken {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@unique([fid, appFid])
+    @@unique([userId, appFid])
     @@index([token])
 }

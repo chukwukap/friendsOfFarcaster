@@ -703,7 +703,7 @@ export type GenerationScalarFieldEnum = (typeof GenerationScalarFieldEnum)[keyof
 
 export const NotificationTokenScalarFieldEnum = {
   id: 'id',
-  fid: 'fid',
+  userId: 'userId',
   appFid: 'appFid',
   token: 'token',
   url: 'url',

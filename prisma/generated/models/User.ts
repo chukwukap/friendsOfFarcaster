@@ -257,6 +257,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   generations?: Prisma.GenerationListRelationFilter
+  notificationTokens?: Prisma.NotificationTokenListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -270,6 +271,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   generations?: Prisma.GenerationOrderByRelationAggregateInput
+  notificationTokens?: Prisma.NotificationTokenOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -286,6 +288,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   generations?: Prisma.GenerationListRelationFilter
+  notificationTokens?: Prisma.NotificationTokenListRelationFilter
 }, "id" | "fid">
 
 export type UserOrderByWithAggregationInput = {
@@ -330,6 +333,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   generations?: Prisma.GenerationCreateNestedManyWithoutUserInput
+  notificationTokens?: Prisma.NotificationTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -343,6 +347,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   generations?: Prisma.GenerationUncheckedCreateNestedManyWithoutUserInput
+  notificationTokens?: Prisma.NotificationTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -355,6 +360,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   generations?: Prisma.GenerationUpdateManyWithoutUserNestedInput
+  notificationTokens?: Prisma.NotificationTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -368,6 +374,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   generations?: Prisma.GenerationUncheckedUpdateManyWithoutUserNestedInput
+  notificationTokens?: Prisma.NotificationTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -492,6 +499,20 @@ export type UserUpdateOneRequiredWithoutGenerationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGenerationsInput, Prisma.UserUpdateWithoutGenerationsInput>, Prisma.UserUncheckedUpdateWithoutGenerationsInput>
 }
 
+export type UserCreateNestedOneWithoutNotificationTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationTokensInput, Prisma.UserUncheckedCreateWithoutNotificationTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificationTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationTokensInput, Prisma.UserUncheckedCreateWithoutNotificationTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationTokensInput
+  upsert?: Prisma.UserUpsertWithoutNotificationTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationTokensInput, Prisma.UserUpdateWithoutNotificationTokensInput>, Prisma.UserUncheckedUpdateWithoutNotificationTokensInput>
+}
+
 export type UserCreateWithoutGenerationsInput = {
   fid: number
   username?: string | null
@@ -501,6 +522,7 @@ export type UserCreateWithoutGenerationsInput = {
   isOnWaitlist?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  notificationTokens?: Prisma.NotificationTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGenerationsInput = {
@@ -513,6 +535,7 @@ export type UserUncheckedCreateWithoutGenerationsInput = {
   isOnWaitlist?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  notificationTokens?: Prisma.NotificationTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGenerationsInput = {
@@ -540,6 +563,7 @@ export type UserUpdateWithoutGenerationsInput = {
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationTokens?: Prisma.NotificationTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGenerationsInput = {
@@ -552,6 +576,73 @@ export type UserUncheckedUpdateWithoutGenerationsInput = {
   isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationTokens?: Prisma.NotificationTokenUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNotificationTokensInput = {
+  fid: number
+  username?: string | null
+  displayName?: string | null
+  pfpUrl?: string | null
+  points?: number
+  isOnWaitlist?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  generations?: Prisma.GenerationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNotificationTokensInput = {
+  id?: number
+  fid: number
+  username?: string | null
+  displayName?: string | null
+  pfpUrl?: string | null
+  points?: number
+  isOnWaitlist?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  generations?: Prisma.GenerationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNotificationTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationTokensInput, Prisma.UserUncheckedCreateWithoutNotificationTokensInput>
+}
+
+export type UserUpsertWithoutNotificationTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationTokensInput, Prisma.UserUncheckedUpdateWithoutNotificationTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationTokensInput, Prisma.UserUncheckedCreateWithoutNotificationTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificationTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationTokensInput, Prisma.UserUncheckedUpdateWithoutNotificationTokensInput>
+}
+
+export type UserUpdateWithoutNotificationTokensInput = {
+  fid?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  points?: Prisma.IntFieldUpdateOperationsInput | number
+  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  generations?: Prisma.GenerationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificationTokensInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  fid?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pfpUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  points?: Prisma.IntFieldUpdateOperationsInput | number
+  isOnWaitlist?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  generations?: Prisma.GenerationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -561,10 +652,12 @@ export type UserUncheckedUpdateWithoutGenerationsInput = {
 
 export type UserCountOutputType = {
   generations: number
+  notificationTokens: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   generations?: boolean | UserCountOutputTypeCountGenerationsArgs
+  notificationTokens?: boolean | UserCountOutputTypeCountNotificationTokensArgs
 }
 
 /**
@@ -584,6 +677,13 @@ export type UserCountOutputTypeCountGenerationsArgs<ExtArgs extends runtime.Type
   where?: Prisma.GenerationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationTokenWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -596,6 +696,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   generations?: boolean | Prisma.User$generationsArgs<ExtArgs>
+  notificationTokens?: boolean | Prisma.User$notificationTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -638,6 +739,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fid" | "username" | "displayName" | "pfpUrl" | "points" | "isOnWaitlist" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   generations?: boolean | Prisma.User$generationsArgs<ExtArgs>
+  notificationTokens?: boolean | Prisma.User$notificationTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -647,6 +749,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     generations: Prisma.$GenerationPayload<ExtArgs>[]
+    notificationTokens: Prisma.$NotificationTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1053,6 +1156,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   generations<T extends Prisma.User$generationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$generationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GenerationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notificationTokens<T extends Prisma.User$notificationTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1500,6 +1604,30 @@ export type User$generationsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.GenerationScalarFieldEnum | Prisma.GenerationScalarFieldEnum[]
+}
+
+/**
+ * User.notificationTokens
+ */
+export type User$notificationTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NotificationToken
+   */
+  select?: Prisma.NotificationTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NotificationToken
+   */
+  omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
+  where?: Prisma.NotificationTokenWhereInput
+  orderBy?: Prisma.NotificationTokenOrderByWithRelationInput | Prisma.NotificationTokenOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationTokenScalarFieldEnum | Prisma.NotificationTokenScalarFieldEnum[]
 }
 
 /**

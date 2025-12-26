@@ -1,142 +1,131 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import {
+  parseWebhookEvent,
+  verifyAppKeyWithNeynar,
+} from "@farcaster/miniapp-node";
+import {
+  setUserNotificationDetails,
+  deleteUserNotificationDetails,
+  sendNotificationToUser,
+} from "@/lib/notifications";
 import { env } from "@/lib/env";
 
 /**
- * Farcaster Webhook Handler
+ * Farcaster/Base MiniApp Webhook Handler
  *
- * Receives server events from Farcaster including:
- * - frame_added: User adds your Mini App
- * - frame_removed: User removes your Mini App
+ * Receives server events from Farcaster clients including:
+ * - miniapp_added: User adds your Mini App
+ * - miniapp_removed: User removes your Mini App
  * - notifications_enabled: User enables notifications
  * - notifications_disabled: User disables notifications
  *
- * @see https://docs.farcaster.xyz/developers/frames/v2/spec#server-events
+ * @see https://docs.base.org/mini-apps/core-concepts/notifications
  */
+export async function POST(request: NextRequest) {
+  const requestJson = await request.json();
 
-interface FarcasterWebhookEvent {
-  event:
-    | "frame_added"
-    | "frame_removed"
-    | "notifications_enabled"
-    | "notifications_disabled";
-  notificationDetails?: {
-    url: string;
-    token: string;
-  };
-  fid?: number;
-}
-
-export async function POST(req: NextRequest) {
+  // Parse and verify the webhook event using Neynar
+  let data: Awaited<ReturnType<typeof parseWebhookEvent>>;
   try {
-    const body: FarcasterWebhookEvent = await req.json();
+    data = await parseWebhookEvent(requestJson, verifyAppKeyWithNeynar);
+    console.log("[WEBHOOK] Event verified successfully");
+  } catch (e: unknown) {
+    console.error("[WEBHOOK] Verification failed:", e);
+    return NextResponse.json(
+      { error: "Invalid webhook signature" },
+      { status: 401 }
+    );
+  }
 
-    // Ignore health checks and malformed requests silently
-    if (!body || !body.event) {
-      return NextResponse.json({ ok: true });
-    }
+  const fid = data.fid;
+  const appFid = data.appFid;
+  const event = data.event;
+  const eventType = event.event;
 
-    console.log("Farcaster webhook received:", body.event);
+  console.log(
+    `[WEBHOOK] Event: ${event.event}, FID: ${fid}, AppFID: ${appFid}`
+  );
 
-    const appFid = env.appFid;
+  try {
+    switch (event.event) {
+      case "miniapp_added":
+        console.log(`[WEBHOOK] Processing miniapp_added for FID ${fid}`);
+        if (event.notificationDetails) {
+          console.log(`[WEBHOOK] Saving notification details for FID ${fid}`);
+          await setUserNotificationDetails(
+            fid,
+            appFid,
+            event.notificationDetails
+          );
 
-    if (!body.fid) {
-      console.warn("Webhook event missing FID:", body.event);
-      return NextResponse.json({ error: "Missing FID" }, { status: 400 });
-    }
-
-    switch (body.event) {
-      case "frame_added":
-        // User added the Mini App to their client
-        console.log(`User FID ${body.fid} added FOF Mini App`);
-        // Store notification details for sending notifications later
-        if (body.notificationDetails) {
-          await prisma.notificationToken.upsert({
-            where: {
-              fid_appFid: {
-                fid: body.fid,
-                appFid,
-              },
-            },
-            update: {
-              token: body.notificationDetails.token,
-              url: body.notificationDetails.url,
-            },
-            create: {
-              fid: body.fid,
-              appFid,
-              token: body.notificationDetails.token,
-              url: body.notificationDetails.url,
-            },
+          // Send welcome notification
+          console.log(`[WEBHOOK] Sending welcome notification to FID ${fid}`);
+          await sendNotificationToUser({
+            fid,
+            title: "Welcome to FOF! 🎄",
+            body: "Thanks for adding the app. Create your Christmas portrait now!",
+            targetUrl: `${env.rootUrl}${env.homeUrlPath}`,
           });
-          console.log(`Stored notification token for FID ${body.fid}`);
+          console.log(`[WEBHOOK] Welcome notification sent to FID ${fid}`);
+        } else {
+          console.log(
+            `[WEBHOOK] No notification details provided for FID ${fid}`
+          );
         }
         break;
 
-      case "frame_removed":
-        // User removed the Mini App
-        console.log(`User FID ${body.fid} removed FOF Mini App`);
-        // Remove notification details from database
-        await prisma.notificationToken.deleteMany({
-          where: {
-            fid: body.fid,
-            appFid,
-          },
-        });
-        console.log(`Removed notification token for FID ${body.fid}`);
+      case "miniapp_removed":
+        console.log(`[WEBHOOK] Processing miniapp_removed for FID ${fid}`);
+        await deleteUserNotificationDetails(fid, appFid);
+        console.log(`[WEBHOOK] Notification details deleted for FID ${fid}`);
         break;
 
       case "notifications_enabled":
-        // User enabled notifications
-        console.log(`User FID ${body.fid} enabled notifications`);
-        if (body.notificationDetails) {
-          await prisma.notificationToken.upsert({
-            where: {
-              fid_appFid: {
-                fid: body.fid,
-                appFid,
-              },
-            },
-            update: {
-              token: body.notificationDetails.token,
-              url: body.notificationDetails.url,
-            },
-            create: {
-              fid: body.fid,
-              appFid,
-              token: body.notificationDetails.token,
-              url: body.notificationDetails.url,
-            },
-          });
-          console.log(`Updated notification token for FID ${body.fid}`);
-        }
-        break;
+        console.log(
+          `[WEBHOOK] Processing notifications_enabled for FID ${fid}`
+        );
+        await setUserNotificationDetails(
+          fid,
+          appFid,
+          event.notificationDetails
+        );
+        console.log(`[WEBHOOK] Notification details saved for FID ${fid}`);
 
-      case "notifications_disabled":
-        // User disabled notifications
-        console.log(`User FID ${body.fid} disabled notifications`);
-        // Delete token as we can no longer send notifications
-        await prisma.notificationToken.deleteMany({
-          where: {
-            fid: body.fid,
-            appFid,
-          },
+        // Send confirmation notification
+        await sendNotificationToUser({
+          fid,
+          title: "Notifications Enabled ✨",
+          body: "You'll now receive updates about your FOF generations!",
+          targetUrl: `${env.rootUrl}${env.homeUrlPath}`,
         });
         console.log(
-          `Disabled (deleted) notification token for FID ${body.fid}`
+          `[WEBHOOK] Notification enabled message sent to FID ${fid}`
         );
         break;
 
+      case "notifications_disabled":
+        console.log(
+          `[WEBHOOK] Processing notifications_disabled for FID ${fid}`
+        );
+        await deleteUserNotificationDetails(fid, appFid);
+        console.log(`[WEBHOOK] Notification details deleted for FID ${fid}`);
+        break;
+
       default:
-        console.log("Unknown webhook event:", body);
+        console.log(`[WEBHOOK] Unknown event type: ${eventType}`);
     }
 
-    return NextResponse.json({ success: true });
+    console.log(`[WEBHOOK] Successfully processed ${eventType} for FID ${fid}`);
   } catch (error) {
-    console.error("Webhook error:", error);
+    console.error(
+      `[WEBHOOK] Error processing ${eventType} for FID ${fid}:`,
+      error
+    );
     return NextResponse.json(
-      { error: "Webhook processing failed" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
+
+  return NextResponse.json({ success: true });
 }

@@ -28,19 +28,19 @@ export type AggregateNotificationToken = {
 
 export type NotificationTokenAvgAggregateOutputType = {
   id: number | null
-  fid: number | null
+  userId: number | null
   appFid: number | null
 }
 
 export type NotificationTokenSumAggregateOutputType = {
   id: number | null
-  fid: number | null
+  userId: number | null
   appFid: number | null
 }
 
 export type NotificationTokenMinAggregateOutputType = {
   id: number | null
-  fid: number | null
+  userId: number | null
   appFid: number | null
   token: string | null
   url: string | null
@@ -50,7 +50,7 @@ export type NotificationTokenMinAggregateOutputType = {
 
 export type NotificationTokenMaxAggregateOutputType = {
   id: number | null
-  fid: number | null
+  userId: number | null
   appFid: number | null
   token: string | null
   url: string | null
@@ -60,7 +60,7 @@ export type NotificationTokenMaxAggregateOutputType = {
 
 export type NotificationTokenCountAggregateOutputType = {
   id: number
-  fid: number
+  userId: number
   appFid: number
   token: number
   url: number
@@ -72,19 +72,19 @@ export type NotificationTokenCountAggregateOutputType = {
 
 export type NotificationTokenAvgAggregateInputType = {
   id?: true
-  fid?: true
+  userId?: true
   appFid?: true
 }
 
 export type NotificationTokenSumAggregateInputType = {
   id?: true
-  fid?: true
+  userId?: true
   appFid?: true
 }
 
 export type NotificationTokenMinAggregateInputType = {
   id?: true
-  fid?: true
+  userId?: true
   appFid?: true
   token?: true
   url?: true
@@ -94,7 +94,7 @@ export type NotificationTokenMinAggregateInputType = {
 
 export type NotificationTokenMaxAggregateInputType = {
   id?: true
-  fid?: true
+  userId?: true
   appFid?: true
   token?: true
   url?: true
@@ -104,7 +104,7 @@ export type NotificationTokenMaxAggregateInputType = {
 
 export type NotificationTokenCountAggregateInputType = {
   id?: true
-  fid?: true
+  userId?: true
   appFid?: true
   token?: true
   url?: true
@@ -201,7 +201,7 @@ export type NotificationTokenGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type NotificationTokenGroupByOutputType = {
   id: number
-  fid: number
+  userId: number
   appFid: number
   token: string
   url: string
@@ -234,41 +234,44 @@ export type NotificationTokenWhereInput = {
   OR?: Prisma.NotificationTokenWhereInput[]
   NOT?: Prisma.NotificationTokenWhereInput | Prisma.NotificationTokenWhereInput[]
   id?: Prisma.IntFilter<"NotificationToken"> | number
-  fid?: Prisma.IntFilter<"NotificationToken"> | number
+  userId?: Prisma.IntFilter<"NotificationToken"> | number
   appFid?: Prisma.IntFilter<"NotificationToken"> | number
   token?: Prisma.StringFilter<"NotificationToken"> | string
   url?: Prisma.StringFilter<"NotificationToken"> | string
   createdAt?: Prisma.DateTimeFilter<"NotificationToken"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NotificationToken"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type NotificationTokenOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  fid?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   appFid?: Prisma.SortOrder
   token?: Prisma.SortOrder
   url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type NotificationTokenWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  fid_appFid?: Prisma.NotificationTokenFidAppFidCompoundUniqueInput
+  userId_appFid?: Prisma.NotificationTokenUserIdAppFidCompoundUniqueInput
   AND?: Prisma.NotificationTokenWhereInput | Prisma.NotificationTokenWhereInput[]
   OR?: Prisma.NotificationTokenWhereInput[]
   NOT?: Prisma.NotificationTokenWhereInput | Prisma.NotificationTokenWhereInput[]
-  fid?: Prisma.IntFilter<"NotificationToken"> | number
+  userId?: Prisma.IntFilter<"NotificationToken"> | number
   appFid?: Prisma.IntFilter<"NotificationToken"> | number
   token?: Prisma.StringFilter<"NotificationToken"> | string
   url?: Prisma.StringFilter<"NotificationToken"> | string
   createdAt?: Prisma.DateTimeFilter<"NotificationToken"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NotificationToken"> | Date | string
-}, "id" | "fid_appFid">
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+}, "id" | "userId_appFid">
 
 export type NotificationTokenOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  fid?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   appFid?: Prisma.SortOrder
   token?: Prisma.SortOrder
   url?: Prisma.SortOrder
@@ -286,7 +289,7 @@ export type NotificationTokenScalarWhereWithAggregatesInput = {
   OR?: Prisma.NotificationTokenScalarWhereWithAggregatesInput[]
   NOT?: Prisma.NotificationTokenScalarWhereWithAggregatesInput | Prisma.NotificationTokenScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"NotificationToken"> | number
-  fid?: Prisma.IntWithAggregatesFilter<"NotificationToken"> | number
+  userId?: Prisma.IntWithAggregatesFilter<"NotificationToken"> | number
   appFid?: Prisma.IntWithAggregatesFilter<"NotificationToken"> | number
   token?: Prisma.StringWithAggregatesFilter<"NotificationToken"> | string
   url?: Prisma.StringWithAggregatesFilter<"NotificationToken"> | string
@@ -295,17 +298,17 @@ export type NotificationTokenScalarWhereWithAggregatesInput = {
 }
 
 export type NotificationTokenCreateInput = {
-  fid: number
   appFid: number
   token: string
   url: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutNotificationTokensInput
 }
 
 export type NotificationTokenUncheckedCreateInput = {
   id?: number
-  fid: number
+  userId: number
   appFid: number
   token: string
   url: string
@@ -314,17 +317,17 @@ export type NotificationTokenUncheckedCreateInput = {
 }
 
 export type NotificationTokenUpdateInput = {
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
   appFid?: Prisma.IntFieldUpdateOperationsInput | number
   token?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutNotificationTokensNestedInput
 }
 
 export type NotificationTokenUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   appFid?: Prisma.IntFieldUpdateOperationsInput | number
   token?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
@@ -334,7 +337,7 @@ export type NotificationTokenUncheckedUpdateInput = {
 
 export type NotificationTokenCreateManyInput = {
   id?: number
-  fid: number
+  userId: number
   appFid: number
   token: string
   url: string
@@ -343,7 +346,6 @@ export type NotificationTokenCreateManyInput = {
 }
 
 export type NotificationTokenUpdateManyMutationInput = {
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
   appFid?: Prisma.IntFieldUpdateOperationsInput | number
   token?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
@@ -353,7 +355,7 @@ export type NotificationTokenUpdateManyMutationInput = {
 
 export type NotificationTokenUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  fid?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   appFid?: Prisma.IntFieldUpdateOperationsInput | number
   token?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
@@ -361,14 +363,24 @@ export type NotificationTokenUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type NotificationTokenFidAppFidCompoundUniqueInput = {
-  fid: number
+export type NotificationTokenListRelationFilter = {
+  every?: Prisma.NotificationTokenWhereInput
+  some?: Prisma.NotificationTokenWhereInput
+  none?: Prisma.NotificationTokenWhereInput
+}
+
+export type NotificationTokenOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type NotificationTokenUserIdAppFidCompoundUniqueInput = {
+  userId: number
   appFid: number
 }
 
 export type NotificationTokenCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  fid?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   appFid?: Prisma.SortOrder
   token?: Prisma.SortOrder
   url?: Prisma.SortOrder
@@ -378,13 +390,13 @@ export type NotificationTokenCountOrderByAggregateInput = {
 
 export type NotificationTokenAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  fid?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   appFid?: Prisma.SortOrder
 }
 
 export type NotificationTokenMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  fid?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   appFid?: Prisma.SortOrder
   token?: Prisma.SortOrder
   url?: Prisma.SortOrder
@@ -394,7 +406,7 @@ export type NotificationTokenMaxOrderByAggregateInput = {
 
 export type NotificationTokenMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  fid?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   appFid?: Prisma.SortOrder
   token?: Prisma.SortOrder
   url?: Prisma.SortOrder
@@ -404,45 +416,181 @@ export type NotificationTokenMinOrderByAggregateInput = {
 
 export type NotificationTokenSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  fid?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   appFid?: Prisma.SortOrder
+}
+
+export type NotificationTokenCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.NotificationTokenCreateWithoutUserInput, Prisma.NotificationTokenUncheckedCreateWithoutUserInput> | Prisma.NotificationTokenCreateWithoutUserInput[] | Prisma.NotificationTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.NotificationTokenCreateOrConnectWithoutUserInput | Prisma.NotificationTokenCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.NotificationTokenCreateManyUserInputEnvelope
+  connect?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+}
+
+export type NotificationTokenUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.NotificationTokenCreateWithoutUserInput, Prisma.NotificationTokenUncheckedCreateWithoutUserInput> | Prisma.NotificationTokenCreateWithoutUserInput[] | Prisma.NotificationTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.NotificationTokenCreateOrConnectWithoutUserInput | Prisma.NotificationTokenCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.NotificationTokenCreateManyUserInputEnvelope
+  connect?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+}
+
+export type NotificationTokenUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.NotificationTokenCreateWithoutUserInput, Prisma.NotificationTokenUncheckedCreateWithoutUserInput> | Prisma.NotificationTokenCreateWithoutUserInput[] | Prisma.NotificationTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.NotificationTokenCreateOrConnectWithoutUserInput | Prisma.NotificationTokenCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.NotificationTokenUpsertWithWhereUniqueWithoutUserInput | Prisma.NotificationTokenUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.NotificationTokenCreateManyUserInputEnvelope
+  set?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  disconnect?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  delete?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  connect?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  update?: Prisma.NotificationTokenUpdateWithWhereUniqueWithoutUserInput | Prisma.NotificationTokenUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.NotificationTokenUpdateManyWithWhereWithoutUserInput | Prisma.NotificationTokenUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.NotificationTokenScalarWhereInput | Prisma.NotificationTokenScalarWhereInput[]
+}
+
+export type NotificationTokenUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.NotificationTokenCreateWithoutUserInput, Prisma.NotificationTokenUncheckedCreateWithoutUserInput> | Prisma.NotificationTokenCreateWithoutUserInput[] | Prisma.NotificationTokenUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.NotificationTokenCreateOrConnectWithoutUserInput | Prisma.NotificationTokenCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.NotificationTokenUpsertWithWhereUniqueWithoutUserInput | Prisma.NotificationTokenUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.NotificationTokenCreateManyUserInputEnvelope
+  set?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  disconnect?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  delete?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  connect?: Prisma.NotificationTokenWhereUniqueInput | Prisma.NotificationTokenWhereUniqueInput[]
+  update?: Prisma.NotificationTokenUpdateWithWhereUniqueWithoutUserInput | Prisma.NotificationTokenUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.NotificationTokenUpdateManyWithWhereWithoutUserInput | Prisma.NotificationTokenUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.NotificationTokenScalarWhereInput | Prisma.NotificationTokenScalarWhereInput[]
+}
+
+export type NotificationTokenCreateWithoutUserInput = {
+  appFid: number
+  token: string
+  url: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type NotificationTokenUncheckedCreateWithoutUserInput = {
+  id?: number
+  appFid: number
+  token: string
+  url: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type NotificationTokenCreateOrConnectWithoutUserInput = {
+  where: Prisma.NotificationTokenWhereUniqueInput
+  create: Prisma.XOR<Prisma.NotificationTokenCreateWithoutUserInput, Prisma.NotificationTokenUncheckedCreateWithoutUserInput>
+}
+
+export type NotificationTokenCreateManyUserInputEnvelope = {
+  data: Prisma.NotificationTokenCreateManyUserInput | Prisma.NotificationTokenCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type NotificationTokenUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.NotificationTokenWhereUniqueInput
+  update: Prisma.XOR<Prisma.NotificationTokenUpdateWithoutUserInput, Prisma.NotificationTokenUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.NotificationTokenCreateWithoutUserInput, Prisma.NotificationTokenUncheckedCreateWithoutUserInput>
+}
+
+export type NotificationTokenUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.NotificationTokenWhereUniqueInput
+  data: Prisma.XOR<Prisma.NotificationTokenUpdateWithoutUserInput, Prisma.NotificationTokenUncheckedUpdateWithoutUserInput>
+}
+
+export type NotificationTokenUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.NotificationTokenScalarWhereInput
+  data: Prisma.XOR<Prisma.NotificationTokenUpdateManyMutationInput, Prisma.NotificationTokenUncheckedUpdateManyWithoutUserInput>
+}
+
+export type NotificationTokenScalarWhereInput = {
+  AND?: Prisma.NotificationTokenScalarWhereInput | Prisma.NotificationTokenScalarWhereInput[]
+  OR?: Prisma.NotificationTokenScalarWhereInput[]
+  NOT?: Prisma.NotificationTokenScalarWhereInput | Prisma.NotificationTokenScalarWhereInput[]
+  id?: Prisma.IntFilter<"NotificationToken"> | number
+  userId?: Prisma.IntFilter<"NotificationToken"> | number
+  appFid?: Prisma.IntFilter<"NotificationToken"> | number
+  token?: Prisma.StringFilter<"NotificationToken"> | string
+  url?: Prisma.StringFilter<"NotificationToken"> | string
+  createdAt?: Prisma.DateTimeFilter<"NotificationToken"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"NotificationToken"> | Date | string
+}
+
+export type NotificationTokenCreateManyUserInput = {
+  id?: number
+  appFid: number
+  token: string
+  url: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type NotificationTokenUpdateWithoutUserInput = {
+  appFid?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type NotificationTokenUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  appFid?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type NotificationTokenUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  appFid?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type NotificationTokenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  fid?: boolean
+  userId?: boolean
   appFid?: boolean
   token?: boolean
   url?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationToken"]>
 
 export type NotificationTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  fid?: boolean
+  userId?: boolean
   appFid?: boolean
   token?: boolean
   url?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationToken"]>
 
 export type NotificationTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  fid?: boolean
+  userId?: boolean
   appFid?: boolean
   token?: boolean
   url?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["notificationToken"]>
 
 export type NotificationTokenSelectScalar = {
   id?: boolean
-  fid?: boolean
+  userId?: boolean
   appFid?: boolean
   token?: boolean
   url?: boolean
@@ -450,14 +598,25 @@ export type NotificationTokenSelectScalar = {
   updatedAt?: boolean
 }
 
-export type NotificationTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fid" | "appFid" | "token" | "url" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationToken"]>
+export type NotificationTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "appFid" | "token" | "url" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationToken"]>
+export type NotificationTokenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type NotificationTokenIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type NotificationTokenIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $NotificationTokenPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "NotificationToken"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    fid: number
+    userId: number
     appFid: number
     token: string
     url: string
@@ -857,6 +1016,7 @@ readonly fields: NotificationTokenFieldRefs;
  */
 export interface Prisma__NotificationTokenClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -887,7 +1047,7 @@ export interface Prisma__NotificationTokenClient<T, Null = never, ExtArgs extend
  */
 export interface NotificationTokenFieldRefs {
   readonly id: Prisma.FieldRef<"NotificationToken", 'Int'>
-  readonly fid: Prisma.FieldRef<"NotificationToken", 'Int'>
+  readonly userId: Prisma.FieldRef<"NotificationToken", 'Int'>
   readonly appFid: Prisma.FieldRef<"NotificationToken", 'Int'>
   readonly token: Prisma.FieldRef<"NotificationToken", 'String'>
   readonly url: Prisma.FieldRef<"NotificationToken", 'String'>
@@ -910,6 +1070,10 @@ export type NotificationTokenFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
+  /**
    * Filter, which NotificationToken to fetch.
    */
   where: Prisma.NotificationTokenWhereUniqueInput
@@ -928,6 +1092,10 @@ export type NotificationTokenFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
+  /**
    * Filter, which NotificationToken to fetch.
    */
   where: Prisma.NotificationTokenWhereUniqueInput
@@ -945,6 +1113,10 @@ export type NotificationTokenFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the NotificationToken
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
   /**
    * Filter, which NotificationToken to fetch.
    */
@@ -994,6 +1166,10 @@ export type NotificationTokenFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
+  /**
    * Filter, which NotificationToken to fetch.
    */
   where?: Prisma.NotificationTokenWhereInput
@@ -1042,6 +1218,10 @@ export type NotificationTokenFindManyArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
+  /**
    * Filter, which NotificationTokens to fetch.
    */
   where?: Prisma.NotificationTokenWhereInput
@@ -1085,6 +1265,10 @@ export type NotificationTokenCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
+  /**
    * The data needed to create a NotificationToken.
    */
   data: Prisma.XOR<Prisma.NotificationTokenCreateInput, Prisma.NotificationTokenUncheckedCreateInput>
@@ -1118,6 +1302,10 @@ export type NotificationTokenCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.NotificationTokenCreateManyInput | Prisma.NotificationTokenCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1132,6 +1320,10 @@ export type NotificationTokenUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the NotificationToken
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
   /**
    * The data needed to update a NotificationToken.
    */
@@ -1184,6 +1376,10 @@ export type NotificationTokenUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many NotificationTokens to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1198,6 +1394,10 @@ export type NotificationTokenUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the NotificationToken
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
   /**
    * The filter to search for the NotificationToken to update in case it exists.
    */
@@ -1224,6 +1424,10 @@ export type NotificationTokenDeleteArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the NotificationToken
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
   /**
    * Filter which NotificationToken to delete.
    */
@@ -1256,4 +1460,8 @@ export type NotificationTokenDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the NotificationToken
    */
   omit?: Prisma.NotificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationTokenInclude<ExtArgs> | null
 }
