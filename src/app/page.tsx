@@ -15,7 +15,7 @@ const frameEmbed = {
     title: "🎄 Create My FOF",
     action: {
       type: "launch_frame",
-      name: "FOF: Friends of Farcaster",
+      name: "FOF: Friends on Farcaster",
       url: env.rootUrl,
       splashImageUrl: minikitConfig.miniapp?.splashImageUrl || `${env.rootUrl}/assets/fof-logo.png`,
       splashBackgroundColor: "#0A0A0F",
@@ -28,19 +28,19 @@ const frameEmbed = {
  * The fc:miniapp and fc:frame meta tags enable MiniApp discovery and launching
  */
 export const metadata: Metadata = {
-  title: "FOF: Friends of Farcaster | Christmas Edition 2025",
+  title: "FOF: Friends on Farcaster | Christmas Edition 2025",
   description:
-    "Transform your Farcaster network into stunning AI art. Create your personalized Friends of Farcaster portrait this Christmas!",
+    "Transform your Farcaster network into stunning AI art. Create your personalized Friends on Farcaster portrait this Christmas!",
   metadataBase: new URL(env.rootUrl || "https://fof.playwaffles.fun"),
   openGraph: {
-    title: "FOF: Friends of Farcaster",
+    title: "FOF: Friends on Farcaster",
     description: "Your Farcaster network, transformed into art.",
     images: [`${env.rootUrl}/assets/og-image.png`],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FOF: Friends of Farcaster",
+    title: "FOF: Friends on Farcaster",
     description: "Your Farcaster network, transformed into art.",
     images: [`${env.rootUrl}/assets/og-image.png`],
   },

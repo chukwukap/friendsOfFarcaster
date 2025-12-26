@@ -31,14 +31,14 @@ export const minikitConfig: MiniAppManifest = {
     version: "1",
 
     // Required: App name displayed in Warpcast
-    name: "FOF: Friends of Farcaster",
+    name: "FOF: Friends on Farcaster",
 
     // Optional: Short description shown in app listing
     subtitle: "Christmas Edition 2025",
 
     // Optional: Full description for app store
     description:
-      "Transform your Farcaster network into stunning AI-generated art. Create personalized Christmas portraits featuring you and your closest friends.",
+      "Generate your personalized friend group christmas photo for the holidays",
 
     // Required: App icon (1:1 aspect ratio, min 200x200px)
     iconUrl: `${env.rootUrl}/assets/fof-logo.png`,

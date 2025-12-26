@@ -4,3 +4,4 @@ export { GeneratingScreen } from "./GeneratingScreen";
 export { SuccessScreen } from "./SuccessScreen";
 export { ErrorScreen } from "./ErrorScreen";
 export { EmptyScreen } from "./EmptyScreen";
+export { GalleryScreen } from "./GalleryScreen";

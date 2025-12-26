@@ -20,6 +20,7 @@ interface LandingScreenProps {
     isLoading: boolean;
     buttonText: string;
     error?: string;
+    onViewGallery?: () => void;
 }
 
 export const LandingScreen: FC<LandingScreenProps> = ({
@@ -27,6 +28,7 @@ export const LandingScreen: FC<LandingScreenProps> = ({
     isLoading,
     buttonText,
     error,
+    onViewGallery,
 }) => {
     return (
         <div className="min-h-dvh flex flex-col relative overflow-x-hidden bg-bg-dark-start">
@@ -118,6 +120,20 @@ export const LandingScreen: FC<LandingScreenProps> = ({
                         Eligible for $FOF airdrop + {APP_CONFIG.wafflesBonusPoints.toLocaleString()} Waffles points
                     </motion.p>
                 </motion.section>
+
+                {/* My Gallery Link */}
+                {onViewGallery && (
+                    <motion.div variants={staggerItemVariants}>
+                        <Button
+                            variant="ghost"
+                            size="md"
+                            onClick={onViewGallery}
+                            icon={<span>🖼️</span>}
+                        >
+                            My Gallery
+                        </Button>
+                    </motion.div>
+                )}
 
                 {/* FAQ Section */}
                 <FAQ />

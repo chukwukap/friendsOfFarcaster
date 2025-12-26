@@ -22,6 +22,7 @@ interface SuccessScreenProps {
     friendCount: number;
     onShare: () => void;
     onBack: () => void;
+    onViewGallery?: () => void;
 }
 
 export const SuccessScreen: FC<SuccessScreenProps> = ({
@@ -31,6 +32,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
     friendCount,
     onShare,
     onBack,
+    onViewGallery,
 }) => {
     const handleOpenWaffles = async () => {
         try {
@@ -147,6 +149,16 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                         >
                             Create Another
                         </Button>
+                        {onViewGallery && (
+                            <Button
+                                variant="secondary"
+                                size="md"
+                                fullWidth
+                                onClick={onViewGallery}
+                            >
+                                My Gallery
+                            </Button>
+                        )}
                     </motion.div>
                 </motion.div>
 

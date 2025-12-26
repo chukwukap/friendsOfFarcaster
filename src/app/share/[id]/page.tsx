@@ -45,8 +45,8 @@ export async function generateMetadata({ params: paramsPromise, searchParams }: 
     };
 
     return {
-        title: `${username}'s FOF | Friends of Farcaster`,
-        description: `Check out ${username}'s Friends of Farcaster portrait featuring ${friendCount} friends! Create yours now.`,
+        title: `${username}'s FOF | Friends on Farcaster`,
+        description: `Check out ${username}'s Friends on Farcaster portrait featuring ${friendCount} friends! Create yours now.`,
         metadataBase: new URL(appUrl || ""),
         openGraph: {
             title: `${username}'s FOF Portrait`,

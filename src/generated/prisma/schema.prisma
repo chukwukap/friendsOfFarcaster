@@ -1,4 +1,4 @@
-// FOF: Friends of Farcaster - Prisma Schema
+// FOF: Friends on Farcaster - Prisma Schema
 // Prisma 7 - Using prisma-client-js with explicit output
 
 generator client {

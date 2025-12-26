@@ -44,7 +44,7 @@ export const EmptyScreen: FC<EmptyScreenProps> = ({ onGenerate }) => {
                 <div className="text-center max-w-[280px]">
                     <h1 className="text-[24px] font-bold mb-xs text-white">No FOF Yet</h1>
                     <p className="text-[15px] text-text-secondary leading-relaxed">
-                        Create your first Friends of Farcaster portrait!
+                        Create your first Friends on Farcaster portrait!
                     </p>
                 </div>
 

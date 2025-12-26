@@ -134,7 +134,7 @@ connection points. Clean vector style, suitable for headers. Transparent backgro
 #### `splash.png`
 
 ```
-Premium mobile app splash screen for "FOF: Friends of Farcaster" Christmas Edition.
+Premium mobile app splash screen for "FOF: Friends on Farcaster" Christmas Edition.
 390x844 pixels. Dark gradient background (#0A0A0F to #1A1A2E). Center: Large FOF logo
 in purple-to-red gradient with glowing network-node O. Below logo: "Christmas Edition
 2025" in gold text. Subtle network pattern faintly visible. Floating 3D snowflakes in

@@ -24,7 +24,7 @@ const PAGES: OnboardingPage[] = [
         icon: "👋",
         badge: { text: "Christmas Edition 2025", icon: "🎄" },
         title: "Welcome to FOF",
-        description: "Friends of Farcaster transforms your network into stunning AI-generated art",
+        description: "Friends on Farcaster transforms your network into stunning AI-generated art",
         decoration: "snowflakes",
     },
     {

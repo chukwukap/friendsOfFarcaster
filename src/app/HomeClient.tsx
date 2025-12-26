@@ -14,7 +14,8 @@ import {
   LandingScreen,
   GeneratingScreen,
   SuccessScreen,
-  ErrorScreen
+  ErrorScreen,
+  GalleryScreen
 } from "@/components/screens";
 import { Confetti, Snowfall } from "@/components/ui";
 import { useFarcaster, useWaitlistStatus } from "@/hooks";
@@ -22,7 +23,7 @@ import { usePayment, getPaymentButtonText } from "@/hooks/usePayment";
 import { APP_CONFIG } from "@/lib/constants";
 import { pageVariants } from "@/lib/animations";
 
-type AppState = "onboarding" | "landing" | "generating" | "success" | "error";
+type AppState = "onboarding" | "landing" | "generating" | "success" | "error" | "gallery";
 
 interface GenerationResult {
   generationId: number;
@@ -230,6 +231,25 @@ export function HomeClient() {
     setError(null);
   }, []);
 
+  const handleViewGallery = useCallback(() => {
+    setAppState("gallery");
+  }, []);
+
+  const handleGalleryShare = useCallback((generationId: number, imageUrl: string, friendCount: number) => {
+    if (!user) return;
+    share(generationId, imageUrl, user.username, friendCount);
+
+    // Record the share
+    sdk.quickAuth.fetch("/api/share", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        generationId,
+        platform: "FARCASTER",
+      }),
+    }).catch(err => console.error("Failed to record share:", err));
+  }, [user, share]);
+
   return (
     <SafeArea>
       <main className="min-h-dvh relative">
@@ -271,6 +291,7 @@ export function HomeClient() {
                 isLoading={payment.isLoading}
                 buttonText={getPaymentButtonText(payment.step, discountedPrice)}
                 error={payment.error}
+                onViewGallery={handleViewGallery}
               />
             </motion.div>
           )}
@@ -308,6 +329,7 @@ export function HomeClient() {
                 friendCount={result.friendCount}
                 onShare={handleShare}
                 onBack={handleGenerateAnother}
+                onViewGallery={handleViewGallery}
               />
             </motion.div>
           )}
@@ -325,6 +347,24 @@ export function HomeClient() {
                 message={error || "Something went wrong"}
                 onRetry={handleRetry}
                 onGoHome={handleGoHome}
+              />
+            </motion.div>
+          )}
+
+          {appState === "gallery" && (
+            <motion.div
+              key="gallery"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="w-full h-full"
+            >
+              <GalleryScreen
+                onBack={handleGoHome}
+                onCreateNew={handleGenerateAnother}
+                username={user?.username}
+                onShare={handleGalleryShare}
               />
             </motion.div>
           )}

@@ -43,7 +43,7 @@ export function Providers({ children }: ProvidersProps) {
             chain={base}
             config={{
                 appearance: {
-                    name: "FOF: Friends of Farcaster",
+                    name: "FOF: Friends on Farcaster",
                     logo: "/assets/logo.png",
                     mode: "dark",
                     theme: "default",

@@ -81,7 +81,7 @@ export const ASSETS = {
 
 // App configuration
 export const APP_CONFIG = {
-  name: "FOF: Friends of Farcaster",
+  name: "FOF: Friends on Farcaster",
   edition: "Christmas Edition 2025",
   version: "1.0.0",
 
@@ -104,5 +104,5 @@ export const APP_CONFIG = {
 
   // Share
   shareText:
-    "Just created my Friends of Farcaster portrait! 🎄✨\n\nMy network, transformed into art.\n\nGet yours:",
+    "Just made my FOF: Christmas Edition photo🎄\nWho do you think showed up in mine? 👀\nGet yours 👇",
 } as const;
