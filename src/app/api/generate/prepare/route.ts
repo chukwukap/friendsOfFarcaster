@@ -1,24 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getFriendsForFOF, getProfilePictureUrls } from "@/lib/neynar";
 import { buildFOFPrompt } from "@/lib/prompts";
 import { prisma } from "@/lib/db";
+import { withAuth } from "@/lib/auth";
 
 /**
  * POST /api/generate/prepare
  *
- * 1. Fetches friends from Neynar
- * 2. Upserts user in DB
- * 3. Builds prompt
- * 4. Returns data needed for client-side generation
+ * Protected route - requires Quick Auth
+ *
+ * 1. Uses authenticated FID from JWT
+ * 2. Fetches friends from Neynar
+ * 3. Upserts user in DB
+ * 4. Builds prompt
+ * 5. Returns data needed for client-side generation
  */
-export async function POST(request: NextRequest) {
+export const POST = withAuth(async (request, auth) => {
   try {
-    const body = await request.json();
-    const { fid } = body;
-
-    if (!fid) {
-      return NextResponse.json({ error: "Missing fid" }, { status: 400 });
-    }
+    // Use authenticated FID from JWT - ignore any FID in body
+    const fid = auth.fid;
 
     // 1. Fetch user's friends via Neynar
     const { user, friends } = await getFriendsForFOF(fid);
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Upsert user in database
+    // 2. Upsert user in database (update profile if changed)
     const dbUser = await prisma.user.upsert({
       where: { fid },
       update: {
@@ -70,4 +70,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});

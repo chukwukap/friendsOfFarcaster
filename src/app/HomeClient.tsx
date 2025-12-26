@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SafeArea } from "@coinbase/onchainkit/minikit";
 import { fal } from "@fal-ai/client";
+import sdk from "@farcaster/miniapp-sdk";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -99,10 +100,11 @@ export function HomeClient() {
 
     try {
       // 1. Prepare generation (get prompt & friends)
-      const prepareRes = await fetch("/api/generate/prepare", {
+      // Uses Quick Auth - FID is extracted from JWT on server
+      const prepareRes = await sdk.quickAuth.fetch("/api/generate/prepare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fid }),
+        body: JSON.stringify({}), // FID comes from auth token
       });
 
       if (!prepareRes.ok) {
@@ -141,11 +143,11 @@ export function HomeClient() {
       }
 
       // 3. Save result
-      const saveRes = await fetch("/api/generate/save", {
+      // Uses Quick Auth - userId is extracted from JWT on server
+      const saveRes = await sdk.quickAuth.fetch("/api/generate/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId,
           imageUrl: generatedImageUrl,
           prompt,
           friendCount,
@@ -193,11 +195,11 @@ export function HomeClient() {
     share(result.generationId, result.imageUrl, user.username, result.friendCount);
 
     try {
-      await fetch("/api/share", {
+      // Uses Quick Auth - FID is extracted from JWT on server
+      await sdk.quickAuth.fetch("/api/share", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fid: user.fid,
           generationId: result.generationId,
           platform: "FARCASTER",
         }),

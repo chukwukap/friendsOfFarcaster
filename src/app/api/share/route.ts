@@ -1,18 +1,23 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { withAuth, type ApiError } from "@/lib/auth";
 
 /**
  * POST /api/share
+ *
+ * Protected route - requires Quick Auth
+ *
  * Records share on generation and awards points.
+ * Verifies that the generation belongs to the authenticated user.
  */
-export async function POST(request: NextRequest) {
+export const POST = withAuth(async (request, auth) => {
   try {
     const body = await request.json();
-    const { fid, generationId, platform, castHash } = body;
+    const { generationId, platform, castHash } = body;
 
-    if (!fid || !generationId || !platform) {
+    if (!generationId || !platform) {
       return NextResponse.json(
-        { error: "Missing required fields: fid, generationId, platform" },
+        { error: "Missing required fields: generationId, platform" },
         { status: 400 }
       );
     }
@@ -26,6 +31,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Generation not found" },
         { status: 404 }
+      );
+    }
+
+    // Verify that the generation belongs to the authenticated user
+    if (generation.userId !== auth.userId) {
+      return NextResponse.json<ApiError>(
+        { error: "Cannot share another user's generation", code: "FORBIDDEN" },
+        { status: 403 }
       );
     }
 
@@ -46,12 +59,12 @@ export async function POST(request: NextRequest) {
 
     // Award 25 points for sharing
     await prisma.user.update({
-      where: { id: generation.userId },
+      where: { id: auth.userId },
       data: { points: { increment: 25 } },
     });
 
     console.log(
-      `Share recorded: FID ${fid}, Generation ${generationId}, Platform ${platform}`
+      `Share recorded: FID ${auth.fid}, Generation ${generationId}, Platform ${platform}`
     );
 
     return NextResponse.json({ success: true });
@@ -65,4 +78,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});

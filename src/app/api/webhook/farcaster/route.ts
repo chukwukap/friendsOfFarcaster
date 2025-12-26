@@ -31,12 +31,17 @@ export async function POST(req: NextRequest) {
   try {
     const body: FarcasterWebhookEvent = await req.json();
 
+    // Ignore health checks and malformed requests silently
+    if (!body || !body.event) {
+      return NextResponse.json({ ok: true });
+    }
+
     console.log("Farcaster webhook received:", body.event);
 
     const appFid = env.appFid;
 
     if (!body.fid) {
-      console.warn("Webhook event missing FID");
+      console.warn("Webhook event missing FID:", body.event);
       return NextResponse.json({ error: "Missing FID" }, { status: 400 });
     }
 

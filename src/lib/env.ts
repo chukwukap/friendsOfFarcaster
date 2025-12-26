@@ -51,7 +51,7 @@ export const env = {
   },
 
   // Public
-  rootUrl: parsedEnv.data.NEXT_PUBLIC_APP_URL,
+  rootUrl: parsedEnv.data.NEXT_PUBLIC_APP_URL || "https://fof.playwaffles.fun",
   homeUrlPath: "/",
   onchainKitApiKey: parsedEnv.data.NEXT_PUBLIC_ONCHAINKIT_API_KEY || "",
 
