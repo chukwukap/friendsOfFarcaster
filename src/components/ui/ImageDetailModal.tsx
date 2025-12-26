@@ -105,7 +105,7 @@ export const ImageDetailModal: FC<ImageDetailModalProps> = ({
                                 {/* Meta info */}
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="text-white font-medium">
-                                        @{username} + {generation.friendCount} friends
+                                        @{username} + {Math.min(generation.friendCount, 8)} friends
                                     </span>
                                     <span className="text-text-secondary text-xs">{formattedDate}</span>
                                 </div>

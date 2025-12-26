@@ -82,7 +82,7 @@ export const GenerationCard: FC<GenerationCardProps> = ({
                 <div className="absolute bottom-0 left-0 right-0 p-2.5">
                     <div className="flex items-center justify-between">
                         <span className="text-[11px] text-white/80 font-medium bg-black/30 px-2 py-0.5 rounded-full">
-                            +{friendCount} friends
+                            +{Math.min(friendCount, 8)} friends
                         </span>
                         <span className="text-[10px] text-white/60">{formattedDate}</span>
                     </div>

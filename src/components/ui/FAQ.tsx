@@ -37,7 +37,7 @@ const faqItems: FAQItem[] = [
     },
     {
         question: "What is Waffles?",
-        answer: "Waffles is our pattern-matching tournament mini app. Generate your FOF to earn +1,000 bonus points on the Waffles leaderboard!",
+        answer: "Waffles is a daily social game on Farcaster where users identify popular scenes from movies, football, memes and politics that have been transformed with ai",
     },
     {
         question: "Can I share my FOF on Farcaster?",

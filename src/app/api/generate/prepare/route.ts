@@ -52,9 +52,8 @@ export const POST = withAuth(async (request, auth) => {
     // 4. Build prompt
     const prompt = buildFOFPrompt(user, friends);
 
-    // Filter to max 8 friends (since max 9 people total including user)
-    // This ensures the friend count and FIDs match what's actually used in generation
-    const usedFriends = friends.slice(0, 8);
+    // Filter to max 9 friends (user request: fetch top 9 friends)
+    const usedFriends = friends.slice(0, 9);
 
     return NextResponse.json({
       userId: dbUser.id,

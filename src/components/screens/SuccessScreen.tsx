@@ -109,7 +109,7 @@ export const SuccessScreen: FC<SuccessScreenProps> = ({
                 {/* User Info */}
                 <motion.div className="flex items-center gap-2 text-white" variants={staggerItemVariants}>
                     <span className="text-[18px] font-semibold">@{username}</span>
-                    <span className="text-[14px] text-text-secondary">+ {friendCount} friends</span>
+                    <span className="text-[14px] text-text-secondary">+ {Math.min(friendCount, 8)} friends</span>
                 </motion.div>
 
                 {/* Waffles Bonus Card */}
