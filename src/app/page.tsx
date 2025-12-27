@@ -45,6 +45,8 @@ export const metadata: Metadata = {
     images: [`${env.rootUrl}/assets/og-image.png`],
   },
   other: {
+    // Base app ID for discoverability
+    "base:app_id": "694f9db84d3a403912ed8207",
     // Farcaster MiniApp embed - enables launching the app from casts
     "fc:miniapp": JSON.stringify(frameEmbed),
     // Legacy Frame format for backwards compatibility
